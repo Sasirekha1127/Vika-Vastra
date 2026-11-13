@@ -1,0 +1,95 @@
+Options -MultiViews -Indexes
+RewriteEngine On
+
+# ── 1. Authorization Header Forwarding ──────────────────────
+RewriteCond %{HTTP:Authorization} .
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+# ── 2. Force HTTPS (Optional - uncomment if using SSL) ─────
+# RewriteCond %{HTTPS} off
+# RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# ── 3. Serve Existing Files / Directories Directly ─────────
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# ── 4. React Router Single Page Application (SPA) Fallback ─
+# Send all non-file requests to index.html
+RewriteRule ^ index.html [L]
+
+# ── 5. Error Pages ──────────────────────────────────────────
+ErrorDocument 404 /index.html
+ErrorDocument 403 /index.html
+
+# ── 6. Security Headers ─────────────────────────────────────
+<IfModule mod_headers.c>
+  # Prevent clickjacking
+  Header always set X-Frame-Options "SAMEORIGIN"
+
+  # Prevent MIME type sniffing
+  Header always set X-Content-Type-Options "nosniff"
+
+  # Enable XSS protection filter
+  Header always set X-XSS-Protection "1; mode=block"
+
+  # Strict Referrer Policy
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+
+  # Remove server version headers
+  Header unset Server
+  Header unset X-Powered-By
+</IfModule>
+
+# ── 7. Cache Control ────────────────────────────────────────
+<IfModule mod_expires.c>
+  ExpiresActive On
+
+  # HTML - Never cache index.html so user always gets latest app build
+  ExpiresByType text/html                 "access plus 0 seconds"
+
+  # JavaScript & CSS - Long cache (React app appends content hashes)
+  ExpiresByType application/javascript    "access plus 1 year"
+  ExpiresByType text/css                  "access plus 1 year"
+
+  # Images & Web Assets
+  ExpiresByType image/jpeg                "access plus 1 year"
+  ExpiresByType image/jpg                 "access plus 1 year"
+  ExpiresByType image/png                 "access plus 1 year"
+  ExpiresByType image/webp                "access plus 1 year"
+  ExpiresByType image/svg+xml             "access plus 1 year"
+  ExpiresByType image/x-icon              "access plus 1 year"
+  ExpiresByType image/gif                 "access plus 1 year"
+
+  # Fonts
+  ExpiresByType font/woff                 "access plus 1 year"
+  ExpiresByType font/woff2                "access plus 1 year"
+  ExpiresByType application/font-woff     "access plus 1 year"
+  ExpiresByType application/font-woff2    "access plus 1 year"
+
+  # JSON / Data
+  ExpiresByType application/json          "access plus 0 seconds"
+</IfModule>
+
+# ── 8. Gzip Compression ─────────────────────────────────────
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html
+  AddOutputFilterByType DEFLATE text/plain
+  AddOutputFilterByType DEFLATE text/css
+  AddOutputFilterByType DEFLATE application/javascript
+  AddOutputFilterByType DEFLATE application/json
+  AddOutputFilterByType DEFLATE image/svg+xml
+  AddOutputFilterByType DEFLATE font/woff
+  AddOutputFilterByType DEFLATE font/woff2
+</IfModule>
+
+# ── 9. Block Access to Sensitive Files ──────────────────────
+<FilesMatch "(^\.env|\.env\..*|package\.json|package-lock\.json|yarn\.lock|\.git)$">
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+  </IfModule>
+</FilesMatch>

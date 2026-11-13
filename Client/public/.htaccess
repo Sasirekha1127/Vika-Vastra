@@ -1,0 +1,100 @@
+Options -MultiViews
+RewriteEngine On
+
+# Handle Authorization Header
+RewriteCond %{HTTP:Authorization} .
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+# Redirect HTTP to HTTPS
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Redirect www to non-www (change to your domain)
+RewriteCond %{HTTP_HOST} ^www\.emartebuy\.com [NC]
+RewriteRule ^(.*)$ https://emartebuy.com/$1 [L,R=301]
+
+# Send product page requests to the Node backend. It returns the React HTML with
+# product-specific Open Graph tags in the initial response for social crawlers.
+# Apache must allow mod_proxy and mod_proxy_http for the [P] flag.
+RewriteRule ^product/([^/]+)/?$ https://api.emartebuy.com/product/$1 [P,QSA,L]
+
+# If the request is for a real file or directory, serve it directly
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Otherwise send everything to index.html (React Router)
+RewriteRule ^ index.html [L]
+
+# ── Cache Control ──────────────────────────────────────────
+<IfModule mod_expires.c>
+  ExpiresActive On
+
+  # HTML — no cache (always fresh for React entry point)
+  ExpiresByType text/html                 "access plus 0 seconds"
+
+  # JS / CSS — long cache (Vite/CRA adds content hash to filenames)
+  ExpiresByType application/javascript    "access plus 1 year"
+  ExpiresByType text/css                  "access plus 1 year"
+
+  # Images
+  ExpiresByType image/jpeg                "access plus 1 year"
+  ExpiresByType image/png                 "access plus 1 year"
+  ExpiresByType image/webp                "access plus 1 year"
+  ExpiresByType image/svg+xml             "access plus 1 year"
+  ExpiresByType image/x-icon              "access plus 1 year"
+  ExpiresByType image/gif                 "access plus 1 year"
+
+  # Fonts
+  ExpiresByType font/woff                 "access plus 1 year"
+  ExpiresByType font/woff2                "access plus 1 year"
+  ExpiresByType application/font-woff     "access plus 1 year"
+  ExpiresByType application/font-woff2    "access plus 1 year"
+
+  # JSON / XML
+  ExpiresByType application/json          "access plus 0 seconds"
+  ExpiresByType application/xml           "access plus 0 seconds"
+</IfModule>
+
+# ── Compression ────────────────────────────────────────────
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html
+  AddOutputFilterByType DEFLATE text/css
+  AddOutputFilterByType DEFLATE application/javascript
+  AddOutputFilterByType DEFLATE application/json
+  AddOutputFilterByType DEFLATE image/svg+xml
+  AddOutputFilterByType DEFLATE font/woff
+  AddOutputFilterByType DEFLATE font/woff2
+</IfModule>
+
+# ── Security Headers ───────────────────────────────────────
+<IfModule mod_headers.c>
+  # Prevent clickjacking
+  Header always set X-Frame-Options "SAMEORIGIN"
+
+  # Prevent MIME sniffing
+  Header always set X-Content-Type-Options "nosniff"
+
+  # XSS Protection
+  Header always set X-XSS-Protection "1; mode=block"
+
+  # Referrer policy
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+
+  # HSTS — tell browsers to always use HTTPS (enable after SSL is confirmed working)
+  # Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+
+  # Remove server signature
+  Header unset Server
+  Header unset X-Powered-By
+</IfModule>
+
+# ── Block sensitive files ──────────────────────────────────
+<FilesMatch "(^\.env|\.env\..*|package\.json|package-lock\.json|yarn\.lock|composer\.json|composer\.lock|\.git)$">
+  Order allow,deny
+  Deny from all
+</FilesMatch>
+
+# ── Error Pages ────────────────────────────────────────────
+ErrorDocument 404 /index.html
+ErrorDocument 403 /index.html
