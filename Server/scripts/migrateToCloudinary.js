@@ -77,18 +77,18 @@ async function runMigration() {
             );
         }
 
-        // 2. ProductImages table (gallery)
+        // 2. productimages table
         for (const v of variants) {
             await sequelize.query(
-                `UPDATE product_images SET url = :cloudUrl WHERE url = :oldPath`,
+                `UPDATE productimages SET url = :cloudUrl WHERE url = :oldPath`,
                 { replacements: { cloudUrl, oldPath: v } }
             );
         }
 
-        // 3. ProductVariants table
+        // 3. productvariants table
         for (const v of variants) {
             await sequelize.query(
-                `UPDATE product_variants SET image = :cloudUrl WHERE image = :oldPath`,
+                `UPDATE productvariants SET image = :cloudUrl WHERE image = :oldPath`,
                 { replacements: { cloudUrl, oldPath: v } }
             );
         }
@@ -101,10 +101,10 @@ async function runMigration() {
             );
         }
 
-        // 5. Offerbanners table
+        // 5. offer_banners table
         for (const v of variants) {
             await sequelize.query(
-                `UPDATE offerbanners SET image = :cloudUrl WHERE image = :oldPath`,
+                `UPDATE offer_banners SET image = :cloudUrl WHERE image = :oldPath`,
                 { replacements: { cloudUrl, oldPath: v } }
             );
         }
