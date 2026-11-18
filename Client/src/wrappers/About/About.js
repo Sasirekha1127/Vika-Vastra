@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import heroBannerImg from "../../assets/img/about/about-hero-banner.jpeg";
+import saree1 from "../../assets/img/about/saree1.jpeg";
+import saree2 from "../../assets/img/about/saree2.jpeg";
 import saree3 from "../../assets/img/about/saree3.jpeg";
 import saree4 from "../../assets/img/about/saree4.jpeg";
 import saree5 from "../../assets/img/about/saree5.jpeg";
@@ -143,7 +145,7 @@ const TimelineItem = ({ year, title, desc, align }) => {
   );
 };
 
-/* ── Value Card ────────────────────────────────────────────── */
+/* ── Value Card (legacy, unused now) ───────────────────────── */
 const ValueCard = ({ icon, title, desc }) => {
   const [hover, setHover] = useState(false);
   return (
@@ -185,6 +187,134 @@ const ValueCard = ({ icon, title, desc }) => {
   );
 };
 
+/* ══════════════════════════════════════════════════════════════
+   NEW: Core Values (clean, professional split layout)
+══════════════════════════════════════════════════════════════ */
+const CORE_VALUES = [
+  {
+    title: "Authentic craftsmanship",
+    desc: "Every saree is made by artisan hands carrying generations of tradition, with no compromise on weave quality or fabric.",
+    paths: ["M4 4h16v16H4z", "M4 12h16", "M12 4v16", "M8 4v16", "M16 4v16"],
+  },
+  {
+    title: "Sustainable sourcing",
+    desc: "Natural dyes and eco-conscious weaving, so the beauty of a saree never costs the earth.",
+    paths: ["M5 19C5 9 11 4 20 4c0 9-5 15-15 15z", "M5 19L13 11"],
+  },
+  {
+    title: "Artisan empowerment",
+    desc: "Fair prices and long-term contracts. We work as partners with our weavers, not as a marketplace.",
+    paths: ["M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"],
+  },
+  {
+    title: "Premium experience",
+    desc: "From packaging to delivery, every step is designed to feel like receiving a gift.",
+    paths: ["M4 10h16v10H4z", "M3 7h18v3H3z", "M12 7v13", "M12 7C10 4 7 4 7 6s3 1 5 1c2 0 5 1 5-1s-3-2-5 1"],
+  },
+];
+
+const CoreValuesPro = () => {
+  const [ref, inView] = useInView(0.2);
+
+  return (
+    <section ref={ref} className={`cvp${inView ? " in" : ""}`}>
+      <style>{`
+        .cvp { background: #FFFFFF; padding: 120px 60px; font-family: 'Jost', sans-serif; }
+        .cvp-in { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: 1.1fr .9fr; gap: 88px; align-items: center; }
+
+        .cvp-head h2 { font-family: 'Playfair Display', serif; font-size: clamp(34px, 4.2vw, 52px); font-weight: 700; line-height: 1.12; color: #240207; margin: 0 0 18px; }
+        .cvp-head p { font-size: 16px; line-height: 1.75; color: #6A5B54; margin: 0 0 52px; max-width: 480px; }
+
+        .cvp-grid { display: grid; grid-template-columns: 1fr 1fr; column-gap: 44px; }
+        .cvp-item { position: relative; padding: 30px 0 38px; }
+        .cvp-item::before { content: ""; position: absolute; top: 0; left: 0; height: 1px; width: 100%; background: #E4DACB; transform: scaleX(0); transform-origin: left; transition: transform 1s cubic-bezier(.65,0,.25,1); }
+        .cvp.in .cvp-item::before { transform: scaleX(1); }
+        .cvp.in .cvp-item:nth-child(2)::before { transition-delay: .12s; }
+        .cvp.in .cvp-item:nth-child(3)::before { transition-delay: .24s; }
+        .cvp.in .cvp-item:nth-child(4)::before { transition-delay: .36s; }
+
+        .cvp-item > * { opacity: 0; transform: translateY(14px); transition: opacity .7s ease, transform .7s ease; }
+        .cvp.in .cvp-item > * { opacity: 1; transform: none; }
+        .cvp.in .cvp-item:nth-child(1) > * { transition-delay: .35s; }
+        .cvp.in .cvp-item:nth-child(2) > * { transition-delay: .47s; }
+        .cvp.in .cvp-item:nth-child(3) > * { transition-delay: .59s; }
+        .cvp.in .cvp-item:nth-child(4) > * { transition-delay: .71s; }
+
+        .cvp-ic { width: 40px; height: 40px; margin-bottom: 20px; }
+        .cvp-ic svg { width: 100%; height: 100%; fill: none; stroke: #720E1E; stroke-width: 1.3; stroke-linecap: round; stroke-linejoin: round; transition: stroke .35s; }
+        .cvp-item:hover .cvp-ic svg { stroke: #C59B27; }
+        .cvp-item h3 { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: #240207; margin: 0 0 10px; }
+        .cvp-item p { font-size: 14.5px; line-height: 1.75; color: #6A5B54; margin: 0; }
+
+        .cvp-cta { display: inline-flex; align-items: center; gap: 10px; margin-top: 12px; font-size: 14px; font-weight: 600; letter-spacing: .03em; color: #720E1E; text-decoration: none; padding-bottom: 6px; background: linear-gradient(#C59B27, #C59B27) left bottom / 100% 1px no-repeat; transition: background-size .4s, color .3s; }
+        .cvp-cta span { transition: transform .35s; }
+        .cvp-cta:hover { color: #240207; background-size: 0 1px; }
+        .cvp-cta:hover span { transform: translateX(6px); }
+
+        .cvp-media { position: relative; }
+        .cvp-frame { overflow: hidden; border-radius: 4px; aspect-ratio: 4 / 5; background: #F1E9DB; clip-path: inset(100% 0 0 0); transition: clip-path 1.3s cubic-bezier(.65,0,.25,1) .1s; }
+        .cvp.in .cvp-frame { clip-path: inset(0 0 0 0); }
+        .cvp-frame img { width: 100%; height: 100%; object-fit: cover; display: block; transform: scale(1.18); transition: transform 2.2s cubic-bezier(.2,.8,.2,1) .1s; }
+        .cvp.in .cvp-frame img { transform: scale(1); }
+
+        .cvp-note { position: absolute; left: -36px; bottom: 36px; max-width: 250px; background: #fff; border-left: 3px solid #C59B27; padding: 18px 22px; box-shadow: 0 18px 40px -14px rgba(36,2,7,.28); opacity: 0; transform: translateY(20px); transition: opacity .8s ease 1.3s, transform .8s ease 1.3s; }
+        .cvp.in .cvp-note { opacity: 1; transform: none; }
+        .cvp-note b { display: block; font-family: 'Playfair Display', serif; font-size: 17px; color: #720E1E; margin-bottom: 4px; }
+        .cvp-note span { font-size: 13px; line-height: 1.6; color: #6A5B54; }
+
+        @media (max-width: 960px) {
+          .cvp { padding: 72px 22px; }
+          .cvp-in { grid-template-columns: 1fr; gap: 56px; }
+          .cvp-note { left: 16px; }
+        }
+        @media (max-width: 560px) {
+          .cvp-grid { grid-template-columns: 1fr; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .cvp *, .cvp *::before { transition: none !important; }
+          .cvp-item::before { transform: scaleX(1); }
+          .cvp-item > *, .cvp-note { opacity: 1; transform: none; }
+          .cvp-frame { clip-path: none; }
+          .cvp-frame img { transform: none; }
+        }
+      `}</style>
+
+      <div className="cvp-in">
+        <div className="cvp-head">
+          <h2>Built on craft, fair trade and care</h2>
+          <p>Four commitments guide every saree we source and every weaver we work with.</p>
+
+          <div className="cvp-grid">
+            {CORE_VALUES.map((v) => (
+              <div key={v.title} className="cvp-item">
+                <div className="cvp-ic" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    {v.paths.map((d, i) => <path key={i} d={d} />)}
+                  </svg>
+                </div>
+                <h3>{v.title}</h3>
+                <p>{v.desc}</p>
+              </div>
+            ))}
+          </div>
+
+          <Link to="/shop" className="cvp-cta">Shop the collection <span>→</span></Link>
+        </div>
+
+        <div className="cvp-media">
+          <div className="cvp-frame">
+            <img src={saree1} alt="Handloom silk saree packaged in Vika Vasthra signature royal keepsake box" />
+          </div>
+          <div className="cvp-note">
+            <b>7-point quality check</b>
+            <span>Every saree is inspected before it ships in our keepsake box.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
 /* ── 6-Year Milestone Data (2020 – 2026) ─────────────────── */
 const MILESTONES = [
   {
@@ -196,7 +326,7 @@ const MILESTONES = [
     stat1: "40 Looms Curated",
     stat2: "200 Founding Drapes",
     img: saree4,
-    imgAlt: "Pure orange and forest green handloom silk saree with gold zari border — Vika Vasthra 2020",
+    imgAlt: "Vika Vasthra first saree delivery packaging — 2020",
     badge: "Founding Year",
   },
   {
@@ -208,7 +338,7 @@ const MILESTONES = [
     stat1: "100+ Artisan Families",
     stat2: "3,000 Orders Crossed",
     img: saree5,
-    imgAlt: "Pure lime green and purple handloom silk saree with gold peacock border — Vika Vasthra 2021",
+    imgAlt: "Mustard yellow handloom saree — Vika Vasthra 2021 collection",
     badge: "Regional Expansion",
   },
   {
@@ -220,7 +350,7 @@ const MILESTONES = [
     stat1: "8,000 Orders Delivered",
     stat2: "Digital Boutique Launch",
     img: saree6,
-    imgAlt: "Royal purple handloom silk saree with 24k gold zari checks — Vika Vasthra 2022",
+    imgAlt: "Orange Kanchipuram silk saree — Vika Vasthra 2022",
     badge: "Digital Platform",
   },
   {
@@ -232,7 +362,7 @@ const MILESTONES = [
     stat1: "15,000 Orders Delivered",
     stat2: "Sold Out in 72 Hours",
     img: saree7,
-    imgAlt: "Opulent crimson red Kanchipuram bridal silk saree with real gold tested zari — Vika Vasthra 2023",
+    imgAlt: "Premium multicolour saree collection — Vika Vasthra 2023",
     badge: "Bridal Prestige",
   },
   {
@@ -244,7 +374,7 @@ const MILESTONES = [
     stat1: "19,000 Orders Delivered",
     stat2: "Pan-India Express Delivery",
     img: saree8,
-    imgAlt: "Maroon checked handloom saree with rich golden border — Vika Vasthra 2024",
+    imgAlt: "Lavender tissue silk saree — Vika Vasthra 2024 national launch",
     badge: "Pan-India Reach",
   },
   {
@@ -256,7 +386,7 @@ const MILESTONES = [
     stat1: "21,900 Orders Delivered",
     stat2: "500+ Artisan Families",
     img: saree9,
-    imgAlt: "Exclusive zari Kanchipuram silk saree — Vika Vasthra 2025 milestone",
+    imgAlt: "Exclusive zari Kanchipuram saree — Vika Vasthra 2025 milestone",
     milestone: true,
     badge: "★ Landmark Milestone",
   },
@@ -269,7 +399,7 @@ const MILESTONES = [
     stat1: "6+ Years of Excellence",
     stat2: "98% Customer Happiness",
     img: saree10,
-    imgAlt: "Pink Kanchipuram silk saree with silver floral zari drape — Vika Vasthra 2026 present collection",
+    imgAlt: "Pink Banarasi saree — Vika Vasthra 2026 present collection",
     badge: "Present & Future",
   },
 ];
@@ -1223,173 +1353,107 @@ const AboutPage = ({ shop }) => {  /* ← FIX: accept shop prop */
       </section>
 
       {/* ═══ OUR JOURNEY (SAREE PLEATS) ════════════════════════════ */}
-<section id="our-journey" className="jp" aria-label="Our journey">
-  <style>{`
-    .jp{--maroon:#720E1E;--maroon-dk:#240207;--gold:#C59B27;--gold-lt:#E8B865;--sand:#F1E9DB;--muted:#5C4A42;
-      background:var(--sand);padding:96px 40px;font-family:'Jost',sans-serif}
-    .jp *{box-sizing:border-box}
-    .jp-in{max-width:1240px;margin:0 auto}
-    .jp-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:40px}
-    .jp-head h2{margin:0;font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(34px,5vw,58px);line-height:1.08;color:var(--maroon)}
-    .jp-head p{margin:0;font-size:14.5px;color:var(--muted)}
+      <section id="our-journey" className="jp" aria-label="Our journey">
+        <style>{`
+          .jp{--maroon:#720E1E;--maroon-dk:#240207;--gold:#C59B27;--gold-lt:#E8B865;--sand:#F1E9DB;--muted:#5C4A42;
+            background:var(--sand);padding:96px 40px;font-family:'Jost',sans-serif}
+          .jp *{box-sizing:border-box}
+          .jp-in{max-width:1240px;margin:0 auto}
+          .jp-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:40px}
+          .jp-head h2{margin:0;font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(34px,5vw,58px);line-height:1.08;color:var(--maroon)}
+          .jp-head p{margin:0;font-size:14.5px;color:var(--muted)}
 
-    .jp-row{display:flex;gap:6px;height:580px}
-    .jp-p{position:relative;flex:1 1 0;min-width:0;overflow:hidden;cursor:pointer;background:var(--maroon-dk);
-      transition:flex-grow .7s cubic-bezier(.65,0,.25,1);outline:none}
-    .jp-p.on{flex-grow:8;cursor:default}
-    .jp-p:focus-visible{box-shadow:inset 0 0 0 3px var(--gold)}
-    .jp-p img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .7s ease,filter .5s ease}
-    .jp-p:not(.on) img{filter:saturate(.7) brightness(.8)}
-    .jp-p:not(.on):hover img{filter:saturate(1) brightness(.95)}
-    .jp-p::after{content:"";position:absolute;inset:0;pointer-events:none;
-      background:linear-gradient(to top,rgba(36,2,7,.88) 0%,rgba(36,2,7,.25) 55%,rgba(36,2,7,.05) 100%)}
-    /* pleat lines on closed panels */
-    .jp-p:not(.on)::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
-      background:linear-gradient(90deg,rgba(255,255,255,.14),transparent 30%,rgba(0,0,0,.18))}
+          .jp-row{display:flex;gap:6px;height:580px}
+          .jp-p{position:relative;flex:1 1 0;min-width:0;overflow:hidden;cursor:pointer;background:var(--maroon-dk);
+            transition:flex-grow .7s cubic-bezier(.65,0,.25,1);outline:none}
+          .jp-p.on{flex-grow:8;cursor:default}
+          .jp-p:focus-visible{box-shadow:inset 0 0 0 3px var(--gold)}
+          .jp-p img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .7s ease,filter .5s ease}
+          .jp-p:not(.on) img{filter:saturate(.7) brightness(.8)}
+          .jp-p:not(.on):hover img{filter:saturate(1) brightness(.95)}
+          .jp-p::after{content:"";position:absolute;inset:0;pointer-events:none;
+            background:linear-gradient(to top,rgba(36,2,7,.88) 0%,rgba(36,2,7,.25) 55%,rgba(36,2,7,.05) 100%)}
+          /* pleat lines on closed panels */
+          .jp-p:not(.on)::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+            background:linear-gradient(90deg,rgba(255,255,255,.14),transparent 30%,rgba(0,0,0,.18))}
 
-    .jp-yr{position:absolute;left:0;right:0;bottom:22px;z-index:2;text-align:center;color:var(--gold-lt);
-      font-family:'Playfair Display',serif;font-weight:700;font-size:22px;writing-mode:vertical-rl;transform:rotate(180deg);
-      margin:0 auto;width:fit-content;transition:opacity .3s}
-    .jp-p.on .jp-yr{opacity:0}
-    .jp-star{position:absolute;top:16px;left:50%;transform:translateX(-50%);z-index:2;color:var(--gold-lt);font-size:14px}
-    .jp-p.on .jp-star{display:none}
+          .jp-yr{position:absolute;left:0;right:0;bottom:22px;z-index:2;text-align:center;color:var(--gold-lt);
+            font-family:'Playfair Display',serif;font-weight:700;font-size:22px;writing-mode:vertical-rl;transform:rotate(180deg);
+            margin:0 auto;width:fit-content;transition:opacity .3s}
+          .jp-p.on .jp-yr{opacity:0}
+          .jp-star{position:absolute;top:16px;left:50%;transform:translateX(-50%);z-index:2;color:var(--gold-lt);font-size:14px}
+          .jp-p.on .jp-star{display:none}
 
-    .jp-body{position:absolute;left:0;bottom:0;z-index:2;width:min(560px,100%);padding:40px 44px;color:#FAF7F2;
-      opacity:0;transform:translateY(16px);transition:opacity .4s ease,transform .5s ease}
-    .jp-p.on .jp-body{opacity:1;transform:none;transition-delay:.35s}
-    .jp-big{font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(64px,9vw,120px);line-height:.9;color:var(--gold-lt);margin-bottom:14px}
-    .jp-badge{display:inline-block;margin-bottom:10px;padding:4px 12px;border-radius:999px;font-size:12px;font-weight:600;background:var(--gold);color:var(--maroon-dk)}
-    .jp-body h3{margin:0 0 10px;font-family:'Playfair Display',serif;font-weight:700;font-size:28px;line-height:1.2;color:#fff}
-    .jp-body p{margin:0 0 16px;font-size:15px;line-height:1.8;color:#eadbcc;max-width:480px}
-    .jp-facts{display:flex;gap:22px;flex-wrap:wrap;margin:0;padding:0;list-style:none}
-    .jp-facts li{font-size:13px;font-weight:600;color:var(--gold-lt);padding-top:10px;border-top:1px solid rgba(232,184,101,.5)}
+          .jp-body{position:absolute;left:0;bottom:0;z-index:2;width:min(560px,100%);padding:40px 44px;color:#FAF7F2;
+            opacity:0;transform:translateY(16px);transition:opacity .4s ease,transform .5s ease}
+          .jp-p.on .jp-body{opacity:1;transform:none;transition-delay:.35s}
+          .jp-big{font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(64px,9vw,120px);line-height:.9;color:var(--gold-lt);margin-bottom:14px}
+          .jp-badge{display:inline-block;margin-bottom:10px;padding:4px 12px;border-radius:999px;font-size:12px;font-weight:600;background:var(--gold);color:var(--maroon-dk)}
+          .jp-body h3{margin:0 0 10px;font-family:'Playfair Display',serif;font-weight:700;font-size:28px;line-height:1.2;color:#fff}
+          .jp-body p{margin:0 0 16px;font-size:15px;line-height:1.8;color:#eadbcc;max-width:480px}
+          .jp-facts{display:flex;gap:22px;flex-wrap:wrap;margin:0;padding:0;list-style:none}
+          .jp-facts li{font-size:13px;font-weight:600;color:var(--gold-lt);padding-top:10px;border-top:1px solid rgba(232,184,101,.5)}
 
-    @media (max-width:860px){
-      .jp{padding:64px 20px}
-      .jp-row{flex-direction:column;height:auto}
-      .jp-p{flex:none;height:64px;transition:height .6s cubic-bezier(.65,0,.25,1)}
-      .jp-p.on{height:500px}
-      .jp-yr{writing-mode:horizontal-tb;transform:none;left:20px;right:auto;bottom:auto;top:50%;margin:0;translate:0 -50%;font-size:20px}
-      .jp-star{top:50%;left:auto;right:20px;transform:translateY(-50%)}
-      .jp-body{padding:24px 22px}
-      .jp-big{font-size:68px}
-      .jp-body h3{font-size:23px}
-    }
-    @media (prefers-reduced-motion:reduce){.jp *{transition:none!important}}
-  `}</style>
+          @media (max-width:860px){
+            .jp{padding:64px 20px}
+            .jp-row{flex-direction:column;height:auto}
+            .jp-p{flex:none;height:64px;transition:height .6s cubic-bezier(.65,0,.25,1)}
+            .jp-p.on{height:500px}
+            .jp-yr{writing-mode:horizontal-tb;transform:none;left:20px;right:auto;bottom:auto;top:50%;margin:0;translate:0 -50%;font-size:20px}
+            .jp-star{top:50%;left:auto;right:20px;transform:translateY(-50%)}
+            .jp-body{padding:24px 22px}
+            .jp-big{font-size:68px}
+            .jp-body h3{font-size:23px}
+          }
+          @media (prefers-reduced-motion:reduce){.jp *{transition:none!important}}
+        `}</style>
 
-  <div className="jp-in">
-    <div className="jp-head">
-      <h2>Six years, one golden thread</h2>
-      <p>Tap a pleat to open that year.</p>
-    </div>
-
-    <div className="jp-row" role="tablist" aria-label="Years">
-      {MILESTONES.map((m, i) => {
-        const on = i === activeMilestone;
-        return (
-          <div
-            key={i}
-            role="tab"
-            tabIndex={0}
-            aria-selected={on}
-            className={`jp-p${on ? " on" : ""}`}
-            onClick={() => setActiveMilestone(i)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setActiveMilestone(i); }
-              if (e.key === "ArrowRight") setActiveMilestone((p) => Math.min(p + 1, MILESTONES.length - 1));
-              if (e.key === "ArrowLeft") setActiveMilestone((p) => Math.max(p - 1, 0));
-            }}
-          >
-            <img src={m.img} alt={on ? (m.imgAlt || m.title) : ""} />
-            {m.milestone && <span className="jp-star" aria-hidden="true">★</span>}
-            <span className="jp-yr">{String(m.year).slice(0, 4)}</span>
-
-            <div className="jp-body">
-              <div className="jp-big" aria-hidden="true">{String(m.year).slice(0, 4)}</div>
-              {m.badge && <span className="jp-badge">{m.badge}</span>}
-              <h3>{m.title}</h3>
-              <p>{m.desc}</p>
-              <ul className="jp-facts">
-                {m.stat1 && <li>{m.stat1}</li>}
-                {m.stat2 && <li>{m.stat2}</li>}
-              </ul>
-            </div>
+        <div className="jp-in">
+          <div className="jp-head">
+            <h2>Six years, one golden thread</h2>
+            <p>Tap a pleat to open that year.</p>
           </div>
-        );
-      })}
-    </div>
-  </div>
-</section>
 
-      {/* ═══ VALUES ════════════════════════════════════════════ */}
-<section className="emb-section-pad" style={{ padding: "90px 60px" }}>
-  <style>{`
-    .cv-wrap { max-width: 1000px; margin: 0 auto; }
-    .cv-head { text-align: center; margin-bottom: 64px; }
-    .cv-heading { font-family: 'Playfair Display', serif; font-size: 42px; font-weight: 800; color: ${C.dark}; margin: 0; }
-    .cv-line { width: 64px; height: 2px; background: ${C.gold}; margin: 20px auto 0; }
-    .cv-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 56px 72px; }
-    .cv-item { display: flex; gap: 26px; align-items: flex-start; }
-    .cv-item:nth-child(even) { margin-top: 64px; }
-    .cv-arch { flex: none; width: 84px; height: 108px; border: 1.5px solid ${C.gold}; border-radius: 42px 42px 0 0; display: grid; place-items: center; font-size: 34px; transition: background 0.3s ease; }
-    .cv-item:hover .cv-arch { background: ${C.gold}; }
-    .cv-title { font-family: 'Playfair Display', serif; font-size: 25px; font-weight: 700; color: ${C.dark}; margin: 4px 0 10px; }
-    .cv-desc { font-family: 'Jost', sans-serif; font-size: 16px; line-height: 1.75; color: ${C.dark}; opacity: 0.75; margin: 0; }
-    @media (max-width: 860px) {
-      .cv-grid { grid-template-columns: 1fr; gap: 40px; }
-      .cv-item:nth-child(even) { margin-top: 0; }
-      .cv-heading { font-size: 34px; }
-      .cv-head { margin-bottom: 44px; }
-    }
-    @media (max-width: 480px) {
-      .cv-arch { width: 66px; height: 88px; border-radius: 33px 33px 0 0; font-size: 28px; }
-      .cv-item { gap: 18px; }
-      .cv-title { font-size: 21px; }
-    }
-    @media (prefers-reduced-motion: reduce) { .cv-arch { transition: none; } }
-  `}</style>
+          <div className="jp-row" role="tablist" aria-label="Years">
+            {MILESTONES.map((m, i) => {
+              const on = i === activeMilestone;
+              return (
+                <div
+                  key={i}
+                  role="tab"
+                  tabIndex={0}
+                  aria-selected={on}
+                  className={`jp-p${on ? " on" : ""}`}
+                  onClick={() => setActiveMilestone(i)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setActiveMilestone(i); }
+                    if (e.key === "ArrowRight") setActiveMilestone((p) => Math.min(p + 1, MILESTONES.length - 1));
+                    if (e.key === "ArrowLeft") setActiveMilestone((p) => Math.max(p - 1, 0));
+                  }}
+                >
+                  <img src={m.img} alt={on ? (m.imgAlt || m.title) : ""} />
+                  {m.milestone && <span className="jp-star" aria-hidden="true">★</span>}
+                  <span className="jp-yr">{String(m.year).slice(0, 4)}</span>
 
-  <div className="cv-wrap">
-    <div className="cv-head">
-      <h2 className="cv-heading">Our Core Values</h2>
-      <div className="cv-line" />
-    </div>
+                  <div className="jp-body">
+                    <div className="jp-big" aria-hidden="true">{String(m.year).slice(0, 4)}</div>
+                    {m.badge && <span className="jp-badge">{m.badge}</span>}
+                    <h3>{m.title}</h3>
+                    <p>{m.desc}</p>
+                    <ul className="jp-facts">
+                      {m.stat1 && <li>{m.stat1}</li>}
+                      {m.stat2 && <li>{m.stat2}</li>}
+                    </ul>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
 
-    <ul className="cv-grid">
-      <li className="cv-item">
-        <span className="cv-arch" aria-hidden="true">🪡</span>
-        <div>
-          <h3 className="cv-title">Authentic Craftsmanship</h3>
-          <p className="cv-desc">Every saree is a collaboration between artisan hands and generations of tradition. We never compromise on weave quality or fabric authenticity.</p>
-        </div>
-      </li>
-      <li className="cv-item">
-        <span className="cv-arch" aria-hidden="true">🌿</span>
-        <div>
-          <h3 className="cv-title">Sustainable Sourcing</h3>
-          <p className="cv-desc">We work with natural dyes and eco-conscious weaving practices, ensuring beauty that doesn't cost the earth, literally or figuratively.</p>
-        </div>
-      </li>
-      <li className="cv-item">
-        <span className="cv-arch" aria-hidden="true">🤝</span>
-        <div>
-          <h3 className="cv-title">Artisan Empowerment</h3>
-          <p className="cv-desc">Fair trade prices. Long-term contracts. We are not a marketplace. We are partners, and the success of our artisans is our own.</p>
-        </div>
-      </li>
-      <li className="cv-item">
-        <span className="cv-arch" aria-hidden="true">✨</span>
-        <div>
-          <h3 className="cv-title">Premium Experience</h3>
-          <p className="cv-desc">From packaging to delivery, every touchpoint is designed to feel like receiving a gift. Because a saree is always more than just fabric.</p>
-        </div>
-      </li>
-    </ul>
-  </div>
-</section>
-
-      
+      {/* ═══ CORE VALUES (NEW PROFESSIONAL) ═══════════════ */}
+      <CoreValuesPro />
 
       <FooterOne />
     </>
