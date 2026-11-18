@@ -602,7 +602,7 @@ const MobileMenu = ({ isOpen, onClose, categories, catLoading, catError, isLogge
               <img src={`${process.env.PUBLIC_URL}/vika-icon.png`} alt="Vika Vastra" style={{ width: "100%", height: "100%", objectFit: "contain", display: "block" }} />
             </div>
             <div>
-              <div style={{ fontFamily: "'Cinzel Decorative', 'Cinzel', Georgia, serif", fontSize: 18, fontWeight: 700, lineHeight: 1.1 }}>
+              <div style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: 22, fontWeight: 800, lineHeight: 1.1 }}>
                 <span style={{ color: "#FFF4E5", textShadow: "0 2px 10px rgba(255,244,229,0.4)" }}>VIKA </span>
                 <span style={{ color: C.goldLight, textShadow: "0 2px 10px rgba(229,195,101,0.5)" }}>VASTRA</span>
               </div>
@@ -969,12 +969,12 @@ const HeaderOne = ({ shop }) => {
           outline-offset: 2px;
         }
 
-        /* ── Brand Typography: Highlighted & Unique Royal Cinzel Decorative ── */
+        /* ── Brand Typography: Highlighted & Heighted ── */
         .emb-brand-title {
-          font-family: 'Cinzel Decorative', 'Cinzel', Georgia, serif;
-          font-size: 24px;
-          font-weight: 700;
-          letter-spacing: 0.04em;
+          font-family: 'Cormorant Garamond', Georgia, serif;
+          font-size: 33px;
+          font-weight: 800;
+          letter-spacing: 0.06em;
           line-height: 1;
           display: flex;
           align-items: center;
@@ -984,7 +984,7 @@ const HeaderOne = ({ shop }) => {
         .emb-brand-vika {
           color: #FFF4E5;
           text-shadow: 0 2px 14px rgba(255, 244, 229, 0.45), 0 0 24px rgba(223, 177, 67, 0.3);
-          letter-spacing: 0.04em;
+          letter-spacing: 0.06em;
           display: inline-block;
         }
 
@@ -993,7 +993,7 @@ const HeaderOne = ({ shop }) => {
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           margin-left: 8px;
-          letter-spacing: 0.06em;
+          letter-spacing: 0.08em;
           filter: drop-shadow(0 2px 8px rgba(223, 177, 67, 0.55));
           display: inline-block;
         }

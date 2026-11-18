@@ -241,10 +241,10 @@ const FooterOne = ({
                     <div
                       className="footer-logo-main"
                       style={{
-                        fontFamily: "'Cinzel Decorative', 'Cinzel', Georgia, serif",
-                        fontSize: 22,
-                        fontWeight: 700,
-                        letterSpacing: "0.06em",
+                        fontFamily: "'Cormorant Garamond', Georgia, serif",
+                        fontSize: 26,
+                        fontWeight: 800,
+                        letterSpacing: "0.08em",
                         lineHeight: 1.15,
                         whiteSpace: "nowrap",
                         textShadow: "0 2px 12px rgba(223, 177, 67, 0.4)",

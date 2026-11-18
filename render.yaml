@@ -36,3 +36,4 @@ services:
         value: rzp_test_TBPx9EL1T1aqhC
       - key: RAZORPAY_SECRET
         value: 93C5GlOnEIHr19OhtD960RLX
+

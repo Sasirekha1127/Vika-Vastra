@@ -70,8 +70,8 @@ const loginStyles = `
     display: block;
   }
   .lr-brand-name {
-    font-family: 'Cinzel Decorative', 'Cinzel', Georgia, serif;
-    font-size: 24px;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 26px;
     font-weight: 700;
     letter-spacing: 0.05em;
     line-height: 1.1;
