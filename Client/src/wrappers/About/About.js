@@ -399,7 +399,7 @@ const MILESTONES = [
     stat1: "6+ Years of Excellence",
     stat2: "98% Customer Happiness",
     img: saree10,
-    imgAlt: "Pink Banarasi saree — Vika Vasthra 2026 present collection",
+    imgAlt: "Traditional wooden handloom with pure silk sarees stack and weaving shuttle — Vika Vasthra 2026 present legacy",
     badge: "Present & Future",
   },
 ];
