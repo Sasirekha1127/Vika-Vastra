@@ -1,8 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import heroBannerImg from "../../assets/img/about/about-hero-banner.jpeg";
-import saree1 from "../../assets/img/about/saree1.jpeg";
-import saree2 from "../../assets/img/about/saree2.jpeg";
 import saree3 from "../../assets/img/about/saree3.jpeg";
 import saree4 from "../../assets/img/about/saree4.jpeg";
 import saree5 from "../../assets/img/about/saree5.jpeg";
@@ -198,7 +196,7 @@ const MILESTONES = [
     stat1: "40 Looms Curated",
     stat2: "200 Founding Drapes",
     img: saree4,
-    imgAlt: "Vika Vasthra first saree delivery packaging — 2020",
+    imgAlt: "Pure orange and forest green handloom silk saree with gold zari border — Vika Vasthra 2020",
     badge: "Founding Year",
   },
   {
@@ -210,7 +208,7 @@ const MILESTONES = [
     stat1: "100+ Artisan Families",
     stat2: "3,000 Orders Crossed",
     img: saree5,
-    imgAlt: "Mustard yellow handloom saree — Vika Vasthra 2021 collection",
+    imgAlt: "Pure lime green and purple handloom silk saree with gold peacock border — Vika Vasthra 2021",
     badge: "Regional Expansion",
   },
   {
@@ -222,7 +220,7 @@ const MILESTONES = [
     stat1: "8,000 Orders Delivered",
     stat2: "Digital Boutique Launch",
     img: saree6,
-    imgAlt: "Orange Kanchipuram silk saree — Vika Vasthra 2022",
+    imgAlt: "Royal purple handloom silk saree with 24k gold zari checks — Vika Vasthra 2022",
     badge: "Digital Platform",
   },
   {
@@ -234,7 +232,7 @@ const MILESTONES = [
     stat1: "15,000 Orders Delivered",
     stat2: "Sold Out in 72 Hours",
     img: saree7,
-    imgAlt: "Premium multicolour saree collection — Vika Vasthra 2023",
+    imgAlt: "Opulent crimson red Kanchipuram bridal silk saree with real gold tested zari — Vika Vasthra 2023",
     badge: "Bridal Prestige",
   },
   {
@@ -246,7 +244,7 @@ const MILESTONES = [
     stat1: "19,000 Orders Delivered",
     stat2: "Pan-India Express Delivery",
     img: saree8,
-    imgAlt: "Lavender tissue silk saree — Vika Vasthra 2024 national launch",
+    imgAlt: "Maroon checked handloom saree with rich golden border — Vika Vasthra 2024",
     badge: "Pan-India Reach",
   },
   {
@@ -258,7 +256,7 @@ const MILESTONES = [
     stat1: "21,900 Orders Delivered",
     stat2: "500+ Artisan Families",
     img: saree9,
-    imgAlt: "Exclusive zari Kanchipuram saree — Vika Vasthra 2025 milestone",
+    imgAlt: "Exclusive zari Kanchipuram silk saree — Vika Vasthra 2025 milestone",
     milestone: true,
     badge: "★ Landmark Milestone",
   },
@@ -271,7 +269,7 @@ const MILESTONES = [
     stat1: "6+ Years of Excellence",
     stat2: "98% Customer Happiness",
     img: saree10,
-    imgAlt: "Pink Banarasi saree — Vika Vasthra 2026 present collection",
+    imgAlt: "Pink Kanchipuram silk saree with silver floral zari drape — Vika Vasthra 2026 present collection",
     badge: "Present & Future",
   },
 ];
