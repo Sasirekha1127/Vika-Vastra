@@ -2,11 +2,11 @@ import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { getAllCategories, getImageUrl } from "../../api"; // adjust path as needed
 
-const WINE   = "#3d0711";
+const WINE = "#3d0711";
 const MAROON = "#720E1E";
-const GOLD   = "#d4a935";
-const IVORY  = "#fbf3ec";
-const INK    = "#2a1a1c";
+const GOLD = "#d4a935";
+const IVORY = "#fbf3ec";
+const INK = "#2a1a1c";
 
 const CollectionCard = ({ col }) => {
   const imageUrl = getImageUrl(col.image);
@@ -53,13 +53,13 @@ const getVisibleCount = (width) => {
 };
 
 const ShopByCollections = () => {
-  const [categories, setCategories]     = useState([]);
-  const [loading, setLoading]           = useState(true);
-  const [error, setError]               = useState(null);
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [visibleCount, setVisibleCount] = useState(() =>
     typeof window !== "undefined" ? getVisibleCount(window.innerWidth) : 6
   );
-  const [activeIndex, setActiveIndex]   = useState(0);
+  const [activeIndex, setActiveIndex] = useState(0);
   const touchStartXRef = useRef(null);
 
   useEffect(() => {
@@ -70,7 +70,7 @@ const ShopByCollections = () => {
         setCategories(Array.isArray(res.data) ? res.data : []);
       } catch (err) {
         console.error("Failed to fetch categories:", err);
-        setError("Could not load collections.");
+        setError("Could not load Best collections.");
       } finally {
         setLoading(false);
       }
@@ -147,8 +147,8 @@ const ShopByCollections = () => {
             {loading
               ? Array.from({ length: 6 }).map((_, i) => <SkeletonCard key={i} />)
               : error
-              ? <p className="shc-error">{error}</p>
-              : categories.map((cat) => <CollectionCard key={cat.id} col={cat} />)}
+                ? <p className="shc-error">{error}</p>
+                : categories.map((cat) => <CollectionCard key={cat.id} col={cat} />)}
           </div>
         </div>
 
@@ -190,7 +190,7 @@ const css = `
   @import url('https://fonts.googleapis.com/css2?family=Marcellus&family=Hanken+Grotesk:wght@400;500;600&display=swap');
 
   .shc-root, .shc-root * { box-sizing: border-box; }
-  .shc-root { background: ${IVORY}; padding: 32px 0 36px; font-family: 'Hanken Grotesk', sans-serif; overflow: hidden; }
+  .shc-root { background: #f8ebd7; padding: 32px 0 36px; font-family: 'Hanken Grotesk', sans-serif; overflow: hidden; }
   .shc-stage {
     position: relative;
     max-width: 1220px;

@@ -950,35 +950,193 @@ export const ProductCard = ({ product, cartItems = [], wishlistItems = [], addTo
             )}
           </div>
 
-          {/* Floating Wishlist Heart */}
-          <button
-            type="button"
-            onClick={handleWishlist}
-            aria-label={inWishlist ? "Remove from wishlist" : "Save to wishlist"}
-            aria-pressed={inWishlist}
+          {/* Hover Dark Vignette Overlay */}
+          <div
             style={{
               position: "absolute",
-              top: "14%",
-              right: "8%",
-              width: 36,
-              height: 36,
-              borderRadius: "50%",
-              border: "none",
-              cursor: "pointer",
-              display: "grid",
-              placeItems: "center",
-              fontSize: 18,
-              lineHeight: 1,
-              background: inWishlist ? "#720E1E" : "rgba(255,255,255,0.94)",
-              color: inWishlist ? "#fff" : "#720E1E",
-              transition: "background .2s, color .2s, transform .15s",
-              boxShadow: "0 3px 10px rgba(0,0,0,0.12)",
-              transform: hovered ? "scale(1.06)" : "scale(1)",
-              zIndex: 3,
+              inset: 0,
+              background: "rgba(36, 2, 7, 0.28)",
+              opacity: hovered ? 1 : 0,
+              transition: "opacity .3s ease",
+              pointerEvents: "none",
+              zIndex: 2,
+            }}
+          />
+
+          {/* Quick Added Flash Notification */}
+          {addedAnim && (
+            <div
+              style={{
+                position: "absolute",
+                top: 14,
+                left: "50%",
+                transform: "translateX(-50%)",
+                background: "#2E7D32",
+                color: "#FFFFFF",
+                fontSize: 11.5,
+                fontWeight: 700,
+                padding: "5px 14px",
+                borderRadius: 999,
+                boxShadow: "0 4px 14px rgba(0,0,0,0.25)",
+                zIndex: 6,
+                whiteSpace: "nowrap",
+                letterSpacing: "0.03em",
+              }}
+            >
+              ✓ Added to Cart
+            </div>
+          )}
+
+          {/* Hover Action Icons (Cart, Wishlist, Quick View) */}
+          <div
+            className="emb-card-hover-actions"
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: hovered ? "translate(-50%, -50%) scale(1)" : "translate(-50%, -40%) scale(0.85)",
+              opacity: hovered ? 1 : 0,
+              pointerEvents: hovered ? "auto" : "none",
+              transition: "all .3s cubic-bezier(0.34, 1.56, 0.64, 1)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 10,
+              zIndex: 4,
             }}
           >
-            {inWishlist ? "♥" : "♡"}
-          </button>
+            {/* Add to Cart Icon Button */}
+            <button
+              type="button"
+              onClick={handleAddToCart}
+              disabled={outOfStock}
+              title={btnLabel}
+              aria-label={btnLabel}
+              style={{
+                width: 42,
+                height: 42,
+                borderRadius: "50%",
+                border: `1.5px solid ${addedAnim || inCart ? "#2E7D32" : "#C59B27"}`,
+                background: addedAnim || inCart ? "#2E7D32" : "#FFFFFF",
+                color: addedAnim || inCart ? "#FFFFFF" : "#720E1E",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                cursor: outOfStock ? "not-allowed" : "pointer",
+                boxShadow: "0 6px 18px rgba(0,0,0,0.22)",
+                transition: "all .2s ease",
+              }}
+              onMouseEnter={(e) => {
+                if (!outOfStock && !addedAnim && !inCart) {
+                  e.currentTarget.style.background = "rgb(197, 155, 39)";
+                  e.currentTarget.style.color = "#FFFFFF";
+                  e.currentTarget.style.borderColor = "rgb(197, 155, 39)";
+                  e.currentTarget.style.transform = "scale(1.12)";
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!outOfStock && !addedAnim && !inCart) {
+                  e.currentTarget.style.background = "#FFFFFF";
+                  e.currentTarget.style.color = "#720E1E";
+                  e.currentTarget.style.borderColor = "#C59B27";
+                  e.currentTarget.style.transform = "scale(1)";
+                }
+              }}
+            >
+              {addedAnim || inCart ? (
+                <span style={{ fontSize: 17, fontWeight: 700 }}>✓</span>
+              ) : (
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+                  <line x1="3" y1="6" x2="21" y2="6" />
+                  <path d="M16 10a4 4 0 0 1-8 0" />
+                </svg>
+              )}
+            </button>
+
+            {/* Wishlist Heart Button */}
+            <button
+              type="button"
+              onClick={handleWishlist}
+              title={inWishlist ? "Remove from Wishlist" : "Save to Wishlist"}
+              aria-label={inWishlist ? "Remove from wishlist" : "Save to wishlist"}
+              style={{
+                width: 42,
+                height: 42,
+                borderRadius: "50%",
+                border: `1.5px solid ${inWishlist ? "#720E1E" : "#C59B27"}`,
+                background: inWishlist ? "#720E1E" : "#FFFFFF",
+                color: inWishlist ? "#FFFFFF" : "#720E1E",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: 19,
+                cursor: "pointer",
+                boxShadow: "0 6px 18px rgba(0,0,0,0.22)",
+                transition: "all .2s ease",
+              }}
+              onMouseEnter={(e) => {
+                if (!inWishlist) {
+                  e.currentTarget.style.background = "#720E1E";
+                  e.currentTarget.style.color = "#FFFFFF";
+                  e.currentTarget.style.borderColor = "#720E1E";
+                  e.currentTarget.style.transform = "scale(1.12)";
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!inWishlist) {
+                  e.currentTarget.style.background = "#FFFFFF";
+                  e.currentTarget.style.color = "#720E1E";
+                  e.currentTarget.style.borderColor = "#C59B27";
+                  e.currentTarget.style.transform = "scale(1)";
+                }
+              }}
+            >
+              {inWishlist ? "♥" : "♡"}
+            </button>
+
+            {/* Quick View / Details Eye Button */}
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                navigate(getProductUrl(product));
+              }}
+              title="View Saree Details"
+              aria-label="View saree details"
+              style={{
+                width: 42,
+                height: 42,
+                borderRadius: "50%",
+                border: "1.5px solid #C59B27",
+                background: "#FFFFFF",
+                color: "#2a1a1c",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                cursor: "pointer",
+                boxShadow: "0 6px 18px rgba(0,0,0,0.22)",
+                transition: "all .2s ease",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = "rgb(197, 155, 39)";
+                e.currentTarget.style.color = "#FFFFFF";
+                e.currentTarget.style.borderColor = "rgb(197, 155, 39)";
+                e.currentTarget.style.transform = "scale(1.12)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "#FFFFFF";
+                e.currentTarget.style.color = "#2a1a1c";
+                e.currentTarget.style.borderColor = "#C59B27";
+                e.currentTarget.style.transform = "scale(1)";
+              }}
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -1042,48 +1200,11 @@ export const ProductCard = ({ product, cartItems = [], wishlistItems = [], addTo
         </div>
 
         {product.reviewCount > 0 && product.rating > 0 && (
-          <div style={{ color: "#C59B27", fontSize: 12, marginBottom: 6 }}>
+          <div style={{ color: "#C59B27", fontSize: 12, marginBottom: 4 }}>
             {"★".repeat(Math.round(product.rating))}{"☆".repeat(5 - Math.round(product.rating))}
             <span style={{ color: "#aaa", marginLeft: 4 }}>({product.rating})</span>
           </div>
         )}
-
-        {/* Gold Add to Cart Pill Button */}
-        <button
-          type="button"
-          onClick={handleAddToCart}
-          disabled={outOfStock}
-          style={{
-            marginTop: "auto",
-            width: "100%",
-            padding: "11px 14px",
-            font: "700 13px 'Figtree', 'Jost', sans-serif",
-            letterSpacing: "0.03em",
-            color: "#FFFFFF",
-            background: outOfStock ? "#eee7e4" : (addedAnim || inCart) ? "#2E7D32" : "rgb(197, 155, 39)",
-            border: `1.5px solid ${outOfStock ? "#eee7e4" : (addedAnim || inCart) ? "#2E7D32" : "rgb(197, 155, 39)"}`,
-            borderRadius: 999,
-            cursor: outOfStock ? "not-allowed" : "pointer",
-            transition: "all .2s ease",
-            boxShadow: outOfStock ? "none" : "0 4px 12px rgba(197, 155, 39, 0.28)",
-          }}
-          onMouseEnter={(e) => {
-            if (!outOfStock && !addedAnim && !inCart) {
-              e.currentTarget.style.background = "#A8801D";
-              e.currentTarget.style.borderColor = "#A8801D";
-              e.currentTarget.style.boxShadow = "0 6px 16px rgba(197, 155, 39, 0.4)";
-            }
-          }}
-          onMouseLeave={(e) => {
-            if (!outOfStock && !addedAnim && !inCart) {
-              e.currentTarget.style.background = "rgb(197, 155, 39)";
-              e.currentTarget.style.borderColor = "rgb(197, 155, 39)";
-              e.currentTarget.style.boxShadow = "0 4px 12px rgba(197, 155, 39, 0.28)";
-            }
-          }}
-        >
-          {btnLabel}
-        </button>
       </div>
     </article>
   );
@@ -1412,6 +1533,13 @@ const ShopGridStandard = ({ shop }) => {
         @keyframes shimmer {
           0%   { background-position: -200% 0; }
           100% { background-position:  200% 0; }
+        }
+        @media (max-width: 768px) {
+          .emb-card-hover-actions {
+            opacity: 1 !important;
+            transform: translate(-50%, -50%) scale(0.92) !important;
+            pointer-events: auto !important;
+          }
         }
       `}</style>
 
