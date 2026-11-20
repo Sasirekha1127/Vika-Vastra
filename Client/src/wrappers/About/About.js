@@ -214,91 +214,252 @@ const CORE_VALUES = [
 ];
 
 const CoreValuesPro = () => {
-  const [ref, inView] = useInView(0.2);
+  const [ref, inView] = useInView(0.15);
 
   return (
     <section ref={ref} className={`cvp${inView ? " in" : ""}`}>
       <style>{`
-        .cvp { background: #FFFFFF; padding: 120px 60px; font-family: 'Jost', sans-serif; }
-        .cvp-in { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: 1.1fr .9fr; gap: 88px; align-items: center; }
-
-        .cvp-head h2 { font-family: 'Playfair Display', serif; font-size: clamp(34px, 4.2vw, 52px); font-weight: 700; line-height: 1.12; color: #240207; margin: 0 0 18px; }
-        .cvp-head p { font-size: 16px; line-height: 1.75; color: #6A5B54; margin: 0 0 52px; max-width: 480px; }
-
-        .cvp-grid { display: grid; grid-template-columns: 1fr 1fr; column-gap: 44px; }
-        .cvp-item { position: relative; padding: 30px 0 38px; }
-        .cvp-item::before { content: ""; position: absolute; top: 0; left: 0; height: 1px; width: 100%; background: #E4DACB; transform: scaleX(0); transform-origin: left; transition: transform 1s cubic-bezier(.65,0,.25,1); }
-        .cvp.in .cvp-item::before { transform: scaleX(1); }
-        .cvp.in .cvp-item:nth-child(2)::before { transition-delay: .12s; }
-        .cvp.in .cvp-item:nth-child(3)::before { transition-delay: .24s; }
-        .cvp.in .cvp-item:nth-child(4)::before { transition-delay: .36s; }
-
-        .cvp-item > * { opacity: 0; transform: translateY(14px); transition: opacity .7s ease, transform .7s ease; }
-        .cvp.in .cvp-item > * { opacity: 1; transform: none; }
-        .cvp.in .cvp-item:nth-child(1) > * { transition-delay: .35s; }
-        .cvp.in .cvp-item:nth-child(2) > * { transition-delay: .47s; }
-        .cvp.in .cvp-item:nth-child(3) > * { transition-delay: .59s; }
-        .cvp.in .cvp-item:nth-child(4) > * { transition-delay: .71s; }
-
-        .cvp-ic { width: 40px; height: 40px; margin-bottom: 20px; }
-        .cvp-ic svg { width: 100%; height: 100%; fill: none; stroke: #720E1E; stroke-width: 1.3; stroke-linecap: round; stroke-linejoin: round; transition: stroke .35s; }
-        .cvp-item:hover .cvp-ic svg { stroke: #C59B27; }
-        .cvp-item h3 { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: #240207; margin: 0 0 10px; }
-        .cvp-item p { font-size: 14.5px; line-height: 1.75; color: #6A5B54; margin: 0; }
-
-        .cvp-cta { display: inline-flex; align-items: center; gap: 10px; margin-top: 12px; font-size: 14px; font-weight: 600; letter-spacing: .03em; color: #720E1E; text-decoration: none; padding-bottom: 6px; background: linear-gradient(#C59B27, #C59B27) left bottom / 100% 1px no-repeat; transition: background-size .4s, color .3s; }
-        .cvp-cta span { transition: transform .35s; }
-        .cvp-cta:hover { color: #240207; background-size: 0 1px; }
-        .cvp-cta:hover span { transform: translateX(6px); }
-
-        .cvp-media { position: relative; }
-        .cvp-frame { overflow: hidden; border-radius: 4px; aspect-ratio: 4 / 5; background: #F1E9DB; clip-path: inset(100% 0 0 0); transition: clip-path 1.3s cubic-bezier(.65,0,.25,1) .1s; }
-        .cvp.in .cvp-frame { clip-path: inset(0 0 0 0); }
-        .cvp-frame img { width: 100%; height: 100%; object-fit: cover; display: block; transform: scale(1.18); transition: transform 2.2s cubic-bezier(.2,.8,.2,1) .1s; }
-        .cvp.in .cvp-frame img { transform: scale(1); }
-
-        .cvp-note { position: absolute; left: -36px; bottom: 36px; max-width: 250px; background: #fff; border-left: 3px solid #C59B27; padding: 18px 22px; box-shadow: 0 18px 40px -14px rgba(36,2,7,.28); opacity: 0; transform: translateY(20px); transition: opacity .8s ease 1.3s, transform .8s ease 1.3s; }
-        .cvp.in .cvp-note { opacity: 1; transform: none; }
-        .cvp-note b { display: block; font-family: 'Playfair Display', serif; font-size: 17px; color: #720E1E; margin-bottom: 4px; }
-        .cvp-note span { font-size: 13px; line-height: 1.6; color: #6A5B54; }
-
-        @media (max-width: 960px) {
-          .cvp { padding: 72px 22px; }
-          .cvp-in { grid-template-columns: 1fr; gap: 56px; }
-          .cvp-note { left: 16px; }
+        .cvp {
+          background: #FFFFFF;
+          padding: 100px 0 120px;
+          font-family: 'Jost', sans-serif;
+          overflow: hidden;
         }
-        @media (max-width: 560px) {
-          .cvp-grid { grid-template-columns: 1fr; }
+        .cvp-container {
+          max-width: 1240px;
+          margin: 0 auto;
+          padding: 0 28px;
         }
-        @media (prefers-reduced-motion: reduce) {
-          .cvp *, .cvp *::before { transition: none !important; }
-          .cvp-item::before { transform: scaleX(1); }
-          .cvp-item > *, .cvp-note { opacity: 1; transform: none; }
-          .cvp-frame { clip-path: none; }
-          .cvp-frame img { transform: none; }
+
+        .cvp-head {
+          text-align: center;
+          max-width: 760px;
+          margin: 0 auto 52px;
+        }
+        .cvp-pill {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          font-size: 11px;
+          font-weight: 700;
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
+          color: #C59B27;
+          background: #FDF9F0;
+          border: 1px solid rgba(197, 155, 39, 0.35);
+          padding: 5px 16px;
+          border-radius: 999px;
+          margin-bottom: 18px;
+        }
+        .cvp-head h2 {
+          font-family: 'Playfair Display', serif;
+          font-size: clamp(32px, 3.8vw, 48px);
+          font-weight: 700;
+          line-height: 1.15;
+          color: #240207;
+          margin: 0 0 16px;
+        }
+        .cvp-head p {
+          font-size: 16px;
+          line-height: 1.75;
+          color: #6A5B54;
+          margin: 0 auto;
+        }
+
+        /* ── 4 Commitments Grid ── */
+        .cvp-grid {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 24px;
+          margin-bottom: 56px;
+        }
+        .cvp-item {
+          position: relative;
+          background: #FAF7F2;
+          border: 1px solid #ECE4D7;
+          border-radius: 12px;
+          padding: 30px 22px;
+          transition: all 0.35s ease;
+          display: flex;
+          flex-direction: column;
+        }
+        .cvp-item:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 16px 32px rgba(36, 2, 7, 0.08);
+          border-color: #C59B27;
+          background: #FFFFFF;
+        }
+        .cvp-item::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 3px;
+          background: linear-gradient(90deg, #720E1E, #C59B27);
+          border-radius: 12px 12px 0 0;
+          opacity: 0;
+          transition: opacity 0.3s ease;
+        }
+        .cvp-item:hover::before {
+          opacity: 1;
+        }
+
+        .cvp-ic {
+          width: 44px;
+          height: 44px;
+          border-radius: 10px;
+          background: #F2EBE0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-bottom: 18px;
+          transition: all 0.3s ease;
+        }
+        .cvp-ic svg {
+          width: 22px;
+          height: 22px;
+          fill: none;
+          stroke: #720E1E;
+          stroke-width: 1.6;
+          stroke-linecap: round;
+          stroke-linejoin: round;
+          transition: stroke 0.3s;
+        }
+        .cvp-item:hover .cvp-ic {
+          background: #720E1E;
+        }
+        .cvp-item:hover .cvp-ic svg {
+          stroke: #F8F6F2;
+        }
+
+        .cvp-item h3 {
+          font-family: 'Playfair Display', serif;
+          font-size: 19px;
+          font-weight: 700;
+          color: #240207;
+          margin: 0 0 10px;
+          line-height: 1.3;
+        }
+        .cvp-item p {
+          font-size: 13.5px;
+          line-height: 1.7;
+          color: #6A5B54;
+          margin: 0;
+          flex-grow: 1;
+        }
+
+        /* ── Full Width Image Showcase ── */
+        .cvp-media {
+          position: relative;
+          width: 100%;
+          border-radius: 18px;
+          overflow: hidden;
+          box-shadow: 0 24px 56px rgba(36, 2, 7, 0.15);
+          border: 1.5px solid rgba(197, 155, 39, 0.45);
+        }
+        .cvp-frame {
+          width: 100%;
+          height: clamp(380px, 48vw, 560px);
+          background: #F1E9DB;
+          position: relative;
+          overflow: hidden;
+        }
+        .cvp-frame img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          object-position: center 35%;
+          display: block;
+          transition: transform 1.2s ease;
+        }
+        .cvp-media:hover .cvp-frame img {
+          transform: scale(1.03);
+        }
+
+        .cvp-note {
+          position: absolute;
+          left: 28px;
+          bottom: 28px;
+          max-width: 320px;
+          background: rgba(255, 255, 255, 0.96);
+          backdrop-filter: blur(8px);
+          -webkit-backdrop-filter: blur(8px);
+          border-left: 4px solid #C59B27;
+          border-radius: 8px;
+          padding: 18px 22px;
+          box-shadow: 0 16px 36px rgba(36, 2, 7, 0.25);
+          transition: transform 0.3s ease;
+        }
+        .cvp-note b {
+          display: block;
+          font-family: 'Playfair Display', serif;
+          font-size: 18px;
+          color: #720E1E;
+          margin-bottom: 4px;
+        }
+        .cvp-note span {
+          font-size: 13px;
+          line-height: 1.6;
+          color: #55443B;
+        }
+
+        .cvp-cta-wrap {
+          text-align: center;
+          margin-top: 48px;
+        }
+        .cvp-cta {
+          display: inline-flex;
+          align-items: center;
+          gap: 10px;
+          padding: 14px 34px;
+          background: rgb(197, 155, 39);
+          color: #FFFFFF;
+          border-radius: 999px;
+          font-size: 14px;
+          font-weight: 700;
+          text-decoration: none;
+          letter-spacing: 0.05em;
+          box-shadow: 0 4px 14px rgba(197, 155, 39, 0.35);
+          transition: all 0.3s ease;
+        }
+        .cvp-cta:hover {
+          background: #A8801D;
+          color: #FFFFFF;
+          transform: translateY(-2px);
+          box-shadow: 0 6px 20px rgba(197, 155, 39, 0.45);
+        }
+
+        @media (max-width: 1024px) {
+          .cvp-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+        }
+        @media (max-width: 768px) {
+          .cvp { padding: 70px 0 80px; }
+          .cvp-grid { grid-template-columns: 1fr; gap: 16px; margin-bottom: 36px; }
+          .cvp-frame { height: 280px; }
+          .cvp-note { left: 16px; bottom: 16px; right: 16px; max-width: none; }
         }
       `}</style>
 
-      <div className="cvp-in">
+      <div className="cvp-container">
         <div className="cvp-head">
+          <span className="cvp-pill">✦ Our Core Values ✦</span>
           <h2>Built on craft, fair trade and care</h2>
           <p>Four commitments guide every saree we source and every weaver we work with.</p>
+        </div>
 
-          <div className="cvp-grid">
-            {CORE_VALUES.map((v) => (
-              <div key={v.title} className="cvp-item">
-                <div className="cvp-ic" aria-hidden="true">
-                  <svg viewBox="0 0 24 24">
-                    {v.paths.map((d, i) => <path key={i} d={d} />)}
-                  </svg>
-                </div>
-                <h3>{v.title}</h3>
-                <p>{v.desc}</p>
+        <div className="cvp-grid">
+          {CORE_VALUES.map((v) => (
+            <div key={v.title} className="cvp-item">
+              <div className="cvp-ic" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  {v.paths.map((d, i) => <path key={i} d={d} />)}
+                </svg>
               </div>
-            ))}
-          </div>
-
-          <Link to="/shop" className="cvp-cta">Shop the collection <span>→</span></Link>
+              <h3>{v.title}</h3>
+              <p>{v.desc}</p>
+            </div>
+          ))}
         </div>
 
         <div className="cvp-media">
@@ -309,6 +470,12 @@ const CoreValuesPro = () => {
             <b>7-point quality check</b>
             <span>Every saree is inspected before it ships in our keepsake box.</span>
           </div>
+        </div>
+
+        <div className="cvp-cta-wrap">
+          <Link to="/shop" className="cvp-cta">
+            Shop the collection <span>→</span>
+          </Link>
         </div>
       </div>
     </section>
