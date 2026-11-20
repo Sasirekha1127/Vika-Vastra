@@ -1,18 +1,33 @@
 const nodemailer = require('nodemailer');
 
 const emailPort = Number(process.env.EMAIL_PORT) || 587;
-const transporter = nodemailer.createTransport({
-  host: process.env.EMAIL_HOST || 'smtp.gmail.com',
-  port: emailPort,
-  secure: emailPort === 465,
-  auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS },
-  pool: true,
-  maxConnections: 1,
-  maxMessages: 1000,
-  rateDelta: 1000,
-  rateLimit: 1,
-});
+const getTransporter = () => {
+  const user = process.env.EMAIL_USER;
+  const pass = process.env.EMAIL_PASS;
+  const opts = {
+    host: process.env.EMAIL_HOST || 'smtp.gmail.com',
+    port: emailPort,
+    secure: emailPort === 465,
+    pool: true,
+    maxConnections: 1,
+    maxMessages: 1000,
+    rateDelta: 1000,
+    rateLimit: 1,
+  };
+  if (user && pass && pass.trim()) {
+    opts.auth = { user, pass };
+  }
+  return nodemailer.createTransport(opts);
+};
+
 const deliverEmail = async message => {
+  const user = process.env.EMAIL_USER;
+  const pass = process.env.EMAIL_PASS;
+  if (!user || !pass || !pass.trim()) {
+    console.warn('[emailService] Email delivery skipped: EMAIL_PASS is not configured in Server/.env');
+    return { skipped: true };
+  }
+  const transporter = getTransporter();
   return transporter.sendMail(message);
 };
 

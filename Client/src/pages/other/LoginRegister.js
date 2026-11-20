@@ -906,8 +906,14 @@ const LoginRegister = ({ shop }) => {
         });
         if (res.data.requiresOtp) {
           setRegOtpRequired(true);
-          setRegSuccess("We sent a verification code to your email.");
-          showToast("Check your email for the verification code.", "success");
+          if (res.data.devOtp) {
+            setRegOtp(res.data.devOtp);
+            setRegSuccess(`Verification code: ${res.data.devOtp}`);
+            showToast(`Verification code: ${res.data.devOtp}`, "info");
+          } else {
+            setRegSuccess("We sent a verification code to your email.");
+            showToast("Check your email for the verification code.", "success");
+          }
         }
       }
     } catch (err) {
