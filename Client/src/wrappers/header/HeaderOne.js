@@ -538,7 +538,7 @@ const NavItem = ({ label, to, children }) => {
   const currentPath = normalizePath(location.pathname);
   const targetPath = to ? normalizePath(to) : '';
   const hasCategoryFilter = currentPath === '/shop' && Boolean(new URLSearchParams(location.search).get('category'));
-  const isCollectionActive = !to && label === 'Collection' && hasCategoryFilter;
+  const isCollectionActive = !to && (label === 'Best Collections' || label === 'Collection') && hasCategoryFilter;
   const isShopPermanent = label === 'Shop';
   const isActive = Boolean(isCollectionActive || (to && label !== 'Shop' && (currentPath === targetPath || (targetPath !== '/' && currentPath.startsWith(`${targetPath}/`)))));
 
@@ -638,7 +638,7 @@ const MobileMenu = ({ isOpen, onClose, categories, catLoading, catError, isLogge
 
           <div>
             <div className={`emb-mobile-nav-item${location.search.includes('category') ? ' is-active' : ''}`} onClick={() => setCollectionOpen(!collectionOpen)}>
-              <span>Collections</span>
+              <span>Best Collections</span>
               <ChevronDown open={collectionOpen} />
             </div>
             {collectionOpen && (
@@ -1454,7 +1454,7 @@ const HeaderOne = ({ shop }) => {
             <NavItem label="About" to="/about" />
             <NavItem label="Shop" to="/shop" />
 
-            <NavItem label="Collection">
+            <NavItem label="Best Collections">
               <div className="emb-cat-dropdown-header">
                 <span className="emb-cat-dropdown-title">✦ Handcrafted Collections ✦</span>
               </div>
