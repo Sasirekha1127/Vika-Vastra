@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import heroBannerImg from "../../assets/img/about/about-hero-banner.jpeg";
+import craftBanner from "../../assets/img/about/rooted-in-tradition-banner.png";
 import saree1 from "../../assets/img/about/saree1.jpeg";
 import saree2 from "../../assets/img/about/saree2.jpeg";
 import saree3 from "../../assets/img/about/saree3.jpeg";
@@ -17,15 +18,15 @@ import HeaderOne from "../header/HeaderOne";
 
 /* ── Brand tokens (matches HeaderOne) ─────────────────────── */
 const C = {
-  gold:         "#C59B27",
-  goldLt:       "#F8F6F2",
+  gold: "#C59B27",
+  goldLt: "#F8F6F2",
   goldGradient: "linear-gradient(45deg, #720E1E 0%, #C59B27 100%)",
-  goldGlow:     "linear-gradient(135deg, #C9933A 0%, #E8B865 50%, #C9933A 100%)",
-  dark:         "#720E1E",
-  muted:        "#4A4A4A",
-  border:       "#e7dfd2",
-  white:        "#F8F6F2",
-  cream:        "#FAF7F2",
+  goldGlow: "linear-gradient(135deg, #C9933A 0%, #E8B865 50%, #C9933A 100%)",
+  dark: "#720E1E",
+  muted: "#4A4A4A",
+  border: "#e7dfd2",
+  white: "#F8F6F2",
+  cream: "#FAF7F2",
 };
 
 /* ── Counter hook ──────────────────────────────────────────── */
@@ -360,8 +361,8 @@ const CoreValuesPro = () => {
         }
         .cvp-frame {
           width: 100%;
-          height: clamp(380px, 48vw, 560px);
-          background: #F1E9DB;
+          aspect-ratio: 1024 / 316;
+          background: #3B000E;
           position: relative;
           overflow: hidden;
         }
@@ -369,9 +370,8 @@ const CoreValuesPro = () => {
           width: 100%;
           height: 100%;
           object-fit: cover;
-          object-position: center 35%;
           display: block;
-          transition: transform 1.2s ease;
+          transition: transform 0.8s ease;
         }
         .cvp-media:hover .cvp-frame img {
           transform: scale(1.03);
@@ -436,7 +436,7 @@ const CoreValuesPro = () => {
         @media (max-width: 768px) {
           .cvp { padding: 70px 0 80px; }
           .cvp-grid { grid-template-columns: 1fr; gap: 16px; margin-bottom: 36px; }
-          .cvp-frame { height: 280px; }
+          .cvp-frame { aspect-ratio: 1024 / 316; height: auto; }
           .cvp-note { left: 16px; bottom: 16px; right: 16px; max-width: none; }
         }
       `}</style>
@@ -448,35 +448,16 @@ const CoreValuesPro = () => {
           <p>Four commitments guide every saree we source and every weaver we work with.</p>
         </div>
 
-        <div className="cvp-grid">
-          {CORE_VALUES.map((v) => (
-            <div key={v.title} className="cvp-item">
-              <div className="cvp-ic" aria-hidden="true">
-                <svg viewBox="0 0 24 24">
-                  {v.paths.map((d, i) => <path key={i} d={d} />)}
-                </svg>
-              </div>
-              <h3>{v.title}</h3>
-              <p>{v.desc}</p>
-            </div>
-          ))}
-        </div>
+
 
         <div className="cvp-media">
           <div className="cvp-frame">
-            <img src={saree1} alt="Handloom silk saree packaged in Vika Vasthra signature royal keepsake box" />
+            <img src={craftBanner} alt="Rooted in tradition, woven for you - Vika Vasthra commitments" />
           </div>
-          <div className="cvp-note">
-            <b>7-point quality check</b>
-            <span>Every saree is inspected before it ships in our keepsake box.</span>
-          </div>
+         
         </div>
 
-        <div className="cvp-cta-wrap">
-          <Link to="/shop" className="cvp-cta">
-            Shop the collection <span>→</span>
-          </Link>
-        </div>
+       
       </div>
     </section>
   );
@@ -489,7 +470,7 @@ const MILESTONES = [
     label: "2020 · The Beginning",
     title: "The Humble Loom",
     subtitle: "40 Looms · 200 Founding Drapes",
-    desc: "Vika Vasthra was born with a curated collection of 40 handloom sarees sourced directly from Kanchipuram master weavers. Our first 200 orders shipped within the founding month — a dream turned into living heritage.",
+    desc: "Vika Vasthra was born with a curated Best collection of 40 handloom sarees sourced directly from Kanchipuram master weavers. Our first 200 orders shipped within the founding month — a dream turned into living heritage.",
     stat1: "40 Looms Curated",
     stat2: "200 Founding Drapes",
     img: saree4,
@@ -501,11 +482,11 @@ const MILESTONES = [
     label: "2021 · Expanding Roots",
     title: "Weaving Across Regions",
     subtitle: "Banarasi & Chanderi · 100+ Looms",
-    desc: "We expanded into Banarasi silk and Chanderi collections, crossing 3,000 successful deliveries. Artisan partnerships grew to 100+ weaver families as word of our uncompromising quality spread across South India.",
+    desc: "We expanded into Banarasi silk and Chanderi Best collections, crossing 3,000 successful deliveries. Artisan partnerships grew to 100+ weaver families as word of our uncompromising quality spread across South India.",
     stat1: "100+ Artisan Families",
     stat2: "3,000 Orders Crossed",
     img: saree5,
-    imgAlt: "Mustard yellow handloom saree — Vika Vasthra 2021 collection",
+    imgAlt: "Mustard yellow handloom saree — Vika Vasthra 2021 Best collection",
     badge: "Regional Expansion",
   },
   {
@@ -523,13 +504,13 @@ const MILESTONES = [
   {
     year: "2023",
     label: "2023 · Bridal Editions",
-    title: "Heirloom Bridal Collections",
+    title: "Heirloom Bridal Best collections",
     subtitle: "15,000 Orders · Sold Out in 72 Hrs",
-    desc: "Introduced our bridal and festive exclusive handloom collections featuring real tested zari. Our wedding season collections sold out within 72 hours, cementing Vika Vasthra in Indian bridal trousseaus.",
+    desc: "Introduced our bridal and festive exclusive handloom Best collections featuring real tested zari. Our wedding season Best collections sold out within 72 hours, cementing Vika Vasthra in Indian bridal trousseaus.",
     stat1: "15,000 Orders Delivered",
     stat2: "Sold Out in 72 Hours",
     img: saree7,
-    imgAlt: "Premium multicolour saree collection — Vika Vasthra 2023",
+    imgAlt: "Premium multicolour saree Best collection — Vika Vasthra 2023",
     badge: "Bridal Prestige",
   },
   {
@@ -864,8 +845,8 @@ const AboutPage = ({ shop }) => {  /* ← FIX: accept shop prop */
               transform: heroIn ? "translateY(0)" : "translateY(20px)",
               transition: "opacity 0.8s ease 0.2s, transform 0.8s ease 0.2s",
             }}>
-              Vika Vasthra is an authentic luxury saree house founded on reverence for India's master weavers. 
-              From the sacred temple looms of Kanchipuram to hand-spun pure Banarasi zaris, every drape is a celebration 
+              Vika Vasthra is an authentic luxury saree house founded on reverence for India's master weavers.
+              From the sacred temple looms of Kanchipuram to hand-spun pure Banarasi zaris, every drape is a celebration
               of royal grace, heirloom purity, and timeless elegance.
             </p>
 
@@ -1105,15 +1086,15 @@ const AboutPage = ({ shop }) => {  /* ← FIX: accept shop prop */
           flexWrap: "wrap",
         }} className="emb-stats-row">
           <StatCard value={21900} label="Orders Delivered" duration={2500} />
-          <StatCard value={6}     label="Years of Excellence" suffix="+" duration={1200} />
-          <StatCard value={500}   label="Artisan Partnerships" suffix="+" duration={1800} />
-          <StatCard value={98}    label="Happy Customers" suffix="%" duration={1500} />
+          <StatCard value={6} label="Years of Excellence" suffix="+" duration={1200} />
+          <StatCard value={500} label="Artisan Partnerships" suffix="+" duration={1800} />
+          <StatCard value={98} label="Happy Customers" suffix="%" duration={1500} />
         </div>
       </div>
 
       {/* ═══ OUR STORY (REDESIGNED LUXURY ATELIER UI) ═════════ */}
       <section id="our-story" className="emb-story-wrapper emb-section-pad" style={{ padding: "100px 50px 90px", position: "relative" }}>
-        
+
         {/* Ambient background watermark & glows */}
         <div style={{
           position: "absolute", top: -80, right: -60,
@@ -1129,7 +1110,7 @@ const AboutPage = ({ shop }) => {  /* ← FIX: accept shop prop */
         }} />
 
         <div style={{ maxWidth: 1200, margin: "0 auto", position: "relative", zIndex: 2 }}>
-          
+
           {/* Section Header */}
           <div style={{ maxWidth: 820, margin: "0 auto 60px", textAlign: "center" }}>
             <div style={{
@@ -1189,18 +1170,18 @@ const AboutPage = ({ shop }) => {  /* ← FIX: accept shop prop */
               maxWidth: 740,
               margin: "0 auto",
             }}>
-              Vika Vasthra was born in 2020 with a single, passionate mission — to revive the romance of authentic Indian handlooms. 
-              Founded during a transformative era, our atelier stands as a living celebration of master weavers, 
+              Vika Vasthra was born in 2020 with a single, passionate mission — to revive the romance of authentic Indian handlooms.
+              Founded during a transformative era, our atelier stands as a living celebration of master weavers,
               bringing ancestral Kanchipuram and Banarasi silk treasures directly from authentic looms to discerning women worldwide.
             </p>
           </div>
 
           {/* Main Grid: Left = Visual Atelier Arch & Quote Plaque, Right = Craftsmanship Bento Pillars */}
           <div className="emb-story-grid">
-            
+
             {/* Left Column: Architectural Arch & Floating Parchment Quote */}
             <div className="emb-story-img-col" style={{ position: "relative" }}>
-              
+
               {/* Outer decorative gold frame */}
               <div style={{
                 position: "relative",
@@ -1209,7 +1190,7 @@ const AboutPage = ({ shop }) => {  /* ← FIX: accept shop prop */
                 borderRadius: "200px 200px 24px 24px",
                 boxShadow: "0 24px 50px -12px rgba(46, 5, 13, 0.22)",
               }}>
-                
+
                 {/* Arch container */}
                 <div style={{
                   position: "relative",
@@ -1300,7 +1281,7 @@ const AboutPage = ({ shop }) => {  /* ← FIX: accept shop prop */
                     color: "rgba(197, 155, 39, 0.35)",
                     marginBottom: 4,
                   }}>“</div>
-                  
+
                   <p style={{
                     fontFamily: "'Playfair Display', serif",
                     fontSize: 16,
@@ -1310,7 +1291,7 @@ const AboutPage = ({ shop }) => {  /* ← FIX: accept shop prop */
                     lineHeight: 1.6,
                     margin: "0 0 14px",
                   }}>
-                    We didn’t just want to sell sarees. We wanted every woman to drape 
+                    We didn’t just want to sell sarees. We wanted every woman to drape
                     the living heritage, emotion, and soul of the master artisan who wove it.
                   </p>
 
@@ -1363,13 +1344,13 @@ const AboutPage = ({ shop }) => {  /* ← FIX: accept shop prop */
 
             {/* Right Column: 3 Luxury Craftsmanship Bento Cards */}
             <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-              
+
               {[
                 {
                   icon: "✦",
                   badge: "Kanchipuram · Arani · Banarasi",
                   title: "Direct Master Weaver Curation",
-                  body: "Every drape in our collection is personally sourced from generational master weavers. We hand-select genuine mulberry silk and authentic zari tested for purity, ensuring heirloom longevity in every thread.",
+                  body: "Every drape in our Best collection is personally sourced from generational master weavers. We hand-select genuine mulberry silk and authentic zari tested for purity, ensuring heirloom longevity in every thread.",
                   highlight: "100% Handpicked Authentic Silk",
                   number: "01",
                 },
