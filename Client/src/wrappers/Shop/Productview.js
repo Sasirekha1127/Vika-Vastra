@@ -922,184 +922,248 @@ const ProductView = ({ shop }) => {
           <div style={{ display: "flex", gap: 52, flexWrap: "wrap", alignItems: "flex-start", marginBottom: 52 }}>
 
             <div style={{ flex: "0 0 420px", maxWidth: "100%" }}>
+              {/* Signature Arch Card Frame */}
               <div
                 onMouseEnter={() => setIsMainImageHovered(true)}
                 onMouseLeave={() => setIsMainImageHovered(false)}
-                onClick={() => setIsZoomOpen(true)}
                 style={{
-                  background: "#f9f6f2",
-                  borderRadius: 14,
-                  overflow: "hidden",
-                  position: "relative",
-                  boxShadow: "0 6px 28px rgba(0,0,0,0.09)",
-                  cursor: "zoom-in"
+                  padding: 6,
+                  border: `1.5px solid ${isMainImageHovered ? DARK : GOLD}`,
+                  borderRadius: "999px 999px 0 0",
+                  transition: "border-color .25s ease, box-shadow .25s ease",
+                  boxShadow: isMainImageHovered ? "0 10px 32px rgba(114, 14, 30, 0.14)" : "0 6px 28px rgba(0,0,0,0.08)",
+                  background: "#fff",
                 }}
               >
-                {activeImage ? (
-                  <img
-                    key={activeImage}
-                    src={activeImage}
-                    alt={product.name}
-                    style={{
-                      width: "100%",
-                      aspectRatio: "4/5",
-                      objectFit: "cover",
-                      display: "block",
-                      animation: "fadeInImage 0.4s ease-in-out"
-                    }}
-                  />
-                ) : (
-                  <div style={{ width: "100%", aspectRatio: "4/5", display: "flex", alignItems: "center", justifyContent: "center", color: "#ddd", fontSize: 56 }}>🖼️</div>
-                )}
-
-                {/* Top-Left Expand / Zoom Box Icon */}
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setIsZoomOpen(true);
-                  }}
-                  title="View larger image"
-                  aria-label="View larger image"
+                {/* Arch Inner Container */}
+                <div
+                  onClick={() => setIsZoomOpen(true)}
                   style={{
-                    position: "absolute",
-                    top: 14,
-                    left: 14,
-                    width: 36,
-                    height: 36,
-                    borderRadius: 8,
-                    background: "rgba(255, 255, 255, 0.92)",
-                    backdropFilter: "blur(6px)",
-                    WebkitBackdropFilter: "blur(6px)",
-                    border: "1px solid rgba(0, 0, 0, 0.08)",
-                    boxShadow: "0 2px 10px rgba(0, 0, 0, 0.12)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    cursor: "pointer",
-                    zIndex: 4,
-                    color: DARK,
-                    transition: "all 0.2s ease"
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background = "#ffffff";
-                    e.currentTarget.style.transform = "scale(1.08)";
-                    e.currentTarget.style.boxShadow = "0 4px 14px rgba(0,0,0,0.18)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = "rgba(255, 255, 255, 0.92)";
-                    e.currentTarget.style.transform = "scale(1)";
-                    e.currentTarget.style.boxShadow = "0 2px 10px rgba(0, 0, 0, 0.12)";
+                    background: "#efe6e2",
+                    borderRadius: "999px 999px 0 0",
+                    overflow: "hidden",
+                    position: "relative",
+                    aspectRatio: "3/4",
+                    width: "100%",
+                    cursor: "zoom-in",
                   }}
                 >
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                    <polyline points="15 3 21 3 21 9" />
-                    <polyline points="9 21 3 21 3 15" />
-                    <line x1="21" y1="3" x2="14" y2="10" />
-                    <line x1="3" y1="21" x2="10" y2="14" />
-                  </svg>
-                </button>
-
-                <div style={{ position: "absolute", top: 58, left: 14, display: "flex", flexDirection: "column", gap: 6, zIndex: 2 }}>
-                  {displayedDiscount > 0 && <span style={{ background: GOLD,      color: "#fff", fontSize: 11, fontWeight: 700, padding: "4px 10px", borderRadius: 4 }}>-{displayedDiscount}%</span>}
-               
-                  {product.isHotDeal    && <span style={{ background: "#e74c3c", color: "#fff", fontSize: 11, fontWeight: 700, padding: "4px 10px", borderRadius: 4 }}>🔥 HOT</span>}
-                  {outOfStock           && <span style={{ background: "#aaa",    color: "#fff", fontSize: 11, fontWeight: 700, padding: "4px 10px", borderRadius: 4 }}>OUT OF STOCK</span>}
-                </div>
-
-                {gallery.length > 1 && (
-                  <>
-                    <button
-                      onClick={handlePrevImage}
-                      aria-label="Previous image"
+                  {activeImage ? (
+                    <img
+                      key={activeImage}
+                      src={activeImage}
+                      alt={product.name}
                       style={{
                         position: "absolute",
-                        top: "50%",
-                        left: 10,
-                        transform: "translateY(-50%)",
-                        width: 36,
-                        height: 36,
-                        borderRadius: "50%",
-                        background: "rgba(255, 255, 255, 0.85)",
-                        border: "1px solid rgba(0,0,0,0.08)",
-                        color: DARK,
-                        fontSize: 18,
-                        fontWeight: "bold",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        cursor: "pointer",
-                        boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
-                        opacity: isMainImageHovered ? 1 : 0,
-                        transition: "opacity 0.25s ease, background 0.2s ease, transform 0.2s ease",
-                        zIndex: 3,
+                        inset: 0,
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                        display: "block",
+                        transform: isMainImageHovered ? "scale(1.05)" : "scale(1)",
+                        transition: "transform 0.5s ease",
+                        animation: "fadeInImage 0.4s ease-in-out"
                       }}
-                      onMouseEnter={(e) => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.transform = "translateY(-50%) scale(1.1)"; }}
-                      onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(255, 255, 255, 0.85)"; e.currentTarget.style.transform = "translateY(-50%) scale(1)"; }}
-                    >
-                      ‹
-                    </button>
-                    <button
-                      onClick={handleNextImage}
-                      aria-label="Next image"
-                      style={{
-                        position: "absolute",
-                        top: "50%",
-                        right: 10,
-                        transform: "translateY(-50%)",
-                        width: 36,
-                        height: 36,
-                        borderRadius: "50%",
-                        background: "rgba(255, 255, 255, 0.85)",
-                        border: "1px solid rgba(0,0,0,0.08)",
-                        color: DARK,
-                        fontSize: 18,
-                        fontWeight: "bold",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        cursor: "pointer",
-                        boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
-                        opacity: isMainImageHovered ? 1 : 0,
-                        transition: "opacity 0.25s ease, background 0.2s ease, transform 0.2s ease",
-                        zIndex: 3,
-                      }}
-                      onMouseEnter={(e) => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.transform = "translateY(-50%) scale(1.1)"; }}
-                      onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(255, 255, 255, 0.85)"; e.currentTarget.style.transform = "translateY(-50%) scale(1)"; }}
-                    >
-                      ›
-                    </button>
+                    />
+                  ) : (
+                    <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", color: "#ddd", fontSize: 56 }}>🖼️</div>
+                  )}
 
-                    <div style={{
+                  {/* Expand / Zoom Icon Button */}
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setIsZoomOpen(true);
+                    }}
+                    title="View larger image"
+                    aria-label="View larger image"
+                    style={{
                       position: "absolute",
-                      bottom: 12,
-                      left: "50%",
-                      transform: "translateX(-50%)",
+                      top: "14%",
+                      right: "7%",
+                      width: 38,
+                      height: 38,
+                      borderRadius: "50%",
+                      background: "rgba(255, 255, 255, 0.94)",
+                      backdropFilter: "blur(6px)",
+                      WebkitBackdropFilter: "blur(6px)",
+                      border: `1.5px solid ${GOLD}`,
+                      boxShadow: "0 2px 10px rgba(0, 0, 0, 0.14)",
                       display: "flex",
-                      gap: 6,
-                      background: "rgba(0, 0, 0, 0.35)",
-                      backdropFilter: "blur(4px)",
-                      padding: "5px 10px",
-                      borderRadius: 12,
-                      zIndex: 3
-                    }}>
-                      {gallery.map((img, idx) => (
-                        <div
-                          key={idx}
-                          onClick={(e) => { e.stopPropagation(); setActiveImage(img); }}
-                          style={{
-                            width: img === activeImage ? 16 : 6,
-                            height: 6,
-                            borderRadius: 3,
-                            background: img === activeImage ? "#fff" : "rgba(255, 255, 255, 0.5)",
-                            cursor: "pointer",
-                            transition: "all 0.3s ease"
-                          }}
-                        />
-                      ))}
-                    </div>
-                  </>
-                )}
+                      alignItems: "center",
+                      justifyContent: "center",
+                      cursor: "pointer",
+                      zIndex: 4,
+                      color: DARK,
+                      transition: "all 0.2s ease"
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = "#ffffff";
+                      e.currentTarget.style.transform = "scale(1.08)";
+                      e.currentTarget.style.borderColor = DARK;
+                      e.currentTarget.style.boxShadow = "0 4px 14px rgba(0,0,0,0.2)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = "rgba(255, 255, 255, 0.94)";
+                      e.currentTarget.style.transform = "scale(1)";
+                      e.currentTarget.style.borderColor = GOLD;
+                      e.currentTarget.style.boxShadow = "0 2px 10px rgba(0, 0, 0, 0.14)";
+                    }}
+                  >
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="15 3 21 3 21 9" />
+                      <polyline points="9 21 3 21 3 15" />
+                      <line x1="21" y1="3" x2="14" y2="10" />
+                      <line x1="3" y1="21" x2="10" y2="14" />
+                    </svg>
+                  </button>
+
+                  {/* Ribbon Badges (bottom left) */}
+                  <div style={{ position: "absolute", left: 0, bottom: 14, display: "flex", flexDirection: "column", gap: 6, zIndex: 2 }}>
+                    {displayedDiscount > 0 && (
+                      <span
+                        style={{
+                          background: DARK,
+                          color: "#fff",
+                          fontSize: 12,
+                          fontWeight: 700,
+                          padding: "5px 14px 5px 10px",
+                          borderRadius: "0 999px 999px 0",
+                          boxShadow: "0 2px 8px rgba(0,0,0,0.18)",
+                          letterSpacing: "0.02em",
+                        }}
+                      >
+                        {displayedDiscount}% OFF
+                      </span>
+                    )}
+                    {product.isHotDeal && (
+                      <span
+                        style={{
+                          background: "#e74c3c",
+                          color: "#fff",
+                          fontSize: 11,
+                          fontWeight: 700,
+                          padding: "4px 12px 4px 10px",
+                          borderRadius: "0 999px 999px 0",
+                          boxShadow: "0 2px 8px rgba(0,0,0,0.18)",
+                        }}
+                      >
+                        🔥 HOT
+                      </span>
+                    )}
+                    {outOfStock && (
+                      <span
+                        style={{
+                          background: "#555",
+                          color: "#fff",
+                          fontSize: 11,
+                          fontWeight: 700,
+                          padding: "4px 12px 4px 10px",
+                          borderRadius: "0 999px 999px 0",
+                          boxShadow: "0 2px 8px rgba(0,0,0,0.18)",
+                        }}
+                      >
+                        OUT OF STOCK
+                      </span>
+                    )}
+                  </div>
+
+                  {gallery.length > 1 && (
+                    <>
+                      <button
+                        onClick={handlePrevImage}
+                        aria-label="Previous image"
+                        style={{
+                          position: "absolute",
+                          top: "52%",
+                          left: 10,
+                          transform: "translateY(-50%)",
+                          width: 36,
+                          height: 36,
+                          borderRadius: "50%",
+                          background: "rgba(255, 255, 255, 0.9)",
+                          border: "1px solid rgba(197, 155, 39, 0.35)",
+                          color: DARK,
+                          fontSize: 20,
+                          fontWeight: "bold",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          cursor: "pointer",
+                          boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
+                          opacity: isMainImageHovered ? 1 : 0,
+                          transition: "opacity 0.25s ease, background 0.2s ease, transform 0.2s ease",
+                          zIndex: 3,
+                        }}
+                        onMouseEnter={(e) => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.transform = "translateY(-50%) scale(1.1)"; }}
+                        onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(255, 255, 255, 0.9)"; e.currentTarget.style.transform = "translateY(-50%) scale(1)"; }}
+                      >
+                        ‹
+                      </button>
+                      <button
+                        onClick={handleNextImage}
+                        aria-label="Next image"
+                        style={{
+                          position: "absolute",
+                          top: "52%",
+                          right: 10,
+                          transform: "translateY(-50%)",
+                          width: 36,
+                          height: 36,
+                          borderRadius: "50%",
+                          background: "rgba(255, 255, 255, 0.9)",
+                          border: "1px solid rgba(197, 155, 39, 0.35)",
+                          color: DARK,
+                          fontSize: 20,
+                          fontWeight: "bold",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          cursor: "pointer",
+                          boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
+                          opacity: isMainImageHovered ? 1 : 0,
+                          transition: "opacity 0.25s ease, background 0.2s ease, transform 0.2s ease",
+                          zIndex: 3,
+                        }}
+                        onMouseEnter={(e) => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.transform = "translateY(-50%) scale(1.1)"; }}
+                        onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(255, 255, 255, 0.9)"; e.currentTarget.style.transform = "translateY(-50%) scale(1)"; }}
+                      >
+                        ›
+                      </button>
+
+                      <div style={{
+                        position: "absolute",
+                        bottom: 14,
+                        left: "50%",
+                        transform: "translateX(-50%)",
+                        display: "flex",
+                        gap: 6,
+                        background: "rgba(0, 0, 0, 0.38)",
+                        backdropFilter: "blur(4px)",
+                        WebkitBackdropFilter: "blur(4px)",
+                        padding: "5px 10px",
+                        borderRadius: 12,
+                        zIndex: 3
+                      }}>
+                        {gallery.map((img, idx) => (
+                          <div
+                            key={idx}
+                            onClick={(e) => { e.stopPropagation(); setActiveImage(img); }}
+                            style={{
+                              width: img === activeImage ? 16 : 6,
+                              height: 6,
+                              borderRadius: 3,
+                              background: img === activeImage ? "#fff" : "rgba(255, 255, 255, 0.5)",
+                              cursor: "pointer",
+                              transition: "all 0.3s ease"
+                            }}
+                          />
+                        ))}
+                      </div>
+                    </>
+                  )}
+                </div>
               </div>
               <style>{`
                 @keyframes fadeInImage {
