@@ -793,7 +793,7 @@ const ProductView = ({ shop }) => {
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", minHeight: "60vh", color: "#aaa" }}>
           <div style={{ fontSize: 48, marginBottom: 12 }}>😕</div>
           <p style={{ fontSize: 16, marginBottom: 20 }}>Product not found.</p>
-          <button onClick={() => navigate("/shop")} style={{ padding: "11px 28px", background: DARK, color: "#fff", border: "none", borderRadius: 6, fontSize: 14, cursor: "pointer" }}>Back to Shop</button>
+          <button onClick={() => navigate("/shop")} style={{ padding: "11px 28px", background: "rgb(197, 155, 39)", color: "#fff", border: "none", borderRadius: 999, fontSize: 14, fontWeight: 700, cursor: "pointer", boxShadow: "0 4px 12px rgba(197,155,39,0.28)" }}>Back to Shop</button>
         </div>
       </LayoutOne>
     );
@@ -1158,7 +1158,7 @@ const ProductView = ({ shop }) => {
               <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 16 }}>
                 <button
                   onClick={handleEnquireNow}
-                  style={{ flex: 1, minWidth: 150, padding: "14px 20px", fontSize: 13, fontWeight: 700, letterSpacing: "0.5px", background: "#25D366", color: "#fff", border: "none", borderRadius: 8, cursor: "pointer", transition: "background 0.2s" }}
+                  style={{ flex: 1, minWidth: 150, padding: "14px 20px", fontSize: 13, fontWeight: 700, letterSpacing: "0.5px", background: "#25D366", color: "#fff", border: "none", borderRadius: 999, cursor: "pointer", transition: "background 0.2s" }}
                 >
                   <i className="fa fa-whatsapp" aria-hidden="true" style={{ marginRight: 8 }} />
                   Enquire now
@@ -1168,7 +1168,7 @@ const ProductView = ({ shop }) => {
                   onMouseEnter={() => setCartBtnHovered(true)}
                   onMouseLeave={() => setCartBtnHovered(false)}
                   disabled={outOfStock || variantNeedsSelection}
-                  style={{ flex: 1, minWidth: 150, padding: "14px 20px", fontSize: 13, fontWeight: 700, letterSpacing: "0.5px", background: outOfStock ? "#ddd" : cartBg, color: "#fff", border: "none", borderRadius: 8, cursor: outOfStock ? "not-allowed" : "pointer", transition: "background 0.2s" }}
+                  style={{ flex: 1, minWidth: 150, padding: "14px 20px", fontSize: 13, fontWeight: 700, letterSpacing: "0.5px", background: outOfStock ? "#ddd" : cartBg, color: "#fff", border: "none", borderRadius: 999, cursor: outOfStock ? "not-allowed" : "pointer", transition: "background 0.2s", boxShadow: outOfStock ? "none" : "0 4px 14px rgba(197, 155, 39, 0.35)" }}
                 >
                   {outOfStock ? "Out of Stock" : (inCart || addedFeedback) ? "✓ Added to Cart" : "Add to Cart"}
                 </button>
@@ -1178,7 +1178,7 @@ const ProductView = ({ shop }) => {
                   onMouseEnter={() => setBuyNowHovered(true)}
                   onMouseLeave={() => setBuyNowHovered(false)}
                   disabled={outOfStock || variantNeedsSelection}
-                  style={{ flex: 1, minWidth: 150, padding: "14px 20px", fontSize: 13, fontWeight: 700, letterSpacing: "0.5px", background: outOfStock ? "#ddd" : buyNowBg, color: "#fff", border: "none", borderRadius: 8, cursor: outOfStock ? "not-allowed" : "pointer", transition: "background 0.2s", boxShadow: outOfStock ? "none" : "0 4px 14px rgba(201,150,58,0.35)" }}
+                  style={{ flex: 1, minWidth: 150, padding: "14px 20px", fontSize: 13, fontWeight: 700, letterSpacing: "0.5px", background: outOfStock ? "#ddd" : buyNowBg, color: "#fff", border: "none", borderRadius: 999, cursor: outOfStock ? "not-allowed" : "pointer", transition: "background 0.2s", boxShadow: outOfStock ? "none" : "0 4px 14px rgba(197, 155, 39, 0.35)" }}
                 >
                   ⚡ Buy Now
                 </button>
@@ -1186,7 +1186,7 @@ const ProductView = ({ shop }) => {
                 <button
                   onClick={handleWishlistToggle}
                   title={inWishlist ? "Remove from Wishlist" : "Add to Wishlist"}
-                  style={{ width: 50, height: 50, border: `1px solid ${inWishlist ? "#e74c3c" : "#e0e0e0"}`, borderRadius: 8, background: inWishlist ? "#e74c3c" : "#fff", color: inWishlist ? "#fff" : "#888", fontSize: 20, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", transition: "all .2s", flexShrink: 0 }}
+                  style={{ width: 50, height: 50, border: `1px solid ${inWishlist ? "#e74c3c" : "#e0e0e0"}`, borderRadius: "50%", background: inWishlist ? "#e74c3c" : "#fff", color: inWishlist ? "#fff" : "#888", fontSize: 20, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", transition: "all .2s", flexShrink: 0 }}
                 >
                   {inWishlist ? "♥" : "♡"}
                 </button>
@@ -1199,7 +1199,7 @@ const ProductView = ({ shop }) => {
                     minWidth: 120,
                     height: 50,
                     border: "1px solid #e0e0e0",
-                    borderRadius: 8,
+                    borderRadius: 999,
                     background: "#fff",
                     color: "#25D366",
                     cursor: "pointer",
@@ -1260,7 +1260,7 @@ const ProductView = ({ shop }) => {
                       type="button"
                       aria-label={direction < 0 ? "Scroll recommendations left" : "Scroll recommendations right"}
                       onClick={() => scrollRecommendations(direction)}
-                      style={{ width: 38, height: 38, borderRadius: "50%", border: "1px solid #e4ded4", background: "#fff", color: DARK, cursor: "pointer", fontSize: 20 }}
+                      style={{ width: 38, height: 38, borderRadius: "50%", border: "1.5px solid rgb(197, 155, 39)", background: "#fff", color: "rgb(197, 155, 39)", cursor: "pointer", fontSize: 20, fontWeight: "bold" }}
                     >{direction < 0 ? "‹" : "›"}</button>
                   ))}
                 </div>

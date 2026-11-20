@@ -550,9 +550,9 @@ const Topbar = ({ productCount, sortedCount, onSort, onLayout, layout }) => (
             title={l === "grid" ? "Grid View" : "List View"}
             onClick={() => onLayout(l)}
             style={{
-              border: `1px solid ${layout === l ? COLOR.primary : "#e0e0e0"}`,
-              background: layout === l ? COLOR.primaryLight : "#fff",
-              color: layout === l ? COLOR.primary : "#777",
+              border: `1.5px solid ${layout === l ? "rgb(197, 155, 39)" : "#e0e0e0"}`,
+              background: layout === l ? "#FFF8EA" : "#fff",
+              color: layout === l ? "rgb(197, 155, 39)" : "#777",
               borderRadius: 6, padding: "7px 10px", cursor: "pointer", fontSize: 16, lineHeight: 1,
             }}
           >
@@ -564,19 +564,19 @@ const Topbar = ({ productCount, sortedCount, onSort, onLayout, layout }) => (
   </div>
 );
 
-// ── PRODUCT CARD ──────────────────────────────────────────────────────────────
+// ── PRODUCT CARD (HOME PAGE ARCHED CARD DESIGN) ──────────────────────────────
 export const ProductCard = ({ product, cartItems = [], wishlistItems = [], addToCart, addToWishlist, removeFromWishlist, layout, onNotLoggedIn }) => {
-  const [hovered,        setHovered]        = useState(false);
-  const [cartBtnHovered, setCartBtnHovered] = useState(false);
-  const [imgError,       setImgError]       = useState(false);
+  const [hovered,   setHovered]   = useState(false);
+  const [addedAnim, setAddedAnim] = useState(false);
+  const [imgError,  setImgError]  = useState(false);
   const navigate = useNavigate();
 
-  const currentMrp      = Number(product.mrp || 0);
-  const currentPrice    = Number(product.salesPrice ?? product.mrp ?? 0);
+  const currentMrp      = Number(product.mrp || product.price || 0);
+  const currentPrice    = Number(product.salesPrice ?? product.mrp ?? product.price ?? 0);
   const currentDiscount = currentMrp > 0 && currentPrice < currentMrp
     ? Math.round(((currentMrp - currentPrice) / currentMrp) * 100) : 0;
   const currentImage    = getImageUrl(product.image);
-  const activeVariants = Array.isArray(product.variants) ? product.variants.filter(variant => variant.isActive !== false) : [];
+  const activeVariants  = Array.isArray(product.variants) ? product.variants.filter(variant => variant.isActive !== false) : [];
   const displayStock    = activeVariants.length
     ? activeVariants.reduce((sum, variant) => sum + Math.max(0, Number(variant.stock) || 0), 0)
     : Number(product.stock || 0);
@@ -584,22 +584,19 @@ export const ProductCard = ({ product, cartItems = [], wishlistItems = [], addTo
   const onlyAvailableVariant = availableVariants.length === 1 ? availableVariants[0] : null;
   const outOfStock      = displayStock <= 0;
 
-  const priceProduct = {
-    ...product,
-    mrp:             currentMrp,
-    salesPrice:      currentPrice,
-    discountedPrice: getDiscountedPrice(currentMrp, currentPrice),
-    discountPercent: currentDiscount,
-  };
-
   const cartItem     = cartItems.find((c) => String(c.productId ?? c.id) === String(product.id));
   const wishlistItem = wishlistItems.find((w) => String(w.productId ?? w.id) === String(product.id));
   const inWishlist   = !!wishlistItem;
   const inCart       = cartItem && cartItem.quantity > 0;
   const isList       = layout === "list";
-  const cartBg       = inCart ? "#B38728" : cartBtnHovered ? "#A8801D" : "rgb(197, 155, 39)";
+  const productName  = product.name || product.productName || "Handloom Silk Saree";
 
-  const handleAddToCart = (e) => {
+  const flashAdded = () => {
+    setAddedAnim(true);
+    setTimeout(() => setAddedAnim(false), 1500);
+  };
+
+  const handleAddToCart = async (e) => {
     if (e) e.stopPropagation();
     if (!isLoggedIn()) { onNotLoggedIn?.("cart", product); return; }
     if (outOfStock) return;
@@ -608,7 +605,7 @@ export const ProductCard = ({ product, cartItems = [], wishlistItems = [], addTo
       return;
     }
     if (onlyAvailableVariant) {
-      addToCart({
+      const added = await addToCart({
         ...product,
         selectedVariant: onlyAvailableVariant,
         variantId: onlyAvailableVariant.id,
@@ -618,16 +615,19 @@ export const ProductCard = ({ product, cartItems = [], wishlistItems = [], addTo
         stock: onlyAvailableVariant.stock,
         weight: Object.entries(onlyAvailableVariant.attributes || {}).map(([key, value]) => `${key}: ${value}`).join(', '),
       });
+      if (added !== false) flashAdded();
       return;
     }
-    addToCart(product);
+    const added = await addToCart(product);
+    if (added !== false) flashAdded();
   };
 
   const handleWishlist = (e) => {
     if (e) e.stopPropagation();
     if (!isLoggedIn()) { onNotLoggedIn?.("wishlist", product); return; }
-    if (inWishlist) removeFromWishlist(wishlistItem.id);
-    else {
+    if (inWishlist) {
+      removeFromWishlist(wishlistItem.id);
+    } else {
       const selectedVariant = product.variants?.[0];
       addToWishlist({
         ...product,
@@ -642,100 +642,450 @@ export const ProductCard = ({ product, cartItems = [], wishlistItems = [], addTo
     }
   };
 
-  return (
-    <div
-      style={{
-        background: "#fff", borderRadius: 12, overflow: "hidden",
-        boxShadow: hovered ? "0 10px 28px rgba(0,0,0,0.13)" : "0 2px 10px rgba(0,0,0,0.07)",
-        transition: "box-shadow .25s, transform .25s",
-        transform: hovered && !isList ? "translateY(-3px)" : "none",
-        marginBottom: 24,
-        display: isList ? "flex" : "block", alignItems: isList ? "stretch" : "unset",
-      }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
-      <div
+  const btnState = outOfStock ? "is-out" : (addedAnim || inCart) ? "is-added" : "";
+  const btnLabel = addedAnim ? "Added to Cart" : inCart ? "In your Cart" : outOfStock ? "Sold Out" : "Add to Cart";
+
+  /* ── LIST VIEW ── */
+  if (isList) {
+    return (
+      <article
         onClick={() => navigate(getProductUrl(product))}
-        style={{ position: "relative", overflow: "hidden", background: "#f9f6f2", flexShrink: 0, width: isList ? 190 : "100%", cursor: "pointer", borderRadius: isList ? "12px 0 0 12px" : "12px 12px 0 0" }}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        style={{
+          cursor: "pointer",
+          display: "flex",
+          gap: 24,
+          alignItems: "stretch",
+          background: "#fff",
+          border: "1px solid #EBE5DB",
+          borderRadius: 18,
+          padding: 16,
+          marginBottom: 24,
+          boxShadow: hovered ? "0 8px 24px rgba(114, 14, 30, 0.10)" : "0 2px 10px rgba(0,0,0,0.04)",
+          transition: "box-shadow .25s ease, transform .25s ease",
+          transform: hovered ? "translateY(-2px)" : "none",
+        }}
       >
-        {currentImage && !imgError ? (
-          <img
-            src={currentImage} alt={product.name} onError={() => setImgError(true)}
-            style={{ width: "100%", aspectRatio: isList ? "1/1" : "4/5", objectFit: "cover", display: "block", transition: "transform .4s", transform: hovered ? "scale(1.06)" : "scale(1)" }}
-          />
-        ) : (
-          <div style={{ width: "100%", aspectRatio: isList ? "1/1" : "4/5", background: "linear-gradient(135deg,#f3ecf9,#fce8f3)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", color: "#ccc" }}>
-            <span style={{ fontSize: 36 }}>🛍️</span>
-            <span style={{ fontSize: 11, marginTop: 6 }}>No Image</span>
+        {/* Arch frame on the left */}
+        <div
+          style={{
+            width: 190,
+            flexShrink: 0,
+            padding: 5,
+            border: `1.5px solid ${hovered ? "#720E1E" : "#C59B27"}`,
+            borderRadius: "999px 999px 0 0",
+            transition: "border-color .2s ease",
+          }}
+        >
+          <div
+            style={{
+              position: "relative",
+              overflow: "hidden",
+              aspectRatio: "3 / 4",
+              background: "#efe6e2",
+              borderRadius: "999px 999px 0 0",
+              width: "100%",
+              height: "100%",
+            }}
+          >
+            {currentImage && !imgError ? (
+              <img
+                src={currentImage}
+                alt={productName}
+                loading="lazy"
+                onError={() => setImgError(true)}
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  transition: "transform .5s ease",
+                  transform: hovered ? "scale(1.05)" : "scale(1)",
+                }}
+              />
+            ) : (
+              <div style={{ position: "absolute", inset: 0, background: "#f5efe6", display: "flex", alignItems: "center", justifyContent: "center", color: "#9A835D" }}>
+                <span style={{ fontSize: 32 }}>🛍️</span>
+              </div>
+            )}
+
+            {currentDiscount > 0 && (
+              <span
+                style={{
+                  position: "absolute",
+                  left: 0,
+                  bottom: 12,
+                  background: "#720E1E",
+                  color: "#fff",
+                  fontSize: 12,
+                  fontWeight: 600,
+                  padding: "4px 10px 4px 8px",
+                  borderRadius: "0 999px 999px 0",
+                  boxShadow: "0 2px 6px rgba(0,0,0,0.18)",
+                }}
+              >
+                {currentDiscount}% off
+              </span>
+            )}
           </div>
-        )}
-        <div style={{ position: "absolute", top: 10, left: 10, display: "flex", flexDirection: "column", gap: 4 }}>
-          {currentDiscount > 0 && <span style={{ background: COLOR.accent, color: "#fff", fontSize: 11, fontWeight: 700, padding: "3px 8px", borderRadius: 4 }}>-{currentDiscount}%</span>}
-          {product.isNewArrival && <span style={{ background: COLOR.dark, color: "#fff", fontSize: 11, fontWeight: 700, padding: "3px 8px", borderRadius: 4 }}>NEW</span>}
-          {product.isHotDeal && <span style={{ background: "#e74c3c", color: "#fff", fontSize: 11, fontWeight: 700, padding: "3px 8px", borderRadius: 4 }}>🔥 HOT</span>}
         </div>
-        {!isList && (
-          <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, display: "flex", transform: hovered ? "translateY(0)" : "translateY(100%)", transition: "transform .3s" }}>
-            <button
-              onClick={handleAddToCart}
-              onMouseEnter={() => setCartBtnHovered(true)}
-              onMouseLeave={() => setCartBtnHovered(false)}
-              disabled={outOfStock}
-              style={{ flex: 1, padding: "11px 0", fontSize: 12, fontWeight: 700, background: outOfStock ? "#999" : cartBg, color: "#fff", border: "none", cursor: outOfStock ? "not-allowed" : "pointer", letterSpacing: "0.5px", transition: "background .2s", opacity: outOfStock ? 0.6 : 1 }}
+
+        {/* Info on the right */}
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "space-between", padding: "6px 0" }}>
+          <div>
+            <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 6, flexWrap: "wrap" }}>
+              {product.subCategory && (
+                <span style={{ fontSize: 10, color: "#720E1E", background: "#F8F6F2", padding: "2px 8px", borderRadius: 10, fontWeight: 600 }}>
+                  {product.subCategory}
+                </span>
+              )}
+              {product.brand && (
+                <span style={{ fontSize: 11, color: "#999", textTransform: "uppercase", letterSpacing: 0.8 }}>
+                  {product.brand}
+                </span>
+              )}
+            </div>
+
+            <h3
+              style={{
+                margin: "0 0 8px",
+                fontFamily: "'Fraunces', 'Cormorant Garamond', Georgia, serif",
+                fontWeight: 600,
+                fontSize: 20,
+                color: "#2a1a1c",
+                lineHeight: 1.35,
+              }}
             >
-              {inCart ? "✓ Added to Cart" : outOfStock ? "Out of Stock" : "Add to Cart"}
+              {productName}
+            </h3>
+
+            {product.sku && (
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 5, padding: '3px 9px', borderRadius: 999, background: '#F3F0E9', color: '#720E1E', fontSize: 11, fontWeight: 700, margin: '0 0 10px' }}>
+                <span style={{ color: '#8A7A60', fontWeight: 600 }}>CODE</span>
+                <span>{product.sku}</span>
+              </div>
+            )}
+
+            {product.shortDescription && (
+              <p style={{ fontSize: 13.5, color: "#666", lineHeight: 1.6, margin: "0 0 12px" }}>
+                {product.shortDescription}
+              </p>
+            )}
+
+            <div style={{ display: "flex", alignItems: "baseline", gap: 10, margin: "10px 0 14px" }}>
+              <span style={{ fontSize: 20, fontWeight: 700, color: "#720E1E" }}>
+                Rs. {currentPrice.toLocaleString("en-IN")}
+              </span>
+              {currentDiscount > 0 && (
+                <span style={{ fontSize: 14, color: "#8a7a78", textDecoration: "line-through" }}>
+                  Rs. {currentMrp.toLocaleString("en-IN")}
+                </span>
+              )}
+            </div>
+          </div>
+
+          {/* Action buttons with gold theme */}
+          <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
+            <button
+              type="button"
+              onClick={handleAddToCart}
+              disabled={outOfStock}
+              style={{
+                padding: "11px 26px",
+                font: "700 13px 'Figtree', 'Jost', sans-serif",
+                color: "#fff",
+                background: outOfStock ? "#eee7e4" : (addedAnim || inCart) ? "#2E7D32" : "rgb(197, 155, 39)",
+                border: `1.5px solid ${outOfStock ? "#eee7e4" : (addedAnim || inCart) ? "#2E7D32" : "rgb(197, 155, 39)"}`,
+                borderRadius: 999,
+                cursor: outOfStock ? "not-allowed" : "pointer",
+                boxShadow: outOfStock ? "none" : "0 4px 12px rgba(197, 155, 39, 0.28)",
+                transition: "all .2s ease",
+              }}
+            >
+              {btnLabel}
             </button>
-            <button onClick={handleWishlist} style={{ width: 44, background: inWishlist ? COLOR.danger : "#fff", color: inWishlist ? "#fff" : "#333", border: "none", cursor: "pointer", fontSize: 17, transition: "background .2s" }}>
+
+            <button
+              type="button"
+              onClick={handleWishlist}
+              aria-label={inWishlist ? "Remove from wishlist" : "Save to wishlist"}
+              style={{
+                width: 42,
+                height: 42,
+                borderRadius: "50%",
+                border: "1.5px solid rgb(197, 155, 39)",
+                background: inWishlist ? "#720E1E" : "#fff",
+                color: inWishlist ? "#fff" : "#720E1E",
+                fontSize: 18,
+                cursor: "pointer",
+                display: "grid",
+                placeItems: "center",
+                transition: "all .2s ease",
+              }}
+            >
               {inWishlist ? "♥" : "♡"}
             </button>
+
+            <button
+              type="button"
+              onClick={() => navigate(getProductUrl(product))}
+              style={{
+                padding: "10px 22px",
+                font: "600 13px 'Figtree', 'Jost', sans-serif",
+                color: "rgb(197, 155, 39)",
+                background: "transparent",
+                border: "1.5px solid rgb(197, 155, 39)",
+                borderRadius: 999,
+                cursor: "pointer",
+                transition: "all .2s ease",
+              }}
+            >
+              View Details
+            </button>
           </div>
-        )}
+        </div>
+      </article>
+    );
+  }
+
+  /* ── GRID VIEW (MATCHES HOME PAGE ARCHED CARD) ── */
+  return (
+    <article
+      onClick={() => navigate(getProductUrl(product))}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        cursor: "pointer",
+        display: "flex",
+        flexDirection: "column",
+        marginBottom: 32,
+        height: "100%",
+      }}
+    >
+      {/* Arched Temple Frame */}
+      <div
+        style={{
+          padding: 5,
+          border: `1.5px solid ${hovered ? "#720E1E" : "#C59B27"}`,
+          borderRadius: "999px 999px 0 0",
+          transition: "border-color .2s ease, box-shadow .2s ease",
+          boxShadow: hovered ? "0 8px 24px rgba(114, 14, 30, 0.12)" : "none",
+        }}
+      >
+        <div
+          style={{
+            position: "relative",
+            overflow: "hidden",
+            aspectRatio: "3 / 4",
+            background: "#efe6e2",
+            borderRadius: "999px 999px 0 0",
+          }}
+        >
+          {currentImage && !imgError ? (
+            <img
+              src={currentImage}
+              alt={productName}
+              loading="lazy"
+              onError={() => setImgError(true)}
+              style={{
+                position: "absolute",
+                inset: 0,
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                transition: "transform .5s ease",
+                transform: hovered ? "scale(1.05)" : "scale(1)",
+              }}
+            />
+          ) : (
+            <div
+              style={{
+                position: "absolute",
+                inset: 0,
+                background: "linear-gradient(135deg, #f5efe6, #faede8)",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "#9A835D",
+              }}
+            >
+              <span style={{ fontSize: 36 }}>🛍️</span>
+              <span style={{ fontSize: 11, marginTop: 6, fontWeight: 600 }}>Pure Silk</span>
+            </div>
+          )}
+
+          {/* Badges: Discount & New */}
+          <div style={{ position: "absolute", left: 0, bottom: 12, display: "flex", flexDirection: "column", gap: 4, zIndex: 2 }}>
+            {currentDiscount > 0 && (
+              <span
+                style={{
+                  background: "#720E1E",
+                  color: "#fff",
+                  fontSize: 12,
+                  fontWeight: 600,
+                  padding: "5px 12px 5px 10px",
+                  borderRadius: "0 999px 999px 0",
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.18)",
+                }}
+              >
+                {currentDiscount}% off
+              </span>
+            )}
+            {product.isNewArrival && (
+              <span
+                style={{
+                  background: "#C59B27",
+                  color: "#fff",
+                  fontSize: 11,
+                  fontWeight: 700,
+                  padding: "3px 10px 3px 8px",
+                  borderRadius: "0 999px 999px 0",
+                }}
+              >
+                NEW
+              </span>
+            )}
+          </div>
+
+          {/* Floating Wishlist Heart */}
+          <button
+            type="button"
+            onClick={handleWishlist}
+            aria-label={inWishlist ? "Remove from wishlist" : "Save to wishlist"}
+            aria-pressed={inWishlist}
+            style={{
+              position: "absolute",
+              top: "14%",
+              right: "8%",
+              width: 36,
+              height: 36,
+              borderRadius: "50%",
+              border: "none",
+              cursor: "pointer",
+              display: "grid",
+              placeItems: "center",
+              fontSize: 18,
+              lineHeight: 1,
+              background: inWishlist ? "#720E1E" : "rgba(255,255,255,0.94)",
+              color: inWishlist ? "#fff" : "#720E1E",
+              transition: "background .2s, color .2s, transform .15s",
+              boxShadow: "0 3px 10px rgba(0,0,0,0.12)",
+              transform: hovered ? "scale(1.06)" : "scale(1)",
+              zIndex: 3,
+            }}
+          >
+            {inWishlist ? "♥" : "♡"}
+          </button>
+        </div>
       </div>
 
-      {/* Info */}
-      <div style={{ padding: "14px 16px 18px", flex: 1, display: "flex", flexDirection: "column" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 4, flexWrap: "wrap" }}>
-          {product.brand && <span style={{ fontSize: 11, color: "#aaa", textTransform: "uppercase", letterSpacing: 0.8 }}>{product.brand}</span>}
-          {product.subCategory && <span style={{ fontSize: 10, color: COLOR.primary, background: COLOR.primaryLight, padding: "1px 7px", borderRadius: 10, fontWeight: 600 }}>{product.subCategory}</span>}
+      {/* Info Section */}
+      <div
+        style={{
+          padding: "14px 2px 0",
+          display: "flex",
+          flexDirection: "column",
+          gap: 6,
+          flex: 1,
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
+          {product.subCategory && (
+            <span style={{ fontSize: 10, color: "#720E1E", background: "#F8F6F2", padding: "2px 8px", borderRadius: 10, fontWeight: 600, letterSpacing: "0.03em" }}>
+              {product.subCategory}
+            </span>
+          )}
+          {product.brand && (
+            <span style={{ fontSize: 11, color: "#999", textTransform: "uppercase", letterSpacing: 0.8 }}>
+              {product.brand}
+            </span>
+          )}
         </div>
 
         <h3
-          onClick={() => navigate(getProductUrl(product))}
-          style={{ fontSize: 14, fontWeight: 600, color: COLOR.dark, margin: "0 0 6px", lineHeight: 1.4, overflow: "hidden", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", cursor: "pointer" }}
+          title={productName}
+          style={{
+            margin: 0,
+            fontFamily: "'Fraunces', 'Cormorant Garamond', Georgia, serif",
+            fontWeight: 600,
+            fontSize: 16.5,
+            lineHeight: 1.35,
+            color: "#2a1a1c",
+            display: "-webkit-box",
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: "vertical",
+            overflow: "hidden",
+          }}
         >
-          {product.name}
+          {productName}
         </h3>
 
-        {product.sku && <div style={{ display: 'inline-flex', alignSelf: 'flex-start', alignItems: 'center', gap: 5, margin: '0 0 8px', padding: '4px 9px', borderRadius: 999, background: '#F3F0E9', color: COLOR.dark, fontSize: 10, fontWeight: 700, letterSpacing: '.04em', maxWidth: '100%' }}><span style={{ color: '#8A7A60', fontWeight: 600 }}>CODE</span><span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{product.sku}</span></div>}
+        {product.sku && (
+          <div style={{ display: 'inline-flex', alignSelf: 'flex-start', alignItems: 'center', gap: 5, padding: '2px 8px', borderRadius: 999, background: '#F3F0E9', color: '#720E1E', fontSize: 10, fontWeight: 700, letterSpacing: '.04em' }}>
+            <span style={{ color: '#8A7A60', fontWeight: 600 }}>CODE</span>
+            <span>{product.sku}</span>
+          </div>
+        )}
 
-        <div style={{ marginTop: "auto" }}>
-          <div style={{ marginBottom: 6 }}><PriceDisplay product={priceProduct} /></div>
-          {product.reviewCount > 0 && product.rating > 0 && (
-            <div style={{ color: COLOR.accent, fontSize: 12, marginBottom: isList ? 10 : 0 }}>
-              {"★".repeat(Math.round(product.rating))}{"☆".repeat(5 - Math.round(product.rating))}
-              <span style={{ color: "#bbb", marginLeft: 4 }}>{product.rating}/5</span>
-            </div>
-          )}
-          {isList && (
-            <div style={{ display: "flex", gap: 8, marginTop: 12 }}>
-              <button onClick={handleAddToCart} onMouseEnter={() => setCartBtnHovered(true)} onMouseLeave={() => setCartBtnHovered(false)} disabled={outOfStock}
-                style={{ padding: "9px 20px", fontSize: 12, fontWeight: 700, background: outOfStock ? "#999" : cartBg, color: "#fff", border: "none", borderRadius: 6, cursor: outOfStock ? "not-allowed" : "pointer", transition: "background .2s", opacity: outOfStock ? 0.6 : 1 }}>
-                {inCart ? "✓ In Cart" : outOfStock ? "Out of Stock" : "Add to Cart"}
-              </button>
-              <button onClick={handleWishlist}
-                style={{ padding: "9px 14px", fontSize: 15, background: inWishlist ? COLOR.danger : "#f5f5f5", color: inWishlist ? "#fff" : "#555", border: "none", borderRadius: 6, cursor: "pointer", transition: "background .2s" }}>
-                {inWishlist ? "♥" : "♡"}
-              </button>
-              <button onClick={() => navigate(getProductUrl(product))}
-                style={{ padding: "9px 16px", fontSize: 12, fontWeight: 600, background: "#f5f5f5", color: "#555", border: "none", borderRadius: 6, cursor: "pointer" }}>
-                View Details
-              </button>
-            </div>
+        <div style={{ display: "flex", alignItems: "baseline", gap: 8, flexWrap: "wrap", marginTop: 2, marginBottom: 8 }}>
+          <span style={{ fontSize: 16.5, fontWeight: 700, color: "#720E1E" }}>
+            Rs. {currentPrice.toLocaleString("en-IN")}
+          </span>
+          {currentDiscount > 0 && (
+            <span style={{ fontSize: 13, color: "#8a7a78", textDecoration: "line-through" }}>
+              Rs. {currentMrp.toLocaleString("en-IN")}
+            </span>
           )}
         </div>
+
+        {product.reviewCount > 0 && product.rating > 0 && (
+          <div style={{ color: "#C59B27", fontSize: 12, marginBottom: 6 }}>
+            {"★".repeat(Math.round(product.rating))}{"☆".repeat(5 - Math.round(product.rating))}
+            <span style={{ color: "#aaa", marginLeft: 4 }}>({product.rating})</span>
+          </div>
+        )}
+
+        {/* Gold Add to Cart Pill Button */}
+        <button
+          type="button"
+          onClick={handleAddToCart}
+          disabled={outOfStock}
+          style={{
+            marginTop: "auto",
+            width: "100%",
+            padding: "11px 14px",
+            font: "700 13px 'Figtree', 'Jost', sans-serif",
+            letterSpacing: "0.03em",
+            color: "#FFFFFF",
+            background: outOfStock ? "#eee7e4" : (addedAnim || inCart) ? "#2E7D32" : "rgb(197, 155, 39)",
+            border: `1.5px solid ${outOfStock ? "#eee7e4" : (addedAnim || inCart) ? "#2E7D32" : "rgb(197, 155, 39)"}`,
+            borderRadius: 999,
+            cursor: outOfStock ? "not-allowed" : "pointer",
+            transition: "all .2s ease",
+            boxShadow: outOfStock ? "none" : "0 4px 12px rgba(197, 155, 39, 0.28)",
+          }}
+          onMouseEnter={(e) => {
+            if (!outOfStock && !addedAnim && !inCart) {
+              e.currentTarget.style.background = "#A8801D";
+              e.currentTarget.style.borderColor = "#A8801D";
+              e.currentTarget.style.boxShadow = "0 6px 16px rgba(197, 155, 39, 0.4)";
+            }
+          }}
+          onMouseLeave={(e) => {
+            if (!outOfStock && !addedAnim && !inCart) {
+              e.currentTarget.style.background = "rgb(197, 155, 39)";
+              e.currentTarget.style.borderColor = "rgb(197, 155, 39)";
+              e.currentTarget.style.boxShadow = "0 4px 12px rgba(197, 155, 39, 0.28)";
+            }
+          }}
+        >
+          {btnLabel}
+        </button>
       </div>
-    </div>
+    </article>
   );
 };
 
@@ -860,17 +1210,18 @@ const SimplePaginator = ({ total, pageLimit, currentPage, setCurrentPage }) => {
               height: 36,
               minWidth: 36,
               padding: "0 10px",
-              border: `1px solid ${isCurrent ? COLOR.dark : "#e0e0e0"}`,
-              borderRadius: 6,
-              background: isCurrent ? COLOR.dark : "#fff",
+              border: `1px solid ${isCurrent ? "rgb(197, 155, 39)" : "#e0e0e0"}`,
+              borderRadius: 8,
+              background: isCurrent ? "rgb(197, 155, 39)" : "#fff",
               color: isCurrent ? "#fff" : "#444",
               cursor: "pointer",
-              fontWeight: isCurrent ? 700 : 400,
+              fontWeight: isCurrent ? 700 : 500,
               fontSize: 13,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               transition: "all .15s",
+              boxShadow: isCurrent ? "0 2px 8px rgba(197, 155, 39, 0.3)" : "none",
             }}
           >
             {item}
@@ -1152,7 +1503,7 @@ const ShopGridStandard = ({ shop }) => {
                   <div style={{ textAlign: "center", padding: "50px 0" }}>
                     <div style={{ fontSize: 40, marginBottom: 12 }}>⚠️</div>
                     <p style={{ color: "#e74c3c", marginBottom: 16 }}>{error}</p>
-                    <button onClick={fetchAll} style={{ background: COLOR.primary, color: "#fff", border: "none", padding: "10px 24px", borderRadius: 6, cursor: "pointer", fontSize: 14, fontWeight: 600 }}>Retry</button>
+                    <button onClick={fetchAll} style={{ background: "rgb(197, 155, 39)", color: "#fff", border: "none", padding: "10px 24px", borderRadius: 999, cursor: "pointer", fontSize: 14, fontWeight: 700, boxShadow: "0 4px 12px rgba(197, 155, 39, 0.28)" }}>Retry</button>
                   </div>
                 )}
 
@@ -1172,7 +1523,7 @@ const ShopGridStandard = ({ shop }) => {
                       {searchTerm ? "🔍" : isPriceFilterActive ? "💸" : "🛒"}
                     </div>
                     <p style={{ fontSize: 16, color: "#888", marginBottom: 8 }}>{emptyMessage}</p>
-                    <button onClick={clearAllFilters} style={{ marginTop: 8, background: COLOR.primary, color: "#fff", border: "none", padding: "9px 22px", borderRadius: 6, cursor: "pointer", fontSize: 13, fontWeight: 600 }}>
+                    <button onClick={clearAllFilters} style={{ marginTop: 8, background: "rgb(197, 155, 39)", color: "#fff", border: "none", padding: "9px 24px", borderRadius: 999, cursor: "pointer", fontSize: 13, fontWeight: 700, boxShadow: "0 4px 12px rgba(197, 155, 39, 0.28)" }}>
                       Clear Filters
                     </button>
                   </div>

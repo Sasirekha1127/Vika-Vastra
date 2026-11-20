@@ -601,13 +601,15 @@ const MobileMenu = ({ isOpen, onClose, categories, catLoading, catError, isLogge
             <div style={{ width: 42, height: 48, borderRadius: "21px 21px 9px 9px", background: "#fff", border: "1.5px solid rgba(197,155,39,0.6)", padding: 4, boxSizing: "border-box", display: "flex", alignItems: "center", justifyContent: "center" }}>
               <img src={`${process.env.PUBLIC_URL}/vika-icon.png`} alt="Vika Vastra" style={{ width: "100%", height: "100%", objectFit: "contain", display: "block" }} />
             </div>
-            <div>
-              <div style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: 22, fontWeight: 800, lineHeight: 1.1 }}>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center" }}>
+              <div style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: 22, fontWeight: 800, lineHeight: 1.1, textAlign: "center" }}>
                 <span style={{ color: "#FFF4E5", textShadow: "0 2px 10px rgba(255,244,229,0.4)" }}>VIKA </span>
                 <span style={{ color: C.goldLight, textShadow: "0 2px 10px rgba(229,195,101,0.5)" }}>VASTRA</span>
               </div>
-              <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 7.5, letterSpacing: "0.2em", color: C.goldLight, textTransform: "uppercase", fontWeight: 600, marginTop: 3 }}>
-                A HERITAGE IN EVERY DRAPE
+              <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 7.5, letterSpacing: "0.22em", textIndent: "0.22em", color: C.goldLight, textTransform: "uppercase", fontWeight: 700, marginTop: 3, textAlign: "center", width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: 5 }}>
+                <span style={{ color: C.goldLight, fontSize: 5 }}>◆</span>
+                <span>A HERITAGE IN EVERY DRAPE</span>
+                <span style={{ color: C.goldLight, fontSize: 5 }}>◆</span>
               </div>
             </div>
           </div>
@@ -970,6 +972,14 @@ const HeaderOne = ({ shop }) => {
         }
 
         /* ── Brand Typography: Highlighted & Heighted ── */
+        .emb-brand-wordmark {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+        }
+
         .emb-brand-title {
           font-family: 'Cormorant Garamond', Georgia, serif;
           font-size: 33px;
@@ -978,7 +988,10 @@ const HeaderOne = ({ shop }) => {
           line-height: 1;
           display: flex;
           align-items: center;
+          justify-content: center;
+          text-align: center;
           white-space: nowrap;
+          width: 100%;
         }
 
         .emb-brand-vika {
@@ -1001,15 +1014,19 @@ const HeaderOne = ({ shop }) => {
         .emb-brand-sub {
           font-family: 'DM Sans', sans-serif;
           font-size: 8.5px;
-          letter-spacing: 0.28em;
+          letter-spacing: 0.22em;
+          text-indent: 0.22em;
           color: #E5C365 !important;
           text-transform: uppercase;
           font-weight: 700;
-          margin-top: 3px;
+          margin-top: 4px;
           display: flex;
           align-items: center;
+          justify-content: center;
+          text-align: center;
           gap: 6px;
           white-space: nowrap;
+          width: 100%;
           text-shadow: 0 1px 6px rgba(0, 0, 0, 0.3);
         }
 
@@ -1381,16 +1398,18 @@ const HeaderOne = ({ shop }) => {
         @media (max-width: 1199px) and (min-width: 992px) {
           .emb-main-row   { padding: 0 24px !important; }
           .emb-nav-link   { padding: 5px 12px !important; font-size: 18.5px !important; }
-          .emb-brand-title{ font-size: 30px !important; }
-          .emb-brand-sub  { font-size: 8px !important; letter-spacing: 0.20em !important; }
+          .emb-brand-wordmark { align-items: center !important; text-align: center !important; }
+          .emb-brand-title{ font-size: 30px !important; justify-content: center !important; text-align: center !important; }
+          .emb-brand-sub  { font-size: 8px !important; letter-spacing: 0.20em !important; text-indent: 0.20em !important; justify-content: center !important; text-align: center !important; width: 100% !important; }
           .emb-logo-icon-frame { width: 50px !important; height: 58px !important; }
         }
 
         @media (max-width: 991px) {
           .emb-nav-center { display: none !important; }
           .emb-main-row   { padding: 0 16px !important; height: 74px !important; }
-          .emb-brand-title{ font-size: 28px !important; }
-          .emb-brand-sub  { font-size: 7.5px !important; letter-spacing: 0.18em !important; margin-top: 3px !important; }
+          .emb-brand-wordmark { align-items: center !important; text-align: center !important; }
+          .emb-brand-title{ font-size: 28px !important; justify-content: center !important; text-align: center !important; }
+          .emb-brand-sub  { font-size: 7.5px !important; letter-spacing: 0.18em !important; text-indent: 0.18em !important; margin-top: 3px !important; justify-content: center !important; text-align: center !important; width: 100% !important; }
           .emb-logo-icon-frame { width: 46px !important; height: 52px !important; }
           .emb-icon-btn   { width: 38px !important; height: 38px !important; }
           .emb-badge      { min-width: 16px !important; height: 16px !important; font-size: 8.5px !important; }
@@ -1399,8 +1418,9 @@ const HeaderOne = ({ shop }) => {
 
         @media (max-width: 575px) {
           .emb-main-row   { padding: 0 12px !important; height: 62px !important; }
-          .emb-brand-title{ font-size: 22px !important; }
-          .emb-brand-sub  { font-size: 6.5px !important; letter-spacing: 0.12em !important; }
+          .emb-brand-wordmark { align-items: center !important; text-align: center !important; }
+          .emb-brand-title{ font-size: 22px !important; justify-content: center !important; text-align: center !important; }
+          .emb-brand-sub  { font-size: 6.5px !important; letter-spacing: 0.12em !important; text-indent: 0.12em !important; justify-content: center !important; text-align: center !important; width: 100% !important; }
           .emb-logo-icon-frame { width: 34px !important; height: 40px !important; }
           .emb-icon-btn   { width: 34px !important; height: 34px !important; }
           .emb-badge      { min-width: 15px !important; height: 15px !important; font-size: 8px !important; }
