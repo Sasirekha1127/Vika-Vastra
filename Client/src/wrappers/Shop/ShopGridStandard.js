@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import LayoutOne from "../../layouts/LayoutOne";
 import { getProductUrl } from "../../utils/productUrl";
-import { getAllProducts, getAllCategories, getAllSubCategories, getAllBrands, getImageUrl } from "../../api";
+import { getAllProducts, getAllCategories, getAllBrands, getImageUrl } from "../../api";
 
 // ── THEME COLORS ──────────────────────────────────────────────────────────────
 const COLOR = {
@@ -23,7 +23,6 @@ const getProductSearchValues = (product) => {
     product.sku,
     product.name,
     product.category,
-    product.subCategory,
     product.brand,
     product.description,
     product.shortDescription,
@@ -224,9 +223,9 @@ const PriceRangeSlider = ({ min, max, priceMin, priceMax, onChange }) => {
 
 // ── SIDEBAR ───────────────────────────────────────────────────────────────────
 const Sidebar = ({
-  categories, subCategories, brands, colors, selectedColors, onColor,
-  activeCategory, activeSubCategory, activeBrand,
-  onCategory, onSubCategory, onBrand,
+  categories, brands, colors, selectedColors, onColor,
+  activeCategory, activeBrand,
+  onCategory, onBrand,
   priceMin, priceMax, globalPriceMin, globalPriceMax, onPriceChange,
 }) => {
   const scrollShopToTop = () => {
@@ -234,15 +233,6 @@ const Sidebar = ({
     document.documentElement.scrollTo({ top: 0, behavior: "smooth" });
     document.body.scrollTo({ top: 0, behavior: "smooth" });
   };
-
-  const visibleSubCategories = useMemo(() => {
-    if (!activeCategory) return subCategories;
-    const matchedCat = categories.find((c) => c.name === activeCategory);
-    if (!matchedCat) return subCategories;
-    return subCategories.filter(
-      (s) => String(s.categoryId || s.Category?.id) === String(matchedCat.id)
-    );
-  }, [subCategories, categories, activeCategory]);
 
   const catBtnStyle = (active) => ({
     background: "none", border: "none", cursor: "pointer",
@@ -274,16 +264,6 @@ const Sidebar = ({
     );
   };
 
-  const subCatCheckStyle = (active) => ({
-    background: active ? COLOR.primaryLight : "none",
-    border: "none", cursor: "pointer",
-    fontSize: 12, color: active ? COLOR.primary : "#555",
-    fontWeight: active ? 700 : 400,
-    padding: "6px 10px", display: "flex", alignItems: "center",
-    gap: 8, width: "100%", textAlign: "left",
-    borderRadius: 6, transition: "all .15s", marginBottom: 2,
-  });
-
   return (
     <div>
       <style>{`
@@ -305,7 +285,6 @@ const Sidebar = ({
           border: 2px solid #fff; box-shadow: 0 1px 6px rgba(0,0,0,0.25); cursor: grab;
         }
         .price-thumb--right::-webkit-slider-thumb { position: relative; z-index: 2; }
-        .km-subcat-btn:hover { background: ${COLOR.primaryLight} !important; color: ${COLOR.primary} !important; }
         .km-color-checkbox {
           width: 16px !important;
           height: 16px !important;
@@ -327,8 +306,8 @@ const Sidebar = ({
           <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
             <li style={{ marginBottom: 2 }}>
               <button
-                style={catBtnStyle(activeCategory === "" && activeSubCategory === "")}
-                onClick={() => { onCategory(""); onSubCategory(""); scrollShopToTop(); }}
+                style={catBtnStyle(activeCategory === "")}
+                onClick={() => { onCategory(""); scrollShopToTop(); }}
               >
                 All Products
               </button>
@@ -340,80 +319,12 @@ const Sidebar = ({
                 <li key={cat.id} style={{ marginBottom: 2 }}>
                   <button
                     style={catBtnStyle(isActive)}
-                    onClick={() => { onCategory(cat.name); onSubCategory(""); scrollShopToTop(); }}
+                    onClick={() => { onCategory(cat.name); scrollShopToTop(); }}
                   >
                     <div style={{ display: "flex", gap: 10, alignItems: "center", width: "100%" }}>
                       {renderFilterImage(imgSrc, cat.name)}
                       <span style={{ flex: 1 }}>{isActive ? "▸ " : ""}{cat.name}</span>
                     </div>
-                  </button>
-                </li>
-              );
-            })}
-          </ul>
-        </SideSection>
-      )}
-
-      {/* ── Sub-Categories ── */}
-      {visibleSubCategories.length > 0 && (
-        <SideSection title="Sub-Categories">
-          {activeCategory && (
-            <div style={{ fontSize: 11, color: COLOR.accent, fontWeight: 600, marginBottom: 10, display: "flex", alignItems: "center", gap: 4 }}>
-              <span>📂</span> {activeCategory}
-            </div>
-          )}
-          <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
-            <li style={{ marginBottom: 2 }}>
-              <button
-                className="km-subcat-btn"
-                style={subCatCheckStyle(activeSubCategory === "")}
-                onClick={() => { onSubCategory(""); scrollShopToTop(); }}
-              >
-                <span style={{
-                  width: 14, height: 14, borderRadius: 3, flexShrink: 0,
-                  border: `2px solid ${activeSubCategory === "" ? COLOR.primary : "#ddd"}`,
-                  background: activeSubCategory === "" ? COLOR.primary : "#fff",
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  transition: "all .15s",
-                }}>
-                  {activeSubCategory === "" && <span style={{ color: "#fff", fontSize: 9, lineHeight: 1 }}>✓</span>}
-                </span>
-                All
-              </button>
-            </li>
-            {visibleSubCategories.map((s) => {
-              const isActive  = activeSubCategory === s.name;
-              const parentCat = categories.find(
-                (c) => String(c.id) === String(s.categoryId || s.Category?.id)
-              );
-              const imgSrc = getImageUrl(s.image);
-              return (
-                <li key={s.id} style={{ marginBottom: 2 }}>
-                  <button
-                    className="km-subcat-btn"
-                    style={subCatCheckStyle(isActive)}
-                    onClick={() => {
-                      if (parentCat && activeCategory !== parentCat.name) {
-                        onCategory(parentCat.name);
-                      }
-                      onSubCategory(isActive ? "" : s.name);
-                      scrollShopToTop();
-                    }}
-                  >
-                    <span style={{
-                      width: 14, height: 14, borderRadius: 3, flexShrink: 0,
-                      border: `2px solid ${isActive ? COLOR.primary : "#ddd"}`,
-                      background: isActive ? COLOR.primary : "#fff",
-                      display: "flex", alignItems: "center", justifyContent: "center",
-                      transition: "all .15s",
-                    }}>
-                      {isActive && <span style={{ color: "#fff", fontSize: 9, lineHeight: 1 }}>✓</span>}
-                    </span>
-                    <div style={{ display: "flex", gap: 10, alignItems: "center", flex: 1 }}>
-                      {renderFilterImage(imgSrc, s.name)}
-                      <span style={{ flex: 1 }}>{s.name}</span>
-                    </div>
-
                   </button>
                 </li>
               );
@@ -736,9 +647,9 @@ export const ProductCard = ({ product, cartItems = [], wishlistItems = [], addTo
         <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "space-between", padding: "6px 0" }}>
           <div>
             <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 6, flexWrap: "wrap" }}>
-              {product.subCategory && (
+              {product.category && (
                 <span style={{ fontSize: 10, color: "#720E1E", background: "#F8F6F2", padding: "2px 8px", borderRadius: 10, fontWeight: 600 }}>
-                  {product.subCategory}
+                  {product.category}
                 </span>
               )}
               {product.brand && (
@@ -1151,9 +1062,9 @@ export const ProductCard = ({ product, cartItems = [], wishlistItems = [], addTo
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
-          {product.subCategory && (
+          {product.category && (
             <span style={{ fontSize: 10, color: "#720E1E", background: "#F8F6F2", padding: "2px 8px", borderRadius: 10, fontWeight: 600, letterSpacing: "0.03em" }}>
-              {product.subCategory}
+              {product.category}
             </span>
           )}
           {product.brand && (
@@ -1399,13 +1310,11 @@ const ShopGridStandard = ({ shop }) => {
   const [layout,            setLayout]            = useState("grid");
   const [sortValue,         setSortValue]         = useState("");
   const [activeCategory,    setActiveCategory]    = useState("");
-  const [activeSubCategory, setActiveSubCategory] = useState("");
   const [activeBrand,       setActiveBrand]       = useState("");
   const [searchTerm,        setSearchTerm]        = useState("");
   const [currentPage,       setCurrentPage]       = useState(1);
   const [productsData,      setProductsData]      = useState([]);
   const [categories,        setCategories]        = useState([]);
-  const [subCategories,     setSubCategories]     = useState([]);
   const [brands,            setBrands]            = useState([]);
   const [loading,           setLoading]           = useState(true);
   const [error,             setError]             = useState(null);
@@ -1424,13 +1333,12 @@ const ShopGridStandard = ({ shop }) => {
     setLoading(true);
     setError(null);
     try {
-      const [prodRes, catRes, subCatRes, brandRes] = await Promise.all([
-        getAllProducts(), getAllCategories(), getAllSubCategories(), getAllBrands(),
+      const [prodRes, catRes, brandRes] = await Promise.all([
+        getAllProducts(), getAllCategories(), getAllBrands(),
       ]);
       const normalized = (prodRes.data || []).map(normalize);
       setProductsData(normalized);
       setCategories(catRes.data       || []);
-      setSubCategories(subCatRes.data || []);
       setBrands(brandRes.data         || []);
     } catch (err) {
       console.error("Shop fetch error:", err);
@@ -1449,29 +1357,25 @@ const ShopGridStandard = ({ shop }) => {
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const cat    = params.get("category");
-    const sub    = params.get("subCategory");
     const brand  = params.get("brand");
     const q      = params.get("q");
 
     // Always set (or clear) every filter so stale state never bleeds through
     setActiveCategory(   cat   ? decodeURIComponent(cat)   : "");
-    setActiveSubCategory(sub   ? decodeURIComponent(sub)   : "");
     setActiveBrand(      brand ? decodeURIComponent(brand) : "");
     setSelectedColors(params.getAll("color").map(color => color.trim().toLowerCase()).filter(Boolean));
     setSearchTerm(       q     ? decodeURIComponent(q)     : "");
   }, [location.search]);
 
-  useEffect(() => { setCurrentPage(1); }, [selectedColors, activeCategory, activeSubCategory, activeBrand, searchTerm, sortValue, priceMin, priceMax]);
+  useEffect(() => { setCurrentPage(1); }, [selectedColors, activeCategory, activeBrand, searchTerm, sortValue, priceMin, priceMax]);
 
   const colors = useMemo(() => [...new Set(productsData.flatMap(product => product.colors))].sort((a, b) => a.localeCompare(b)), [productsData]);
 
   const filtered = useMemo(() => {
     let result = productsData.filter(product => matchesColors(product, selectedColors));
 
-    // Category / sub-category filter
-    if (activeSubCategory) {
-      result = result.filter((p) => p.subCategory === activeSubCategory);
-    } else if (activeCategory) {
+    // Category filter
+    if (activeCategory) {
       result = result.filter((p) => p.category === activeCategory);
     }
 
@@ -1502,7 +1406,7 @@ const ShopGridStandard = ({ shop }) => {
     }
 
     return result;
-  }, [productsData, selectedColors, activeCategory, activeSubCategory, activeBrand, searchTerm, priceMin, priceMax, globalPriceMin, globalPriceMax, sortValue]);
+  }, [productsData, selectedColors, activeCategory, activeBrand, searchTerm, priceMin, priceMax, globalPriceMin, globalPriceMax, sortValue]);
 
   const totalCount  = filtered.length;
   const offset      = (currentPage - 1) * pageLimit;
@@ -1511,7 +1415,6 @@ const ShopGridStandard = ({ shop }) => {
   const clearAllFilters = () => {
     setSelectedColors([]);
     setActiveCategory("");
-    setActiveSubCategory("");
     setActiveBrand("");
     setSearchTerm("");
     setPriceMin(globalPriceMin);
@@ -1519,11 +1422,11 @@ const ShopGridStandard = ({ shop }) => {
   };
 
   const isPriceFilterActive = priceMin > globalPriceMin || priceMax < globalPriceMax;
-  const hasFilters = selectedColors.length > 0 || activeCategory || activeSubCategory || activeBrand || searchTerm || isPriceFilterActive;
+  const hasFilters = selectedColors.length > 0 || activeCategory || activeBrand || searchTerm || isPriceFilterActive;
 
   const emptyMessage = searchTerm
     ? `No products found for "${searchTerm}". Try a different search term.`
-    : isPriceFilterActive && !activeCategory && !activeSubCategory && !activeBrand
+    : isPriceFilterActive && !activeCategory && !activeBrand
     ? "No products found in this price range."
     : "No products found. Try changing your filters.";
 
@@ -1556,16 +1459,12 @@ const ShopGridStandard = ({ shop }) => {
                     selectedColors={selectedColors}
                     onColor={color => setSelectedColors(current => current.includes(color) ? current.filter(value => value !== color) : [...current, color])}
                     categories={categories}
-                    subCategories={subCategories}
                     brands={brands}
                     activeCategory={activeCategory}
-                    activeSubCategory={activeSubCategory}
                     activeBrand={activeBrand}
                     onCategory={(cat) => {
                       setActiveCategory(cat);
-                      setActiveSubCategory("");
                     }}
-                    onSubCategory={setActiveSubCategory}
                     onBrand={setActiveBrand}
                     priceMin={priceMin}
                     priceMax={priceMax}
@@ -1598,13 +1497,7 @@ const ShopGridStandard = ({ shop }) => {
                     {activeCategory && (
                       <span style={{ background: COLOR.primaryLight, color: COLOR.primary, fontSize: 12, padding: "4px 10px", borderRadius: 20, display: "flex", alignItems: "center", gap: 6 }}>
                         📂 {activeCategory}
-                        <button onClick={() => { setActiveCategory(""); setActiveSubCategory(""); }} style={{ background: "none", border: "none", cursor: "pointer", color: COLOR.primary, fontSize: 14, lineHeight: 1, padding: 0 }}>×</button>
-                      </span>
-                    )}
-                    {activeSubCategory && (
-                      <span style={{ background: COLOR.primaryLight, color: COLOR.primary, fontSize: 12, padding: "4px 10px", borderRadius: 20, display: "flex", alignItems: "center", gap: 6 }}>
-                        📁 {activeSubCategory}
-                        <button onClick={() => setActiveSubCategory("")} style={{ background: "none", border: "none", cursor: "pointer", color: COLOR.primary, fontSize: 14, lineHeight: 1, padding: 0 }}>×</button>
+                        <button onClick={() => setActiveCategory("")} style={{ background: "none", border: "none", cursor: "pointer", color: COLOR.primary, fontSize: 14, lineHeight: 1, padding: 0 }}>×</button>
                       </span>
                     )}
                     {activeBrand && (

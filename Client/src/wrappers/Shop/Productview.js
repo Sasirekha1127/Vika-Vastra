@@ -1232,8 +1232,7 @@ const ProductView = ({ shop }) => {
               </div>
 
               <div style={{ fontSize: 12, color: "#bbb", lineHeight: 2, display: "flex", flexDirection: "column", gap: 2, marginTop: 14 }}>
-                {product.category    && <span>Category: <strong style={{ color: "#888" }}>{product.category}</strong></span>}
-                {product.subCategory && <span>Sub-category: <strong style={{ color: "#888" }}>{product.subCategory}</strong></span>}
+                {product.category && <span>Category: <strong style={{ color: "#888" }}>{product.category}</strong></span>}
                 <span>Availability: {currentStock > 0
                   ? <strong style={{ color: "#4caf50" }}>{currentStock} in stock</strong>
                   : <strong style={{ color: "#e74c3c" }}>Out of Stock</strong>}
