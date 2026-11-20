@@ -229,10 +229,9 @@ const S = {
   searchOverlayInner: {
     display:        "flex",
     flexDirection:  "column",
-    padding:        "20px 44px 22px 44px",
+    padding:        "16px 44px 18px 44px",
     maxWidth:       900,
     margin:         "0 auto",
-    gap:            14,
   },
   searchBarRow: {
     display:        "flex",
@@ -795,8 +794,6 @@ const HeaderOne = ({ shop }) => {
 
   const categoryPath = (name) => `/shop?category=${encodeURIComponent(name)}`;
 
-  const searchSuggestions = ["Bridal Silks", "Kanjivaram", "Soft Silk", "Cotton Sarees", "Festive Drapes"];
-
   return (
     <>
       <style>{`
@@ -1227,30 +1224,12 @@ const HeaderOne = ({ shop }) => {
         }
 
         .emb-search-overlay.open {
-          max-height: 170px;
+          max-height: 110px;
           opacity: 1;
           pointer-events: auto;
         }
 
         .emb-search-overlay button:hover { opacity: 0.92; }
-
-        .emb-search-suggestion-pill {
-          padding: 5px 13px;
-          border-radius: 10px;
-          font-size: 12px;
-          font-family: 'DM Sans', sans-serif;
-          color: #F6E9C8;
-          background: transparent;
-          border: 1px solid rgba(229, 195, 101, 0.4);
-          cursor: pointer;
-          transition: all 0.18s ease;
-        }
-
-        .emb-search-suggestion-pill:hover {
-          background: ${C.goldLight};
-          border-color: ${C.goldLight};
-          color: ${C.maroonDeep};
-        }
 
         /* ── Account Dropdown ── */
         .emb-acc-header {
@@ -1652,20 +1631,6 @@ const HeaderOne = ({ shop }) => {
               >
                 <IconClose />
               </button>
-            </div>
-
-            {/* Popular Search Suggestions */}
-            <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", paddingLeft: 4 }}>
-              <span style={{ fontSize: 12.5, color: C.goldLight, fontWeight: 600, fontFamily: "'Cormorant Garamond', Georgia, serif", fontStyle: "italic" }}>Popular:</span>
-              {searchSuggestions.map((tag) => (
-                <button
-                  key={tag}
-                  className="emb-search-suggestion-pill"
-                  onClick={() => handleSearch(tag)}
-                >
-                  {tag}
-                </button>
-              ))}
             </div>
           </div>
         </div>
