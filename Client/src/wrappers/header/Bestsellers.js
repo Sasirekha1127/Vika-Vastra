@@ -50,10 +50,10 @@ const storePendingWishlistItem = (product) => {
 /* ── Toast ───────────────────────────────────────────── */
 function Toast({ toasts }) {
   return (
-    <div className="na-toasts" role="status" aria-live="polite">
+    <div className="bs-toasts" role="status" aria-live="polite">
       {toasts.map((t) => (
-        <div key={t.id} className={`na-toast na-toast--${t.type}`}>
-          <span className="na-toast__icon">{t.type === "cart" ? "✓" : "♥"}</span>
+        <div key={t.id} className={`bs-toast bs-toast--${t.type}`}>
+          <span className="bs-toast__icon">{t.type === "cart" ? "✓" : "♥"}</span>
           <span>{t.message}</span>
         </div>
       ))}
@@ -122,14 +122,14 @@ function ProductCard({ product, cartItems = [], wishlistItems = [], onAddToCart,
   const btnLabel = addedAnim ? "Added to cart" : isInCart ? "In your cart" : outOfStock ? "Sold out" : "Add to cart";
 
   return (
-    <article className="na-card" onClick={() => navigate(getProductUrl(product))}>
-      <div className="na-arch">
-        <div className="na-arch__inner">
+    <article className="bs-card" onClick={() => navigate(getProductUrl(product))}>
+      <div className="bs-arch">
+        <div className="bs-arch__inner">
           <img src={imageUrl} alt={product.productName} loading="lazy" />
-          {discount > 0 && <span className="na-off">{discount}% off</span>}
+          {discount > 0 && <span className="bs-off">{discount}% off</span>}
           <button
             type="button"
-            className={`na-heart ${isWishlisted ? "is-on" : ""}`}
+            className={`bs-heart ${isWishlisted ? "is-on" : ""}`}
             onClick={handleWishlist}
             aria-label={isWishlisted ? "Remove from wishlist" : "Save to wishlist"}
             aria-pressed={isWishlisted}
@@ -139,15 +139,15 @@ function ProductCard({ product, cartItems = [], wishlistItems = [], onAddToCart,
         </div>
       </div>
 
-      <div className="na-info">
-        <h3 className="na-name" title={product.productName}>{product.productName}</h3>
-        <div className="na-price">
-          <span className="na-price__now">Rs. {salePrice.toLocaleString()}</span>
-          {discount > 0 && <span className="na-price__old">Rs. {mrp.toLocaleString()}</span>}
+      <div className="bs-info">
+        <h3 className="bs-name" title={product.productName}>{product.productName}</h3>
+        <div className="bs-price">
+          <span className="bs-price__now">Rs. {salePrice.toLocaleString()}</span>
+          {discount > 0 && <span className="bs-price__old">Rs. {mrp.toLocaleString()}</span>}
         </div>
         <button
           type="button"
-          className={`na-cart ${btnState}`}
+          className={`bs-cart ${btnState}`}
           onClick={handleCart}
           disabled={outOfStock}
         >
@@ -221,59 +221,59 @@ export default function BestSellers({ shop }) {
     }
   };
 
-  if (loading) return <div className="na-loading">Loading best sellers…</div>;
+  if (loading) return <div className="bs-loading">Loading best sellers…</div>;
   if (!products.length) return null;
 
   return (
-    <section className="na-root">
+    <section className="bs-root">
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Figtree:wght@400;500;600&display=swap');
 
-        .na-root, .na-root * { box-sizing: border-box; }
-        .na-root { font-family: 'Figtree', sans-serif; color: ${INK}; background: ${PAPER}; }
-        .na-wrap { max-width: 1200px; margin: 0 auto; padding: 48px 24px 56px; }
+        .bs-root, .bs-root * { box-sizing: border-box; }
+        .bs-root { font-family: 'Figtree', sans-serif; color: ${INK}; background: ${PAPER}; }
+        .bs-wrap { max-width: 1200px; margin: 0 auto; padding: 48px 24px 56px; }
 
-        .na-head { display: flex; flex-direction: column; align-items: center; text-align: center;
+        .bs-head { display: flex; flex-direction: column; align-items: center; text-align: center;
           gap: 8px; margin-bottom: 36px; }
-        .na-head h2 { font-family: 'Fraunces', serif; font-weight: 600; font-size: 40px;
+        .bs-head h2 { font-family: 'Fraunces', serif; font-weight: 600; font-size: 40px;
           line-height: 1.1; margin: 0; color: ${MAROON}; letter-spacing: -0.01em; }
-        .na-head p { margin: 0; font-size: 14px; color: ${MUTED}; }
-        .na-head::after { content: ""; width: 56px; height: 2px; background: ${GOLD}; margin-top: 10px; }
+        .bs-head p { margin: 0; font-size: 14px; color: ${MUTED}; }
+        .bs-head::after { content: ""; width: 56px; height: 2px; background: ${GOLD}; margin-top: 10px; }
 
-        .na-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-          gap: 36px 24px; animation: naFade .6s ease both; }
-        @keyframes naFade { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+        .bs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+          gap: 36px 24px; animation: bsFade .6s ease both; }
+        @keyframes bsFade { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
 
-        .na-card { cursor: pointer; display: flex; flex-direction: column; }
+        .bs-card { cursor: pointer; display: flex; flex-direction: column; }
 
         /* arch frame */
-        .na-arch { padding: 5px; border: 1.5px solid ${GOLD}; border-radius: 999px 999px 0 0;
+        .bs-arch { padding: 5px; border: 1.5px solid ${GOLD}; border-radius: 999px 999px 0 0;
           transition: border-color .2s; }
-        .na-card:hover .na-arch { border-color: ${MAROON}; }
-        .na-arch__inner { position: relative; overflow: hidden; aspect-ratio: 3/4; background: #efe6e2;
+        .bs-card:hover .bs-arch { border-color: ${MAROON}; }
+        .bs-arch__inner { position: relative; overflow: hidden; aspect-ratio: 3/4; background: #efe6e2;
           border-radius: 999px 999px 0 0; }
-        .na-arch__inner img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+        .bs-arch__inner img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
           transition: transform .5s ease; }
-        .na-card:hover .na-arch__inner img { transform: scale(1.04); }
+        .bs-card:hover .bs-arch__inner img { transform: scale(1.04); }
 
-        .na-off { position: absolute; left: 0; bottom: 12px; background: ${MAROON}; color: #fff;
+        .bs-off { position: absolute; left: 0; bottom: 12px; background: ${MAROON}; color: #fff;
           font-size: 12px; font-weight: 600; padding: 5px 12px 5px 10px; border-radius: 0 999px 999px 0; }
 
-        .na-heart { position: absolute; top: 16%; right: 8%; width: 36px; height: 36px; border-radius: 50%;
+        .bs-heart { position: absolute; top: 16%; right: 8%; width: 36px; height: 36px; border-radius: 50%;
           border: none; cursor: pointer; display: grid; place-items: center; font-size: 18px; line-height: 1;
           background: rgba(255,255,255,.94); color: ${MAROON}; transition: background .2s, color .2s, transform .15s; }
-        .na-heart:hover { transform: scale(1.08); }
-        .na-heart.is-on { background: ${MAROON}; color: #fff; }
+        .bs-heart:hover { transform: scale(1.08); }
+        .bs-heart.is-on { background: ${MAROON}; color: #fff; }
 
         /* info */
-        .na-info { padding: 14px 2px 0; display: flex; flex-direction: column; gap: 6px; flex: 1; }
-        .na-name { margin: 0; font-family: 'Fraunces', serif; font-weight: 500; font-size: 17px; line-height: 1.3;
+        .bs-info { padding: 14px 2px 0; display: flex; flex-direction: column; gap: 6px; flex: 1; }
+        .bs-name { margin: 0; font-family: 'Fraunces', serif; font-weight: 500; font-size: 17px; line-height: 1.3;
           color: ${INK}; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-        .na-price { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
-        .na-price__now { font-size: 16px; font-weight: 600; color: ${MAROON}; }
-        .na-price__old { font-size: 13px; color: ${MUTED}; text-decoration: line-through; }
+        .bs-price { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+        .bs-price__now { font-size: 16px; font-weight: 600; color: ${MAROON}; }
+        .bs-price__old { font-size: 13px; color: ${MUTED}; text-decoration: line-through; }
 
-        .na-cart {
+        .bs-cart {
           margin-top: auto;
           width: 100%;
           padding: 11px 12px;
@@ -288,20 +288,20 @@ export default function BestSellers({ shop }) {
           box-shadow: 0 4px 14px rgba(197, 155, 39, 0.32), inset 0 1px 1px rgba(255, 255, 255, 0.45);
           text-shadow: 0 1px 0 rgba(255, 255, 255, 0.35);
         }
-        .na-cart:hover {
+        .bs-cart:hover {
           background: linear-gradient(135deg, #B88E20 0%, #DFBA58 52%, #C49727 100%);
           color: #380710;
           box-shadow: 0 6px 18px rgba(197, 155, 39, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.55);
           transform: translateY(-1px);
         }
-        .na-cart.is-added {
+        .bs-cart.is-added {
           background: #2E7D32;
           border-color: #2E7D32;
           color: #fff;
           text-shadow: none;
           box-shadow: 0 4px 12px rgba(46, 125, 50, 0.3);
         }
-        .na-cart.is-out {
+        .bs-cart.is-out {
           background: #eee7e4;
           border-color: #eee7e4;
           color: ${MUTED};
@@ -310,46 +310,46 @@ export default function BestSellers({ shop }) {
           text-shadow: none;
         }
 
-        .na-root button:focus-visible { outline: 2px solid ${GOLD}; outline-offset: 2px; }
+        .bs-root button:focus-visible { outline: 2px solid ${GOLD}; outline-offset: 2px; }
 
         /* toasts */
-        .na-toasts { position: fixed; bottom: 24px; right: 24px; z-index: 10000; display: flex;
+        .bs-toasts { position: fixed; bottom: 24px; right: 24px; z-index: 10000; display: flex;
           flex-direction: column; gap: 10px; align-items: flex-end; pointer-events: none; }
-        .na-toast { display: flex; align-items: center; gap: 10px; max-width: 320px; padding: 12px 18px;
+        .bs-toast { display: flex; align-items: center; gap: 10px; max-width: 320px; padding: 12px 18px;
           border-radius: 10px; font: 500 13px 'Figtree', sans-serif; color: #fff; background: ${MAROON};
-          border-left: 4px solid ${GOLD}; box-shadow: 0 6px 24px rgba(78,9,20,.25); animation: naToast .25s ease; }
-        .na-toast--wish { background: ${MAROON_DEEP}; }
-        .na-toast__icon { color: ${GOLD}; font-size: 15px; }
-        @keyframes naToast { from { transform: translateX(32px); opacity: 0; } to { transform: none; opacity: 1; } }
+          border-left: 4px solid ${GOLD}; box-shadow: 0 6px 24px rgba(78,9,20,.25); animation: bsToast .25s ease; }
+        .bs-toast--wish { background: ${MAROON_DEEP}; }
+        .bs-toast__icon { color: ${GOLD}; font-size: 15px; }
+        @keyframes bsToast { from { transform: translateX(32px); opacity: 0; } to { transform: none; opacity: 1; } }
 
-        .na-loading { text-align: center; padding: 60px 0; font: 14px 'Figtree', sans-serif; color: ${MUTED}; }
+        .bs-loading { text-align: center; padding: 60px 0; font: 14px 'Figtree', sans-serif; color: ${MUTED}; }
 
         @media (max-width: 767px) {
-          .na-wrap { padding: 28px 12px 36px; }
-          .na-head { margin-bottom: 24px; }
-          .na-head h2 { font-size: 30px; }
-          .na-head p { font-size: 13px; }
-          .na-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 12px; }
-          .na-name { font-size: 15px; }
-          .na-price__now { font-size: 15px; }
-          .na-cart { padding: 9px 6px; font-size: 12px; }
-          .na-toasts { left: 12px; right: 12px; bottom: 16px; align-items: stretch; }
-          .na-toast { max-width: none; }
+          .bs-wrap { padding: 28px 12px 36px; }
+          .bs-head { margin-bottom: 24px; }
+          .bs-head h2 { font-size: 30px; }
+          .bs-head p { font-size: 13px; }
+          .bs-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 12px; }
+          .bs-name { font-size: 15px; }
+          .bs-price__now { font-size: 15px; }
+          .bs-cart { padding: 9px 6px; font-size: 12px; }
+          .bs-toasts { left: 12px; right: 12px; bottom: 16px; align-items: stretch; }
+          .bs-toast { max-width: none; }
         }
 
         @media (prefers-reduced-motion: reduce) {
-          .na-grid, .na-toast { animation: none; }
-          .na-arch__inner img, .na-heart, .na-cart { transition: none; }
+          .bs-grid, .bs-toast { animation: none; }
+          .bs-arch__inner img, .bs-heart, .bs-cart { transition: none; }
         }
       `}</style>
 
-      <div className="na-wrap">
-        <header className="na-head">
+      <div className="bs-wrap">
+        <header className="bs-head">
           <h2>Best Sellers</h2>
           <p>Most loved by our customers.</p>
         </header>
 
-        <div className="na-grid">
+        <div className="bs-grid">
           {products.map((product) => (
             <ProductCard
               key={product.id}
