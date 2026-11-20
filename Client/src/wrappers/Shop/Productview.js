@@ -11,13 +11,13 @@ import ProductImageViewer from "./ProductImageViewer";
 import { ProductCard } from "./ShopGridStandard";
 
 // ── BRAND COLORS ──────────────────────────────────────────────────────────────
-const CART_BG       = "rgb(197, 155, 39)";
-const CART_BG_HOVER = "#A8801D";
-const CART_BG_ADDED = "#B38728";
+const CART_BG       = "linear-gradient(135deg, #C59B27 0%, #E5C365 55%, #CFA23A 100%)";
+const CART_BG_HOVER = "linear-gradient(135deg, #B88E20 0%, #DFBA58 52%, #C49727 100%)";
+const CART_BG_ADDED = "#2E7D32";
 const DARK          = "#720E1E";
-const GOLD          = "rgb(197, 155, 39)";
-const BUY_NOW_BG    = "rgb(197, 155, 39)";
-const BUY_NOW_HOVER = "#A8801D";
+const GOLD          = "#C59B27";
+const BUY_NOW_BG    = "linear-gradient(135deg, #C59B27 0%, #E5C365 55%, #CFA23A 100%)";
+const BUY_NOW_HOVER = "linear-gradient(135deg, #B88E20 0%, #DFBA58 52%, #C49727 100%)";
 const CUR           = { symbol: "Rs. ", rate: 1 };
 
 const getLoggedInUser = () => {
@@ -1168,7 +1168,7 @@ const ProductView = ({ shop }) => {
                   onMouseEnter={() => setCartBtnHovered(true)}
                   onMouseLeave={() => setCartBtnHovered(false)}
                   disabled={outOfStock || variantNeedsSelection}
-                  style={{ flex: 1, minWidth: 150, padding: "14px 20px", fontSize: 13, fontWeight: 700, letterSpacing: "0.5px", background: outOfStock ? "#ddd" : cartBg, color: "#fff", border: "none", borderRadius: 999, cursor: outOfStock ? "not-allowed" : "pointer", transition: "background 0.2s", boxShadow: outOfStock ? "none" : "0 4px 14px rgba(197, 155, 39, 0.35)" }}
+                  style={{ flex: 1, minWidth: 150, padding: "14px 20px", fontSize: 13, fontWeight: 700, letterSpacing: "0.5px", background: outOfStock ? "#ddd" : cartBg, color: outOfStock ? "#888" : (inCart || addedFeedback) ? "#fff" : "#380710", border: "none", borderRadius: 999, cursor: outOfStock ? "not-allowed" : "pointer", transition: "all 0.25s ease", boxShadow: outOfStock ? "none" : "0 4px 14px rgba(197, 155, 39, 0.35)", textShadow: outOfStock || (inCart || addedFeedback) ? "none" : "0 1px 0 rgba(255, 255, 255, 0.35)" }}
                 >
                   {outOfStock ? "Out of Stock" : (inCart || addedFeedback) ? "✓ Added to Cart" : "Add to Cart"}
                 </button>
@@ -1178,7 +1178,7 @@ const ProductView = ({ shop }) => {
                   onMouseEnter={() => setBuyNowHovered(true)}
                   onMouseLeave={() => setBuyNowHovered(false)}
                   disabled={outOfStock || variantNeedsSelection}
-                  style={{ flex: 1, minWidth: 150, padding: "14px 20px", fontSize: 13, fontWeight: 700, letterSpacing: "0.5px", background: outOfStock ? "#ddd" : buyNowBg, color: "#fff", border: "none", borderRadius: 999, cursor: outOfStock ? "not-allowed" : "pointer", transition: "background 0.2s", boxShadow: outOfStock ? "none" : "0 4px 14px rgba(197, 155, 39, 0.35)" }}
+                  style={{ flex: 1, minWidth: 150, padding: "14px 20px", fontSize: 13, fontWeight: 700, letterSpacing: "0.5px", background: outOfStock ? "#ddd" : buyNowBg, color: outOfStock ? "#888" : "#380710", border: "none", borderRadius: 999, cursor: outOfStock ? "not-allowed" : "pointer", transition: "all 0.25s ease", boxShadow: outOfStock ? "none" : "0 4px 14px rgba(197, 155, 39, 0.35)", textShadow: outOfStock ? "none" : "0 1px 0 rgba(255, 255, 255, 0.35)" }}
                 >
                   ⚡ Buy Now
                 </button>

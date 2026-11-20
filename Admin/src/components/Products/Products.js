@@ -34,11 +34,11 @@ const fieldStyle = { display: 'flex', flexDirection: 'column', gap: 5 };
 const labelStyle = { fontSize: 11, fontWeight: 500, color: KM.muted, textTransform: 'uppercase', letterSpacing: '0.05em' };
 const inputStyle = { padding: '9px 12px', border: `1px solid ${KM.border}`, borderRadius: 8, fontSize: 13, color: KM.text, background: '#fff', fontFamily: 'inherit', outline: 'none', width: '100%', boxSizing: 'border-box' };
 const submitBtn  = { gridColumn: 'span 2', padding: 11, background: KM.orange, color: '#fff', border: 'none', borderRadius: 8, fontSize: 14, fontWeight: 500, cursor: 'pointer', fontFamily: 'inherit', marginTop: 4 };
-const PRODUCT_TABLE_COLUMNS = ['ID', 'Image', 'Product / SKU', 'Brand', 'Price', 'GST', 'Stock', 'Category / Sub', 'Actions'];
+const PRODUCT_TABLE_COLUMNS = ['ID', 'Image', 'Product / SKU', 'Brand', 'Price', 'GST', 'Stock', 'Category', 'Actions'];
 
 // ── Initial form state ────────────────────────────────────────────────────────
 const EMPTY_FORM = {
-  productName: '', sku: '', categoryId: '', subCategoryId: '', brandId: '',
+  productName: '', sku: '', categoryId: '', brandId: '',
   shortDescription: '', longDescription: '',
   mrp: '', salesPrice: '', stock: '0', gstType: 'exclusive', gstRate: '0',
   isNewArrival: false, isBestSeller: false,
@@ -277,7 +277,6 @@ export default function Products({ showToast }) {
 
   const [rows,          setRows]          = useState([]);
   const [categories,    setCategories]    = useState([]);
-  const [subCategories, setSubCategories] = useState([]);
   const [brands,        setBrands]        = useState([]);
   const [loading,       setLoading]       = useState(true);
   const [showForm,      setShowForm]      = useState(false);
@@ -302,7 +301,6 @@ export default function Products({ showToast }) {
   // ── Data fetching ─────────────────────────────────────────────────────────
   useEffect(() => {
     fetchCategories();
-    fetchSubCategories();
     fetchBrands();
     fetchProducts();
   }, [location.search]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -321,13 +319,8 @@ export default function Products({ showToast }) {
     }
   };
 
-  const fetchCategories    = async () => { try { const r = await fetch(`${API}/categories`);   const d = await r.json(); setCategories(Array.isArray(d) ? d : []); } catch { } };
-  const fetchSubCategories = async () => { try { const r = await fetch(`${API}/subcategories`); const d = await r.json(); setSubCategories(Array.isArray(d) ? d : []); } catch { } };
-  const fetchBrands        = async () => { try { const r = await fetch(`${API}/brands`);        const d = await r.json(); setBrands(Array.isArray(d) ? d : []); } catch { } };
-
-  const filteredSubCategories = subCategories.filter(
-    (sc) => String(sc.categoryId) === String(formData.categoryId)
-  );
+  const fetchCategories = async () => { try { const r = await fetch(`${API}/categories`); const d = await r.json(); setCategories(Array.isArray(d) ? d : []); } catch { } };
+  const fetchBrands     = async () => { try { const r = await fetch(`${API}/brands`);     const d = await r.json(); setBrands(Array.isArray(d) ? d : []); } catch { } };
 
   // ── Reset form ────────────────────────────────────────────────────────────
   const resetForm = () => {
@@ -376,7 +369,6 @@ export default function Products({ showToast }) {
       productName:      product.productName,
       sku:              product.sku || '',
       categoryId:       product.categoryId    || '',
-      subCategoryId:    product.subCategoryId || '',
       brandId:          product.brandId       || '',
       shortDescription: product.shortDescription || '',
       longDescription:  product.longDescription  || '',
@@ -600,25 +592,14 @@ export default function Products({ showToast }) {
               <div style={fieldStyle}>
                 <label style={labelStyle}>Category *</label>
                 <select style={inputStyle} required value={formData.categoryId}
-                  onChange={e => setFormData({ ...formData, categoryId: e.target.value, subCategoryId: '' })}>
+                  onChange={e => setFormData({ ...formData, categoryId: e.target.value })}>
                   <option value="">Select Category</option>
                   {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
                 </select>
               </div>
 
-              {/* Sub-Category */}
-              <div style={fieldStyle}>
-                <label style={labelStyle}>Sub-Category</label>
-                <select style={inputStyle} value={formData.subCategoryId}
-                  onChange={e => setFormData({ ...formData, subCategoryId: e.target.value })}
-                  disabled={!formData.categoryId}>
-                  <option value="">Select Sub-Category</option>
-                  {filteredSubCategories.map(sc => <option key={sc.id} value={sc.id}>{sc.name}</option>)}
-                </select>
-              </div>
-
               {/* Brand */}
-              <div style={{ ...fieldStyle, gridColumn: 'span 2' }}>
+              <div style={fieldStyle}>
                 <label style={labelStyle}>Brand</label>
                 <select style={inputStyle} value={formData.brandId}
                   onChange={e => setFormData({ ...formData, brandId: e.target.value })}>
@@ -871,7 +852,6 @@ export default function Products({ showToast }) {
 
                 <td>
                   <div style={{ fontSize: 12, fontWeight: 500 }}>{row.Category?.name || 'N/A'}</div>
-                  <div style={{ fontSize: 11, color: KM.teal }}>{row.SubCategory?.name || '—'}</div>
                 </td>
 
                 <td>

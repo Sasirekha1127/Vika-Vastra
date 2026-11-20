@@ -706,13 +706,14 @@ export const ProductCard = ({ product, cartItems = [], wishlistItems = [], addTo
               style={{
                 padding: "11px 26px",
                 font: "700 13px 'Figtree', 'Jost', sans-serif",
-                color: "#fff",
-                background: outOfStock ? "#eee7e4" : (addedAnim || inCart) ? "#2E7D32" : "rgb(197, 155, 39)",
-                border: `1.5px solid ${outOfStock ? "#eee7e4" : (addedAnim || inCart) ? "#2E7D32" : "rgb(197, 155, 39)"}`,
+                color: outOfStock ? "#8a7a78" : (addedAnim || inCart) ? "#fff" : "#380710",
+                background: outOfStock ? "#eee7e4" : (addedAnim || inCart) ? "#2E7D32" : "linear-gradient(135deg, #C59B27 0%, #E5C365 55%, #CFA23A 100%)",
+                border: `1px solid ${outOfStock ? "#eee7e4" : (addedAnim || inCart) ? "#2E7D32" : "rgba(197, 155, 39, 0.85)"}`,
                 borderRadius: 999,
                 cursor: outOfStock ? "not-allowed" : "pointer",
-                boxShadow: outOfStock ? "none" : "0 4px 12px rgba(197, 155, 39, 0.28)",
-                transition: "all .2s ease",
+                boxShadow: outOfStock ? "none" : "0 4px 14px rgba(197, 155, 39, 0.32)",
+                textShadow: outOfStock || addedAnim || inCart ? "none" : "0 1px 0 rgba(255, 255, 255, 0.35)",
+                transition: "all .25s ease",
               }}
             >
               {btnLabel}

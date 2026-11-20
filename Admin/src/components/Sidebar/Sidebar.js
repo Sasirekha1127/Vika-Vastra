@@ -59,11 +59,6 @@ const NAV_ITEMS = [
           <path d="M4 20h16M4 4h6l2 3h8v13H4z"/>
         </svg>
       )},
-      { id: 'subcategories', label: 'Sub-Categories', icon: (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <path d="M4 19h16M4 14h16M4 9h16M4 4h16" />
-        </svg>
-      )},
       { id: 'brands', label: 'Brands', icon: (
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
           <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>

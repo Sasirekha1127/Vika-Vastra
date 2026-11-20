@@ -11,7 +11,7 @@ const MAROON_DEEP = "#4E0914";
 const GOLD        = "#C59B27";
 const INK         = "#2a1a1c";
 const MUTED       = "#8a7a78";
-const PAPER       = "#fbf7f5";
+const PAPER       = "#f8ebd7";
 
 /* ── Helpers (unchanged logic) ───────────────────────── */
 const getCustomerId = () => {
@@ -273,12 +273,42 @@ export default function BestSellers({ shop }) {
         .na-price__now { font-size: 16px; font-weight: 600; color: ${MAROON}; }
         .na-price__old { font-size: 13px; color: ${MUTED}; text-decoration: line-through; }
 
-        .na-cart { margin-top: auto; width: 100%; padding: 11px 12px; font: 700 13px 'Figtree', sans-serif;
-          color: #FFFFFF; background: rgb(197, 155, 39); border: 1.5px solid rgb(197, 155, 39); border-radius: 999px;
-          cursor: pointer; transition: all .2s ease; box-shadow: 0 4px 12px rgba(197, 155, 39, 0.28); }
-        .na-cart:hover { background: #A8801D; border-color: #A8801D; color: #fff; box-shadow: 0 6px 16px rgba(197, 155, 39, 0.4); }
-        .na-cart.is-added { background: #2E7D32; border-color: #2E7D32; color: #fff; }
-        .na-cart.is-out { background: #eee7e4; border-color: #eee7e4; color: ${MUTED}; cursor: not-allowed; box-shadow: none; }
+        .na-cart {
+          margin-top: auto;
+          width: 100%;
+          padding: 11px 12px;
+          font: 700 13px 'Figtree', sans-serif;
+          letter-spacing: 0.02em;
+          color: #380710;
+          background: linear-gradient(135deg, #C59B27 0%, #E5C365 55%, #CFA23A 100%);
+          border: 1px solid rgba(197, 155, 39, 0.85);
+          border-radius: 999px;
+          cursor: pointer;
+          transition: all .25s ease;
+          box-shadow: 0 4px 14px rgba(197, 155, 39, 0.32), inset 0 1px 1px rgba(255, 255, 255, 0.45);
+          text-shadow: 0 1px 0 rgba(255, 255, 255, 0.35);
+        }
+        .na-cart:hover {
+          background: linear-gradient(135deg, #B88E20 0%, #DFBA58 52%, #C49727 100%);
+          color: #380710;
+          box-shadow: 0 6px 18px rgba(197, 155, 39, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.55);
+          transform: translateY(-1px);
+        }
+        .na-cart.is-added {
+          background: #2E7D32;
+          border-color: #2E7D32;
+          color: #fff;
+          text-shadow: none;
+          box-shadow: 0 4px 12px rgba(46, 125, 50, 0.3);
+        }
+        .na-cart.is-out {
+          background: #eee7e4;
+          border-color: #eee7e4;
+          color: ${MUTED};
+          cursor: not-allowed;
+          box-shadow: none;
+          text-shadow: none;
+        }
 
         .na-root button:focus-visible { outline: 2px solid ${GOLD}; outline-offset: 2px; }
 

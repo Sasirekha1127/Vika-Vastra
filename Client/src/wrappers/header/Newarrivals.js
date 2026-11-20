@@ -6,17 +6,17 @@ import { getProductUrl } from "../../utils/productUrl";
 const API_BASE = process.env.REACT_APP_API_URL || "http://localhost:5000/api";
 
 /* ── Palette ─────────────────────────────────────────── */
-const MAROON      = "#720E1E";
+const MAROON = "#720E1E";
 const MAROON_DEEP = "#4E0914";
-const GOLD        = "#C59B27";
-const INK         = "#2a1a1c";
-const MUTED       = "#8a7a78";
-const PAPER       = "#fbf7f5";
+const GOLD = "#C59B27";
+const INK = "#2a1a1c";
+const MUTED = "#8a7a78";
+const PAPER = "#ffffff";
 
 /* ── Helpers (unchanged logic) ───────────────────────── */
 const getCustomerId = () => {
   try {
-    const user     = JSON.parse(localStorage.getItem("user")     || "null");
+    const user = JSON.parse(localStorage.getItem("user") || "null");
     const customer = JSON.parse(localStorage.getItem("customer") || "null");
     return user?.id ?? customer?.id ?? null;
   } catch { return null; }
@@ -66,10 +66,10 @@ function ProductCard({ product, cartItems = [], wishlistItems = [], onAddToCart,
   const navigate = useNavigate();
   const [addedAnim, setAddedAnim] = useState(false);
 
-  const mrp       = Number(product.mrp || 0);
+  const mrp = Number(product.mrp || 0);
   const salePrice = Number(product.salesPrice || product.mrp || 0);
-  const discount  = mrp > 0 ? Math.round(((mrp - salePrice) / mrp) * 100) : 0;
-  const variants  = Array.isArray(product.Variants)
+  const discount = mrp > 0 ? Math.round(((mrp - salePrice) / mrp) * 100) : 0;
+  const variants = Array.isArray(product.Variants)
     ? product.Variants.filter((v) => v.isActive !== false)
     : [];
   const displayStock = variants.length
@@ -77,9 +77,9 @@ function ProductCard({ product, cartItems = [], wishlistItems = [], onAddToCart,
     : Number(product.stock || 0);
   const outOfStock = displayStock <= 0;
 
-  const isInCart     = !!cartItems.find((c) => String(c.productId ?? c.id) === String(product.id));
+  const isInCart = !!cartItems.find((c) => String(c.productId ?? c.id) === String(product.id));
   const isWishlisted = !!wishlistItems.find((w) => String(w.productId ?? w.id) === String(product.id));
-  const imageUrl     = getImageUrl(product.image);
+  const imageUrl = getImageUrl(product.image);
 
   const flashAdded = () => {
     setAddedAnim(true);
@@ -161,8 +161,8 @@ function ProductCard({ product, cartItems = [], wishlistItems = [], onAddToCart,
 /* ── Section ─────────────────────────────────────────── */
 export default function NewArrivals({ shop }) {
   const [products, setProducts] = useState([]);
-  const [loading,  setLoading]  = useState(true);
-  const [toasts,   setToasts]   = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [toasts, setToasts] = useState([]);
 
   const {
     cartItems = [],
@@ -176,7 +176,7 @@ export default function NewArrivals({ shop }) {
   useEffect(() => {
     const fetchNewArrivals = async () => {
       try {
-        const res  = await fetch(`${API_BASE}/products/new-arrivals`);
+        const res = await fetch(`${API_BASE}/products/new-arrivals`);
         const data = await res.json();
         setProducts(Array.isArray(data) ? data : []);
       } catch (err) {
@@ -273,12 +273,42 @@ export default function NewArrivals({ shop }) {
         .na-price__now { font-size: 16px; font-weight: 600; color: ${MAROON}; }
         .na-price__old { font-size: 13px; color: ${MUTED}; text-decoration: line-through; }
 
-        .na-cart { margin-top: auto; width: 100%; padding: 11px 12px; font: 700 13px 'Figtree', sans-serif;
-          color: #FFFFFF; background: rgb(197, 155, 39); border: 1.5px solid rgb(197, 155, 39); border-radius: 999px;
-          cursor: pointer; transition: all .2s ease; box-shadow: 0 4px 12px rgba(197, 155, 39, 0.28); }
-        .na-cart:hover { background: #A8801D; border-color: #A8801D; color: #fff; box-shadow: 0 6px 16px rgba(197, 155, 39, 0.4); }
-        .na-cart.is-added { background: #2E7D32; border-color: #2E7D32; color: #fff; }
-        .na-cart.is-out { background: #eee7e4; border-color: #eee7e4; color: ${MUTED}; cursor: not-allowed; box-shadow: none; }
+        .na-cart {
+          margin-top: auto;
+          width: 100%;
+          padding: 11px 12px;
+          font: 700 13px 'Figtree', sans-serif;
+          letter-spacing: 0.02em;
+          color: #380710;
+          background: linear-gradient(135deg, #C59B27 0%, #E5C365 55%, #CFA23A 100%);
+          border: 1px solid rgba(197, 155, 39, 0.85);
+          border-radius: 999px;
+          cursor: pointer;
+          transition: all .25s ease;
+          box-shadow: 0 4px 14px rgba(197, 155, 39, 0.32), inset 0 1px 1px rgba(255, 255, 255, 0.45);
+          text-shadow: 0 1px 0 rgba(255, 255, 255, 0.35);
+        }
+        .na-cart:hover {
+          background: linear-gradient(135deg, #B88E20 0%, #DFBA58 52%, #C49727 100%);
+          color: #380710;
+          box-shadow: 0 6px 18px rgba(197, 155, 39, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.55);
+          transform: translateY(-1px);
+        }
+        .na-cart.is-added {
+          background: #2E7D32;
+          border-color: #2E7D32;
+          color: #fff;
+          text-shadow: none;
+          box-shadow: 0 4px 12px rgba(46, 125, 50, 0.3);
+        }
+        .na-cart.is-out {
+          background: #eee7e4;
+          border-color: #eee7e4;
+          color: ${MUTED};
+          cursor: not-allowed;
+          box-shadow: none;
+          text-shadow: none;
+        }
 
         .na-root button:focus-visible { outline: 2px solid ${GOLD}; outline-offset: 2px; }
 
@@ -316,7 +346,7 @@ export default function NewArrivals({ shop }) {
       <div className="na-wrap">
         <header className="na-head">
           <h2>New Arrivals</h2>
-          <p>Fresh sarees, just added to the collection.</p>
+          <p>Fresh sarees, just added to the Best collection.</p>
         </header>
 
         <div className="na-grid">

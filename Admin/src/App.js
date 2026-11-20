@@ -5,7 +5,6 @@ import Sidebar from './components/Sidebar/Sidebar';
 import Topbar from './components/Topbar/Topbar';
 import Dashboard from './components/Dashboard/Dashboard';
 import Categories from './components/Categories/Categories';
-import SubCategories from './components/SubCategories/SubCategories';
 import Brands from './components/Brands/Brands';
 import Products from './components/Products/Products';
 import Stock from './components/Stock/Stock';
@@ -27,7 +26,6 @@ import PromoBar from './components/Promobar/Promobar';
 const PAGE_CONFIG = {
   dashboard:          { title: 'Dashboard' },
   categories:         { title: 'Categories' },
-  subcategories:      { title: 'Sub-Categories' },
   brands:             { title: 'Brands' },
   products:           { title: 'Products' },
   stock:              { title: 'Stock Management' },
@@ -63,7 +61,6 @@ function AdminLayoutWrapper({ handleLogout, showToast, toast }) {
           <Routes>
             <Route path="/dashboard"          element={<Dashboard     showToast={showToast} />} />
             <Route path="/categories"         element={<Categories    showToast={showToast} />} />
-            <Route path="/subcategories"      element={<SubCategories showToast={showToast} />} />
             <Route path="/brands"             element={<Brands        showToast={showToast} />} />
             <Route path="/products"           element={<Products      showToast={showToast} />} />
             <Route path="/stock"              element={<Stock         showToast={showToast} />} />
