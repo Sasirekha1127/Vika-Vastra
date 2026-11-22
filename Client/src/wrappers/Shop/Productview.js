@@ -123,93 +123,90 @@ const Breadcrumb = ({ category, name }) => {
   );
 };
 
-const ThumbnailStrip = () => null;
-
 const ImageSelector = ({ gallery, originalImage, activeImage, onSelect }) => {
-  if (!gallery || gallery.length === 0) return null;
+  if (!gallery || gallery.length <= 1) return null;
 
   return (
-    <div style={{ marginBottom: 24 }}>
-      <p style={{
-        fontSize: 11, fontWeight: 700, color: "#777",
-        marginBottom: 10, textTransform: "uppercase", letterSpacing: 1,
-      }}>
-        Product Images
-      </p>
-      <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "flex-start" }}>
-        {gallery.map((src, i) => {
-          const isOriginal = src === originalImage;
-          const isActive   = src === activeImage;
-          return (
-            <div
-              key={i}
-              onClick={() => onSelect(src)}
-              title={isOriginal ? "Model Image" : `Image ${i + 1}`}
-              style={{
-                position: "relative",
-                width: 68, height: 68,
-                borderRadius: 8, overflow: "hidden",
-                border: isActive
-                  ? `2.5px solid ${CART_BG}`
-                  : "2px solid #e0e0e0",
-                cursor: "pointer",
-                background: "#f9f6f2",
-                flexShrink: 0,
-                transition: "border-color .18s, box-shadow .18s",
-                boxShadow: isActive
-                  ? `0 0 0 3px rgba(26,16,64,0.13)`
-                  : "none",
-              }}
-            >
-              <img
-                src={src}
-                alt={isOriginal ? "Model image" : `Product image ${i + 1}`}
-                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-              />
+    <div
+      className="pv-thumbnails-left"
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: 10,
+        maxHeight: 560,
+        overflowY: "auto",
+        paddingRight: 4,
+        flexShrink: 0,
+        scrollbarWidth: "none",
+      }}
+    >
+      {gallery.map((src, i) => {
+        const isOriginal = src === originalImage;
+        const isActive   = src === activeImage;
+        return (
+          <div
+            key={i}
+            onClick={() => onSelect(src)}
+            onMouseEnter={() => onSelect(src)}
+            title={isOriginal ? "Model Image" : `Image ${i + 1}`}
+            style={{
+              position: "relative",
+              width: 68,
+              height: 68,
+              borderRadius: 10,
+              overflow: "hidden",
+              border: isActive
+                ? `2px solid ${GOLD}`
+                : "1.5px solid #E7DFD2",
+              cursor: "pointer",
+              background: "#f9f6f2",
+              flexShrink: 0,
+              transition: "all .2s ease",
+              boxShadow: isActive
+                ? "0 4px 12px rgba(197, 155, 39, 0.35)"
+                : "none",
+              transform: isActive ? "scale(1.04)" : "scale(1)",
+            }}
+          >
+            <img
+              src={src}
+              alt={isOriginal ? "Model image" : `Product image ${i + 1}`}
+              style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+            />
 
-              {isActive && (
-                <div style={{
-                  position: "absolute", top: 4, right: 4,
-                  width: 18, height: 18, borderRadius: "50%",
-                  background: CART_BG, display: "flex",
-                  alignItems: "center", justifyContent: "center",
-                  boxShadow: "0 1px 4px rgba(0,0,0,0.25)",
-                }}>
-                  <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
-                    <path d="M1 4L3.8 7L9 1" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </div>
-              )}
+            {isActive && (
+              <div style={{
+                position: "absolute", top: 4, right: 4,
+                width: 16, height: 16, borderRadius: "50%",
+                background: GOLD, display: "flex",
+                alignItems: "center", justifyContent: "center",
+                boxShadow: "0 1px 4px rgba(0,0,0,0.25)",
+              }}>
+                <svg width="9" height="7" viewBox="0 0 10 8" fill="none">
+                  <path d="M1 4L3.8 7L9 1" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
+            )}
 
-              {isOriginal && (
-                <div style={{
-                  position: "absolute", bottom: 0, left: 0, right: 0,
-                  background: isActive
-                    ? "rgba(26,16,64,0.72)"
-                    : "rgba(0,0,0,0.42)",
-                  color: "#fff",
-                  fontSize: 8, fontWeight: 700,
-                  textAlign: "center", padding: "3px 2px",
-                  letterSpacing: "0.04em",
-                  textTransform: "uppercase",
-                  lineHeight: 1,
-                }}>
-                  Model
-                </div>
-              )}
-            </div>
-          );
-        })}
-      </div>
-
-      <p style={{
-        fontSize: 11, color: "#999", marginTop: 8, marginBottom: 0,
-        fontStyle: "italic",
-      }}>
-        {activeImage === originalImage
-          ? "Showing: Model image"
-          : `Showing: Image ${gallery.indexOf(activeImage) + 1}`}
-      </p>
+            {isOriginal && (
+              <div style={{
+                position: "absolute", bottom: 0, left: 0, right: 0,
+                background: isActive
+                  ? "rgba(114, 14, 30, 0.88)"
+                  : "rgba(0,0,0,0.48)",
+                color: "#fff",
+                fontSize: 8, fontWeight: 700,
+                textAlign: "center", padding: "2px 0",
+                letterSpacing: "0.04em",
+                textTransform: "uppercase",
+                lineHeight: 1,
+              }}>
+                Model
+              </div>
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 };
@@ -919,10 +916,16 @@ const ProductView = ({ shop }) => {
         <div style={{ maxWidth: 1160, margin: "0 auto", padding: "44px 20px 90px" }}>
           <Breadcrumb category={product.category} name={product.name} />
 
-          <div style={{ display: "flex", gap: 52, flexWrap: "wrap", alignItems: "flex-start", marginBottom: 52 }}>
+          <div style={{ display: "flex", gap: 48, flexWrap: "wrap", alignItems: "flex-start", marginBottom: 52 }}>
 
-            <div style={{ flex: "0 0 420px", maxWidth: "100%" }}>
-              {/* Signature Arch Card Frame */}
+            {/* Gallery Wrapper: Left Thumbnails + Main Arch Product Image */}
+            <div className="pv-gallery-wrap" style={{ display: "flex", gap: 16, alignItems: "flex-start", flex: "0 0 auto", maxWidth: "100%" }}>
+              {gallery.length > 1 && (
+                <ImageSelector gallery={gallery} originalImage={originalImage} activeImage={activeImage} onSelect={setActiveImage} />
+              )}
+
+              <div style={{ width: 420, maxWidth: "100%", flexShrink: 0 }}>
+                {/* Signature Arch Card Frame */}
               <div
                 onMouseEnter={() => setIsMainImageHovered(true)}
                 onMouseLeave={() => setIsMainImageHovered(false)}
@@ -1170,8 +1173,27 @@ const ProductView = ({ shop }) => {
                   from { opacity: 0.7; }
                   to { opacity: 1; }
                 }
+                .pv-thumbnails-left::-webkit-scrollbar {
+                  display: none;
+                }
+                @media (max-width: 768px) {
+                  .pv-gallery-wrap {
+                    flex-direction: column-reverse !important;
+                    width: 100% !important;
+                  }
+                  .pv-gallery-wrap > div:last-child {
+                    width: 100% !important;
+                  }
+                  .pv-thumbnails-left {
+                    flex-direction: row !important;
+                    max-height: none !important;
+                    width: 100% !important;
+                    overflow-x: auto !important;
+                    padding-bottom: 6px !important;
+                  }
+                }
               `}</style>
-              <ThumbnailStrip images={gallery} active={activeImage} onSelect={setActiveImage} />
+            </div>
             </div>
 
             <div style={{ flex: 1, minWidth: 280 }}>
@@ -1210,9 +1232,6 @@ const ProductView = ({ shop }) => {
               <AttributesSelector product={product} selections={currentSelection} onSelect={handleOptionSelect} isDisabled={isOptionDisabled} />
               {variantNeedsSelection && <p role="status" style={{ margin: '-10px 0 18px', color: '#8a5a12', fontSize: 12 }}>Choose an option combination to see its availability and add it to your cart.</p>}
 
-              {gallery.length > 0 && (
-                <ImageSelector gallery={gallery} originalImage={originalImage} activeImage={activeImage} onSelect={setActiveImage} />
-              )}
 
               <div style={{ marginBottom: 24 }}>
                 <p style={{ fontSize: 12, fontWeight: 700, color: "#777", marginBottom: 8, textTransform: "uppercase", letterSpacing: 1 }}>Qty</p>
