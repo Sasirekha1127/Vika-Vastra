@@ -539,8 +539,8 @@ const NavItem = ({ label, to, children }) => {
   const targetPath = to ? normalizePath(to) : '';
   const hasCategoryFilter = currentPath === '/shop' && Boolean(new URLSearchParams(location.search).get('category'));
   const isCollectionActive = !to && (label === 'Best Collections' || label === 'Collection') && hasCategoryFilter;
-  const isShopPermanent = label === 'Shop';
-  const isActive = Boolean(isCollectionActive || (to && label !== 'Shop' && (currentPath === targetPath || (targetPath !== '/' && currentPath.startsWith(`${targetPath}/`)))));
+  const isShopPermanent = label === 'Shop' || label === 'Best Collections' || label === 'Collection';
+  const isActive = Boolean(!isShopPermanent && (isCollectionActive || (to && (currentPath === targetPath || (targetPath !== '/' && currentPath.startsWith(`${targetPath}/`))))));
 
   return (
     <div
@@ -921,13 +921,13 @@ const HeaderOne = ({ shop }) => {
           transform: scale(0.96);
         }
 
-        .emb-nav-link.is-open {
+        .emb-nav-link:not(.is-shop-gold).is-open {
           background: rgba(251, 236, 215, 0.12) !important;
           border-color: transparent !important;
           color: #DFB143 !important;
         }
 
-        /* ── Active state: Sleek Gold Underline Bar (except Shop) ── */
+        /* ── Active state: Sleek Gold Underline Bar (except Shop & Collections) ── */
         .emb-nav-link:not(.is-shop-gold).is-active {
           color: #DFB143 !important;
           background: transparent !important;
@@ -941,7 +941,7 @@ const HeaderOne = ({ shop }) => {
           opacity: 1;
         }
 
-        /* ── Permanent Shop Featured Gold Active Bar / Pill (Except Shop: keeps full gold pill) ── */
+        /* ── Permanent Featured Gold Active Bar / Pill (Shop & Best Collections) ── */
         .emb-nav-link.is-shop-gold {
           background: ${C.goldGradient} !important;
           color: #380710 !important;
@@ -956,7 +956,8 @@ const HeaderOne = ({ shop }) => {
           display: none !important;
         }
 
-        .emb-nav-link.is-shop-gold:hover {
+        .emb-nav-link.is-shop-gold:hover,
+        .emb-nav-link.is-shop-gold.is-open {
           background: linear-gradient(135deg, #B88E20 0%, #DFBA58 52%, #C49727 100%) !important;
           color: #380710 !important;
           box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.5) !important;
