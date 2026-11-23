@@ -5,8 +5,6 @@ import craftBanner from "../../assets/img/about/rooted-in-tradition-banner.png";
 import saree1 from "../../assets/img/about/saree1.jpeg";
 import saree2 from "../../assets/img/about/saree2.jpeg";
 import saree3 from "../../assets/img/about/saree3.jpeg";
-import saree4 from "../../assets/img/about/saree4.jpeg";
-import saree5 from "../../assets/img/about/saree5.jpeg";
 import saree6 from "../../assets/img/about/saree6.jpeg";
 import saree7 from "../../assets/img/about/saree7.jpeg";
 import saree8 from "../../assets/img/about/saree8.jpeg";
@@ -473,8 +471,8 @@ const MILESTONES = [
     desc: "Vika Vasthra was born with a curated Best collection of 40 handloom sarees sourced directly from Kanchipuram master weavers. Our first 200 orders shipped within the founding month — a dream turned into living heritage.",
     stat1: "40 Looms Curated",
     stat2: "200 Founding Drapes",
-    img: saree4,
-    imgAlt: "Vika Vasthra first saree delivery packaging — 2020",
+    img: saree1,
+    imgAlt: "Vika Vasthra first saree delivery keepsake packaging — 2020",
     badge: "Founding Year",
   },
   {
@@ -485,8 +483,8 @@ const MILESTONES = [
     desc: "We expanded into Banarasi silk and Chanderi Best collections, crossing 3,000 successful deliveries. Artisan partnerships grew to 100+ weaver families as word of our uncompromising quality spread across South India.",
     stat1: "100+ Artisan Families",
     stat2: "3,000 Orders Crossed",
-    img: saree5,
-    imgAlt: "Mustard yellow handloom saree — Vika Vasthra 2021 Best collection",
+    img: saree2,
+    imgAlt: "Emerald green handloom silk saree craftsmanship — Vika Vasthra 2021",
     badge: "Regional Expansion",
   },
   {
@@ -498,7 +496,7 @@ const MILESTONES = [
     stat1: "8,000 Orders Delivered",
     stat2: "Digital Boutique Launch",
     img: saree6,
-    imgAlt: "Orange Kanchipuram silk saree — Vika Vasthra 2022",
+    imgAlt: "Royal purple Kanchipuram silk saree — Vika Vasthra 2022",
     badge: "Digital Platform",
   },
   {
@@ -510,7 +508,7 @@ const MILESTONES = [
     stat1: "15,000 Orders Delivered",
     stat2: "Sold Out in 72 Hours",
     img: saree7,
-    imgAlt: "Premium multicolour saree Best collection — Vika Vasthra 2023",
+    imgAlt: "Heirloom crimson red bridal silk saree — Vika Vasthra 2023",
     badge: "Bridal Prestige",
   },
   {
@@ -522,7 +520,7 @@ const MILESTONES = [
     stat1: "19,000 Orders Delivered",
     stat2: "Pan-India Express Delivery",
     img: saree8,
-    imgAlt: "Lavender tissue silk saree — Vika Vasthra 2024 national launch",
+    imgAlt: "Royal teal and gold brocade silk saree — Vika Vasthra 2024",
     badge: "Pan-India Reach",
   },
   {
@@ -534,7 +532,7 @@ const MILESTONES = [
     stat1: "21,900 Orders Delivered",
     stat2: "500+ Artisan Families",
     img: saree9,
-    imgAlt: "Exclusive zari Kanchipuram saree — Vika Vasthra 2025 milestone",
+    imgAlt: "Shimmering magenta tissue pure zari Kanchipuram saree — Vika Vasthra 2025 milestone",
     milestone: true,
     badge: "★ Landmark Milestone",
   },
