@@ -212,44 +212,108 @@ const ImageSelector = ({ gallery, originalImage, activeImage, onSelect }) => {
 };
 
 const QtySelector = ({ qty, setQty, max }) => (
-  <div style={{ display: "flex", alignItems: "center", border: "1px solid #ddd", borderRadius: 6, overflow: "hidden", width: "fit-content" }}>
-    <button onClick={() => setQty((q) => Math.max(1, q - 1))} style={{ width: 36, height: 40, border: "none", background: "#f5f5f5", cursor: "pointer", fontSize: 18, color: DARK }}>−</button>
-    <span style={{ minWidth: 44, textAlign: "center", fontSize: 15, fontWeight: 600, color: DARK }}>{qty}</span>
-    <button onClick={() => setQty((q) => Math.min(max || 99, q + 1))} style={{ width: 36, height: 40, border: "none", background: "#f5f5f5", cursor: "pointer", fontSize: 18, color: DARK }}>+</button>
+  <div style={{ display: "flex", alignItems: "center", border: "1.5px solid #E7DFD2", borderRadius: 999, overflow: "hidden", width: "fit-content", background: "#FFFFFF", boxShadow: "0 1px 4px rgba(0,0,0,0.04)" }}>
+    <button
+      type="button"
+      onClick={() => setQty((q) => Math.max(1, q - 1))}
+      style={{ width: 38, height: 38, border: "none", background: "transparent", cursor: "pointer", fontSize: 18, color: DARK, fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center", transition: "background 0.15s" }}
+      onMouseEnter={(e) => { e.currentTarget.style.background = "#F8F6F2"; }}
+      onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; }}
+    >−</button>
+    <span style={{ minWidth: 44, textAlign: "center", fontSize: 14, fontWeight: 700, color: "#380710" }}>{qty}</span>
+    <button
+      type="button"
+      onClick={() => setQty((q) => Math.min(max || 99, q + 1))}
+      style={{ width: 38, height: 38, border: "none", background: "transparent", cursor: "pointer", fontSize: 18, color: DARK, fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center", transition: "background 0.15s" }}
+      onMouseEnter={(e) => { e.currentTarget.style.background = "#F8F6F2"; }}
+      onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; }}
+    >+</button>
   </div>
 );
 
 const AttributesSelector = ({ product, selections, onSelect, isDisabled }) => {
+  const [hoveredVal, setHoveredVal] = useState(null);
+
   const renderGroup = (title, attrName, list) => {
     if (!list || list.length === 0) return null;
+    const currentVal = selections[attrName];
+
     return (
-      <div key={attrName} style={{ marginBottom: 20 }}>
-        <p style={{ fontSize: 11, fontWeight: 700, color: "#777", marginBottom: 8, textTransform: "uppercase", letterSpacing: 1 }}>
-          {title}
-        </p>
-        <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+      <div key={attrName} style={{ marginBottom: 22 }}>
+        <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginBottom: 10 }}>
+          <span style={{ fontSize: 11, fontWeight: 700, color: "#8C7377", textTransform: "uppercase", letterSpacing: "0.12em" }}>
+            {title}
+          </span>
+          {currentVal && (
+            <span style={{ fontSize: 12, fontWeight: 700, color: DARK, letterSpacing: "0.02em" }}>
+              — {currentVal}
+            </span>
+          )}
+        </div>
+
+        <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
           {list.map((val) => {
             const isSelected = selections[attrName] === String(val);
             const disabled   = isDisabled(attrName, val);
+            const isHovered  = hoveredVal === `${attrName}_${val}`;
+
             return (
               <button
                 key={val}
+                type="button"
                 aria-pressed={isSelected}
+                disabled={disabled}
                 onClick={() => !disabled && onSelect(attrName, isSelected ? '' : String(val))}
+                onMouseEnter={() => !disabled && setHoveredVal(`${attrName}_${val}`)}
+                onMouseLeave={() => setHoveredVal(null)}
                 style={{
-                  padding: "7px 18px", fontSize: 13, borderRadius: 4,
+                  position: "relative",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: 8,
+                  padding: "9px 22px",
+                  fontSize: 13,
+                  fontWeight: isSelected ? 700 : 600,
+                  letterSpacing: "0.03em",
+                  borderRadius: 999,
                   cursor: disabled ? "not-allowed" : "pointer",
-                  border: isSelected ? `2px solid ${CART_BG}` : disabled ? "2px dashed #eee" : "2px solid #ddd",
-                  background: isSelected ? "#fdf0f8" : disabled ? "#fafafa" : "#fff",
-                  color: isSelected ? CART_BG : disabled ? "#ccc" : "#444",
-                  fontWeight: isSelected ? 700 : 400,
-                  opacity: disabled ? 0.6 : 1,
-                  transition: "all .22s cubic-bezier(.2,.75,.25,1)",
-                  transform: isSelected ? "translateY(-1px)" : "translateY(0)",
-                  boxShadow: isSelected ? "0 3px 10px rgba(26,16,64,.12)" : "none",
+                  border: isSelected
+                    ? `1.5px solid ${DARK}`
+                    : disabled
+                    ? "1.5px dashed #e2dad5"
+                    : isHovered
+                    ? `1.5px solid ${GOLD}`
+                    : "1.5px solid #E7DFD2",
+                  background: isSelected
+                    ? `linear-gradient(135deg, ${DARK} 0%, #8E1628 100%)`
+                    : disabled
+                    ? "#FAF8F5"
+                    : isHovered
+                    ? "#FFFDF9"
+                    : "#FFFFFF",
+                  color: isSelected ? "#FFFFFF" : disabled ? "#bbb" : "#380710",
+                  opacity: disabled ? 0.55 : 1,
+                  boxShadow: isSelected
+                    ? "0 4px 14px rgba(114, 14, 30, 0.28)"
+                    : isHovered
+                    ? "0 3px 10px rgba(197, 155, 39, 0.2)"
+                    : "0 1px 3px rgba(0, 0, 0, 0.04)",
+                  transform: isSelected
+                    ? "translateY(-1px) scale(1.02)"
+                    : isHovered
+                    ? "translateY(-1px)"
+                    : "none",
+                  transition: "all 0.22s cubic-bezier(0.4, 0, 0.2, 1)",
+                  outline: "none",
                 }}
               >
-                {val}
+                {isSelected && (
+                  <span style={{ display: "inline-flex", alignItems: "center", color: GOLD, fontSize: 11, fontWeight: 900 }}>
+                    ✓
+                  </span>
+                )}
+                <span>{val}</span>
               </button>
             );
           })}
