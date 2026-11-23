@@ -227,6 +227,14 @@ const styles = `
     border-color: var(--gold);
     box-shadow: 0 0 0 3px rgba(201,147,58,0.12);
   }
+  input.is-invalid, textarea.is-invalid {
+    border-color: #DC2626 !important;
+    background: #FFFBFB !important;
+  }
+  input.is-invalid:focus, textarea.is-invalid:focus {
+    border-color: #DC2626 !important;
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.14) !important;
+  }
   textarea { resize: vertical; min-height: 130px; line-height: 1.65; }
 
   .form-footer {
@@ -340,27 +348,80 @@ const EMPTY = { name: "", email: "", phone: "", subject: "", message: "" };
 export default function ContactPage({ shop }) {
   const [form, setForm]                 = useState(EMPTY);
   const [errors, setErrors]             = useState({});
+  const [touched, setTouched]           = useState({});
   const [sent, setSent]                 = useState(false);
   const [hiding, setHiding]             = useState(false);
   const [loading, setLoading]           = useState(false);
   const [submitError, setSubmitError]   = useState('');
   const [errorHiding, setErrorHiding]   = useState(false);
 
-  const validate = () => {
-    const e = {};
-    if (!form.name.trim())    e.name    = "Name is required";
-    if (!form.email.trim())   e.email   = "Email is required";
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) e.email = "Enter a valid email";
-    if (!form.phone.trim())   e.phone   = "Phone number is required";
-    if (!form.subject.trim()) e.subject = "Subject is required";
-    if (!form.message.trim()) e.message = "Message is required";
-    return e;
+  const validateField = (name, value) => {
+    const val = (value || "").trim();
+    switch (name) {
+      case "name":
+        if (!val) return "Full name is required";
+        if (val.length < 2) return "Name must be at least 2 characters";
+        if (!/^[a-zA-Z\s.'-]+$/.test(val)) return "Name should contain only letters and spaces";
+        return "";
+      case "email":
+        if (!val) return "Email address is required";
+        if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(val)) {
+          return "Please enter a valid email address (e.g. name@domain.com)";
+        }
+        return "";
+      case "phone": {
+        if (!val) return "Phone number is required";
+        const digits = val.replace(/\D/g, "");
+        if (digits.length === 10) {
+          if (!/^[6-9]\d{9}$/.test(digits)) return "Please enter a valid 10-digit mobile number starting with 6-9";
+        } else if (digits.length === 12 && digits.startsWith("91")) {
+          if (!/^[6-9]\d{9}$/.test(digits.slice(2))) return "Please enter a valid 10-digit mobile number starting with 6-9";
+        } else if (digits.length === 11 && digits.startsWith("0")) {
+          if (!/^[6-9]\d{9}$/.test(digits.slice(1))) return "Please enter a valid 10-digit mobile number starting with 6-9";
+        } else {
+          return "Please enter a valid 10-digit mobile number";
+        }
+        return "";
+      }
+      case "subject":
+        if (!val) return "Subject is required";
+        if (val.length < 3) return "Subject must be at least 3 characters";
+        return "";
+      case "message":
+        if (!val) return "Message is required";
+        if (val.length < 10) return `Message must be at least 10 characters (currently ${val.length})`;
+        return "";
+      default:
+        return "";
+    }
+  };
+
+  const validateAll = () => {
+    const newErrors = {};
+    Object.keys(form).forEach((field) => {
+      const err = validateField(field, form[field]);
+      if (err) newErrors[field] = err;
+    });
+    return newErrors;
   };
 
   const handleChange = (e) => {
-    setForm((p) => ({ ...p, [e.target.name]: e.target.value }));
-    if (errors[e.target.name]) setErrors((p) => ({ ...p, [e.target.name]: "" }));
+    const { name, value } = e.target;
+    setForm((p) => ({ ...p, [name]: value }));
+    if (touched[name]) {
+      const err = validateField(name, value);
+      setErrors((prev) => ({ ...prev, [name]: err }));
+    } else if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: "" }));
+    }
     if (submitError) setSubmitError('');
+  };
+
+  const handleBlur = (e) => {
+    const { name, value } = e.target;
+    setTouched((prev) => ({ ...prev, [name]: true }));
+    const err = validateField(name, value);
+    setErrors((prev) => ({ ...prev, [name]: err }));
   };
 
   const showSuccess = () => {
@@ -383,23 +444,33 @@ export default function ContactPage({ shop }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const errs = validate();
-    if (Object.keys(errs).length) { setErrors(errs); return; }
+    const allTouched = { name: true, email: true, phone: true, subject: true, message: true };
+    setTouched(allTouched);
+    const errs = validateAll();
+    if (Object.keys(errs).length) {
+      setErrors(errs);
+      const firstField = Object.keys(errs)[0];
+      const el = document.getElementById(firstField);
+      if (el) el.focus();
+      return;
+    }
 
     setLoading(true);
     setSubmitError('');
 
     submitContact({
-      name:    form.name,
-      email:   form.email,
-      phone:   form.phone,
-      subject: form.subject,
-      message: form.message,
+      name:    form.name.trim(),
+      email:   form.email.trim(),
+      phone:   form.phone.trim(),
+      subject: form.subject.trim(),
+      message: form.message.trim(),
     })
       .then((res) => {
         setLoading(false);
         if (res?.data?.success) {
           setForm(EMPTY);
+          setErrors({});
+          setTouched({});
           showSuccess();
         } else {
           showError(res?.data?.message || 'Submission failed. Please try again.');
@@ -449,8 +520,6 @@ export default function ContactPage({ shop }) {
                 <div className="info-label">Store Address</div>
                 <div className="info-value" style={{ fontWeight: 700, color: 'var(--navy)' }}>
                   Vikraman.k <br />
-                  Murari Enclave <br />
-                  Maragondanahalli <br />
                   Electronic City phase 1 <br />
                   Bangalore - 560100 <br />
                   Karnataka
@@ -482,9 +551,17 @@ export default function ContactPage({ shop }) {
                 <input
                   id="name" name="name" type="text"
                   placeholder="Priya Sharma"
-                  value={form.name} onChange={handleChange}
+                  value={form.name}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={errors.name && touched.name ? "is-invalid" : ""}
                 />
-                {errors.name && <span className="field-error">{errors.name}</span>}
+                {errors.name && touched.name && (
+                  <span className="field-error">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                    {errors.name}
+                  </span>
+                )}
               </div>
 
               <div className="form-group">
@@ -492,9 +569,17 @@ export default function ContactPage({ shop }) {
                 <input
                   id="email" name="email" type="email"
                   placeholder="priya@example.com"
-                  value={form.email} onChange={handleChange}
+                  value={form.email}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={errors.email && touched.email ? "is-invalid" : ""}
                 />
-                {errors.email && <span className="field-error">{errors.email}</span>}
+                {errors.email && touched.email && (
+                  <span className="field-error">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                    {errors.email}
+                  </span>
+                )}
               </div>
 
               <div className="form-group">
@@ -502,9 +587,17 @@ export default function ContactPage({ shop }) {
                 <input
                   id="phone" name="phone" type="tel"
                   placeholder="+91 98765 43210"
-                  value={form.phone} onChange={handleChange}
+                  value={form.phone}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={errors.phone && touched.phone ? "is-invalid" : ""}
                 />
-                {errors.phone && <span className="field-error">{errors.phone}</span>}
+                {errors.phone && touched.phone && (
+                  <span className="field-error">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                    {errors.phone}
+                  </span>
+                )}
               </div>
 
               <div className="form-group">
@@ -512,19 +605,40 @@ export default function ContactPage({ shop }) {
                 <input
                   id="subject" name="subject" type="text"
                   placeholder="e.g. Kanjivaram silk saree enquiry"
-                  value={form.subject} onChange={handleChange}
+                  value={form.subject}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={errors.subject && touched.subject ? "is-invalid" : ""}
                 />
-                {errors.subject && <span className="field-error">{errors.subject}</span>}
+                {errors.subject && touched.subject && (
+                  <span className="field-error">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                    {errors.subject}
+                  </span>
+                )}
               </div>
 
               <div className="form-group full">
-                <label htmlFor="message">Message *</label>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <label htmlFor="message">Message *</label>
+                  <span style={{ fontSize: "0.72rem", color: form.message.trim().length >= 10 ? "#16a34a" : "#888", fontWeight: 500 }}>
+                    {form.message.trim().length} / 10 min chars
+                  </span>
+                </div>
                 <textarea
                   id="message" name="message"
                   placeholder="Tell us about the saree you're looking for — occasion, colour, fabric, budget…"
-                  value={form.message} onChange={handleChange}
+                  value={form.message}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={errors.message && touched.message ? "is-invalid" : ""}
                 />
-                {errors.message && <span className="field-error">{errors.message}</span>}
+                {errors.message && touched.message && (
+                  <span className="field-error">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                    {errors.message}
+                  </span>
+                )}
               </div>
 
               <div className="form-footer full">

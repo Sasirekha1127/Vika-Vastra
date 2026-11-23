@@ -186,6 +186,54 @@ const loginStyles = `
     transform: translateY(-50%) scale(1.1);
   }
   .lr-input::placeholder { color: #B5A8A3; }
+  .lr-input.is-invalid {
+    border-color: #DC2626 !important;
+    background: #FFF9F9 !important;
+  }
+  .lr-input.is-invalid:focus {
+    border-color: #DC2626 !important;
+    box-shadow: 0 0 0 3.5px rgba(220, 38, 38, 0.16) !important;
+  }
+  .lr-input-wrap.is-invalid .lr-input-icon {
+    color: #DC2626 !important;
+  }
+  .lr-field-error {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11.5px;
+    color: #DC2626;
+    margin-top: 6px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    line-height: 1.4;
+  }
+  .lr-pwd-meter {
+    margin-top: 8px;
+    padding: 2px 0;
+  }
+  .lr-pwd-bars {
+    display: flex;
+    gap: 4px;
+    height: 4px;
+    margin-bottom: 5px;
+  }
+  .lr-pwd-bar {
+    flex: 1;
+    height: 100%;
+    border-radius: 2px;
+    background: #E8E0D5;
+    transition: background 0.25s ease;
+  }
+  .lr-pwd-text {
+    font-size: 11px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 
   /* Eye toggle button */
   .lr-eye-btn {
@@ -467,18 +515,72 @@ const EyeClosed = () => (
   </svg>
 );
 
+// ─── Validation Helpers ───────────────────────────────────────────────────────
+const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+const NAME_REGEX  = /^[a-zA-Z\s.'-]+$/;
+
+const isValidIndianPhone = (phone) => {
+  if (!phone) return false;
+  const digits = String(phone).replace(/\D/g, "");
+  if (digits.length === 10) return /^[6-9]\d{9}$/.test(digits);
+  if (digits.length === 12 && digits.startsWith("91")) return /^[6-9]\d{9}$/.test(digits.slice(2));
+  if (digits.length === 11 && digits.startsWith("0")) return /^[6-9]\d{9}$/.test(digits.slice(1));
+  return false;
+};
+
+const getPasswordStrength = (pwd) => {
+  if (!pwd) return { score: 0, label: "", color: "" };
+  let score = 0;
+  if (pwd.length >= 8) score++;
+  if (/[a-z]/.test(pwd) && /[A-Z]/.test(pwd)) score++;
+  if (/\d/.test(pwd)) score++;
+  if (/[^A-Za-z0-9]/.test(pwd)) score++;
+
+  if (score <= 1) return { score: 1, label: "Weak", color: "#DC2626" };
+  if (score === 2) return { score: 2, label: "Fair", color: "#D97706" };
+  if (score === 3) return { score: 3, label: "Good", color: "#2563EB" };
+  return { score: 4, label: "Strong", color: "#16A34A" };
+};
+
+const FieldError = ({ error }) => {
+  if (!error) return null;
+  return (
+    <span className="lr-field-error">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+        <circle cx="12" cy="12" r="10" />
+        <line x1="12" y1="8" x2="12" y2="12" />
+        <line x1="12" y1="16" x2="12.01" y2="16" />
+      </svg>
+      {error}
+    </span>
+  );
+};
+
 // ─── Password input with eye toggle ──────────────────────────────────────────
-const PasswordInput = ({ value, onChange, placeholder, className = "" }) => {
+const PasswordInput = ({
+  value,
+  onChange,
+  onBlur,
+  placeholder,
+  className = "",
+  isInvalid = false,
+  id,
+  name,
+  autoComplete
+}) => {
   const [show, setShow] = useState(false);
   return (
-    <div className="lr-input-wrap">
+    <div className={`lr-input-wrap ${isInvalid ? "is-invalid" : ""}`}>
       <input
-        className={`lr-input has-eye ${className}`}
+        id={id}
+        name={name}
+        className={`lr-input has-eye ${isInvalid ? "is-invalid" : ""} ${className}`}
         type={show ? "text" : "password"}
         placeholder={placeholder}
-        required
         value={value}
         onChange={onChange}
+        onBlur={onBlur}
+        autoComplete={autoComplete}
       />
       <i className="pe-7s-lock lr-input-icon" />
       <button
@@ -627,20 +729,26 @@ const LoginRegister = ({ shop }) => {
   const hasPendingItems    = guestCartCount > 0 || guestWishlistCount > 0;
 
   const [loginData,    setLoginData]    = useState({ email: "", password: "" });
+  const [loginErrors,  setLoginErrors]  = useState({});
+  const [loginTouched, setLoginTouched] = useState({});
   const [loginError,   setLoginError]   = useState("");
   const [loginLoading, setLoginLoading] = useState(false);
   const [loginSuccess, setLoginSuccess] = useState(false);
 
-  const [regData,    setRegData]    = useState({ username: "", email: "", password: "", phone: "" });
-  const [regError,   setRegError]   = useState("");
-  const [regSuccess, setRegSuccess] = useState("");
-  const [regLoading, setRegLoading] = useState(false);
+  const [regData,        setRegData]        = useState({ username: "", email: "", password: "", confirmPassword: "", phone: "" });
+  const [regErrors,      setRegErrors]      = useState({});
+  const [regTouched,     setRegTouched]     = useState({});
+  const [regError,       setRegError]       = useState("");
+  const [regSuccess,     setRegSuccess]     = useState("");
+  const [regLoading,     setRegLoading]     = useState(false);
   const [regOtpRequired, setRegOtpRequired] = useState(false);
-  const [regOtp, setRegOtp] = useState("");
+  const [regOtp,         setRegOtp]         = useState("");
 
   const switchTab = (tab) => {
     setActiveTab(tab);
     setLoginError(""); setRegError(""); setRegSuccess("");
+    setLoginErrors({}); setLoginTouched({});
+    setRegErrors({}); setRegTouched({});
     if (tab !== "register") { setRegOtpRequired(false); setRegOtp(""); }
   };
 
@@ -649,35 +757,71 @@ const LoginRegister = ({ shop }) => {
     setToastType(type);
   };
 
+  const validateLogin = (field, val) => {
+    const trimmed = (val || "").trim();
+    if (field === "email") {
+      if (!trimmed) return "Email address is required";
+      if (!EMAIL_REGEX.test(trimmed)) return "Please enter a valid email address (e.g. name@domain.com)";
+      return "";
+    }
+    if (field === "password") {
+      if (!val) return "Password is required";
+      if (val.length < 6) return "Password must be at least 6 characters";
+      return "";
+    }
+    return "";
+  };
+
+  const handleLoginChange = (e) => {
+    const { name, value } = e.target;
+    setLoginData((p) => ({ ...p, [name]: value }));
+    if (loginTouched[name]) {
+      const err = validateLogin(name, value);
+      setLoginErrors((p) => ({ ...p, [name]: err }));
+    } else if (loginErrors[name]) {
+      setLoginErrors((p) => ({ ...p, [name]: "" }));
+    }
+    if (loginError) setLoginError("");
+  };
+
+  const handleLoginBlur = (e) => {
+    const { name, value } = e.target;
+    setLoginTouched((p) => ({ ...p, [name]: true }));
+    const err = validateLogin(name, value);
+    setLoginErrors((p) => ({ ...p, [name]: err }));
+  };
+
   const handleLogin = async (e) => {
+    e.preventDefault();
+    setLoginTouched({ email: true, password: true });
+    const emailErr = validateLogin("email", loginData.email);
+    const pwdErr   = validateLogin("password", loginData.password);
+    if (emailErr || pwdErr) {
+      setLoginErrors({ email: emailErr, password: pwdErr });
+      showToast(emailErr || pwdErr, "error");
+      return;
+    }
 
-  e.preventDefault();
+    setLoginError("");
+    setLoginLoading(true);
 
-  setLoginError("");
-  setLoginLoading(true);
+    try {
+      const res = await loginUser({
+        email: loginData.email.trim(),
+        password: loginData.password
+      });
 
-  try {
-
-    // =====================================
-    // LOGIN API
-    // =====================================
-
-    const res = await loginUser({
-      email: loginData.email,
-      password: loginData.password
-    });
-
-    await completeLogin(res);
-  } catch (err) {
-    console.error("LOGIN ERROR:", err);
-    const msg = err.response?.data?.message || err.response?.data?.error || "Login failed. Please try again.";
-    setLoginError(msg);
-    setLoginSuccess(false);
-    showToast(msg, "error");
-  } finally {
-    setLoginLoading(false);
-  }
-};
+      await completeLogin(res);
+    } catch (err) {
+      console.error("LOGIN ERROR:", err);
+      const msg = err.response?.data?.message || err.response?.data?.error || "Login failed. Please try again.";
+      setLoginError(msg);
+      setLoginSuccess(false);
+      showToast(msg, "error");
+    } finally {
+      setLoginLoading(false);
+    }
+  };
 
   const completeLogin = async (res) => {
     console.log("LOGIN RESPONSE:", res.data);
@@ -874,53 +1018,151 @@ const LoginRegister = ({ shop }) => {
 
 };
 
+  const validateReg = (field, val, allData = regData) => {
+    const trimmed = (val || "").trim();
+    switch (field) {
+      case "username":
+        if (!trimmed) return "Full name is required";
+        if (trimmed.length < 2) return "Name must be at least 2 characters";
+        if (!NAME_REGEX.test(trimmed)) return "Name should contain only letters and spaces";
+        return "";
+      case "email":
+        if (!trimmed) return "Email address is required";
+        if (!EMAIL_REGEX.test(trimmed)) return "Please enter a valid email address (e.g. name@domain.com)";
+        return "";
+      case "phone":
+        if (!trimmed) return "Phone number is required";
+        if (!isValidIndianPhone(trimmed)) return "Please enter a valid 10-digit mobile number (starts with 6-9)";
+        return "";
+      case "password":
+        if (!val) return "Password is required";
+        if (val.length < 8) return "Password must be at least 8 characters";
+        if (!/[a-zA-Z]/.test(val) || !/\d/.test(val)) {
+          return "Password must include at least one letter and one number";
+        }
+        return "";
+      case "confirmPassword":
+        if (!val) return "Please confirm your password";
+        if (val !== allData.password) return "Passwords do not match";
+        return "";
+      case "otp":
+        if (!trimmed) return "Verification code is required";
+        if (trimmed.length !== 6) return "Verification code must be 6 digits";
+        return "";
+      default:
+        return "";
+    }
+  };
+
+  const handleRegChange = (e) => {
+    const { name, value } = e.target;
+    const updated = { ...regData, [name]: value };
+    setRegData(updated);
+
+    if (regTouched[name]) {
+      const err = validateReg(name, value, updated);
+      setRegErrors((p) => ({ ...p, [name]: err }));
+    } else if (regErrors[name]) {
+      setRegErrors((p) => ({ ...p, [name]: "" }));
+    }
+
+    if (name === "password" && regTouched.confirmPassword) {
+      const confirmErr = validateReg("confirmPassword", regData.confirmPassword, updated);
+      setRegErrors((p) => ({ ...p, confirmPassword: confirmErr }));
+    }
+    if (regError) setRegError("");
+  };
+
+  const handleRegBlur = (e) => {
+    const { name, value } = e.target;
+    setRegTouched((p) => ({ ...p, [name]: true }));
+    const err = validateReg(name, value, regData);
+    setRegErrors((p) => ({ ...p, [name]: err }));
+  };
+
   const handleRegister = async (e) => {
     e.preventDefault();
     setRegError(""); setRegSuccess("");
-    if (!regData.phone.trim()) {
-      setRegError("Phone number is required.");
-      showToast("Phone number is required.", "error");
-      return;
-    }
-    if (regData.password.length < 8) {
-      setRegError("Password must be at least 8 characters.");
-      showToast("Password must be at least 8 characters.", "error");
-      return;
-    }
-    setRegLoading(true);
-    try {
-      if (regOtpRequired) {
-        await verifyRegistrationOtp(regData.email, regOtp);
+
+    if (regOtpRequired) {
+      const otpErr = validateReg("otp", regOtp);
+      if (otpErr) {
+        setRegTouched((p) => ({ ...p, otp: true }));
+        setRegErrors((p) => ({ ...p, otp: otpErr }));
+        showToast(otpErr, "error");
+        return;
+      }
+      setRegLoading(true);
+      try {
+        await verifyRegistrationOtp(regData.email.trim(), regOtp.trim());
         setRegSuccess("Account verified and created! You can now sign in.");
         showToast("Account verified successfully. Please sign in.", "success");
-        setRegData({ username: "", email: "", password: "", phone: "" });
+        setRegData({ username: "", email: "", password: "", confirmPassword: "", phone: "" });
+        setRegErrors({});
+        setRegTouched({});
         setRegOtpRequired(false);
         setRegOtp("");
         setTimeout(() => switchTab("login"), 1800);
-      } else {
-        const res = await registerUser({
-          username: regData.username,
-          email:    regData.email,
-          password: regData.password,
-          phone:    regData.phone.trim(),
-        });
-        if (res.data.requiresOtp) {
-          setRegOtpRequired(true);
-          if (res.data.devOtp) {
-            setRegOtp(res.data.devOtp);
-            setRegSuccess(`Verification code: ${res.data.devOtp}`);
-            showToast(`Verification code: ${res.data.devOtp}`, "info");
-          } else {
-            setRegSuccess("We sent a verification code to your email.");
-            showToast("Check your email for the verification code.", "success");
-          }
+      } catch (err) {
+        const msg = err.response?.data?.error || err.response?.data?.message || "Registration failed. Please try again.";
+        setRegError(msg);
+        showToast(msg, "error");
+      } finally {
+        setRegLoading(false);
+      }
+      return;
+    }
+
+    // Step 1: Validate all registration fields
+    const allTouched = { username: true, email: true, phone: true, password: true, confirmPassword: true };
+    setRegTouched(allTouched);
+
+    const usernameErr = validateReg("username", regData.username, regData);
+    const emailErr    = validateReg("email", regData.email, regData);
+    const phoneErr    = validateReg("phone", regData.phone, regData);
+    const pwdErr      = validateReg("password", regData.password, regData);
+    const confirmErr  = validateReg("confirmPassword", regData.confirmPassword, regData);
+
+    const errs = {};
+    if (usernameErr) errs.username = usernameErr;
+    if (emailErr)    errs.email = emailErr;
+    if (phoneErr)    errs.phone = phoneErr;
+    if (pwdErr)      errs.password = pwdErr;
+    if (confirmErr)  errs.confirmPassword = confirmErr;
+
+    if (Object.keys(errs).length > 0) {
+      setRegErrors(errs);
+      const firstMsg = Object.values(errs)[0];
+      showToast(firstMsg, "error");
+      return;
+    }
+
+    setRegLoading(true);
+    try {
+      const res = await registerUser({
+        username: regData.username.trim(),
+        email:    regData.email.trim().toLowerCase(),
+        password: regData.password,
+        phone:    regData.phone.trim(),
+      });
+      if (res.data.requiresOtp) {
+        setRegOtpRequired(true);
+        if (res.data.devOtp) {
+          setRegOtp(res.data.devOtp);
+          setRegSuccess(`Verification code: ${res.data.devOtp}`);
+          showToast(`Verification code: ${res.data.devOtp}`, "info");
+        } else {
+          setRegSuccess("We sent a verification code to your email.");
+          showToast("Check your email for the verification code.", "success");
         }
       }
     } catch (err) {
       const msg = err.response?.data?.error || err.response?.data?.message || "Registration failed. Please try again.";
       setRegError(msg);
       showToast(msg, "error");
-    } finally { setRegLoading(false); }
+    } finally {
+      setRegLoading(false);
+    }
   };
 
   return (
@@ -965,7 +1207,7 @@ const LoginRegister = ({ shop }) => {
               {/* ── LOGIN FORM ── */}
               {activeTab === "login" && (
                 <div className="lr-body">
-                  <form onSubmit={handleLogin}>
+                  <form onSubmit={handleLogin} noValidate>
                     {pendingAction === "cart" && (
                       <div className="lr-sync-banner">
                         <span className="lr-banner-icon">🛒</span>
@@ -994,21 +1236,37 @@ const LoginRegister = ({ shop }) => {
                     {loginError && <div className="lr-alert lr-alert-error">{loginError}</div>}
 
                     <div className="lr-field">
-                      <label className="lr-label">Email Address</label>
-                      <div className="lr-input-wrap">
-                        <input className="lr-input" type="email" placeholder="you@example.com" required
-                          value={loginData.email} onChange={e => setLoginData(p => ({ ...p, email: e.target.value }))} />
+                      <label className="lr-label" htmlFor="login-email">Email Address</label>
+                      <div className={`lr-input-wrap ${loginErrors.email && loginTouched.email ? "is-invalid" : ""}`}>
+                        <input
+                          id="login-email"
+                          name="email"
+                          className={`lr-input ${loginErrors.email && loginTouched.email ? "is-invalid" : ""}`}
+                          type="email"
+                          placeholder="you@example.com"
+                          value={loginData.email}
+                          onChange={handleLoginChange}
+                          onBlur={handleLoginBlur}
+                          autoComplete="email"
+                        />
                         <i className="pe-7s-mail lr-input-icon" />
                       </div>
+                      {loginTouched.email && <FieldError error={loginErrors.email} />}
                     </div>
 
                     <div className="lr-field">
-                      <label className="lr-label">Password</label>
+                      <label className="lr-label" htmlFor="login-password">Password</label>
                       <PasswordInput
+                        id="login-password"
+                        name="password"
                         value={loginData.password}
-                        onChange={e => setLoginData(p => ({ ...p, password: e.target.value }))}
+                        onChange={handleLoginChange}
+                        onBlur={handleLoginBlur}
                         placeholder="••••••••"
+                        isInvalid={Boolean(loginErrors.password && loginTouched.password)}
+                        autoComplete="current-password"
                       />
+                      {loginTouched.password && <FieldError error={loginErrors.password} />}
                     </div>
 
                     <div className="lr-meta">
@@ -1033,57 +1291,159 @@ const LoginRegister = ({ shop }) => {
               {/* ── REGISTER FORM ── */}
               {activeTab === "register" && (
                 <div className="lr-body">
-                  <form onSubmit={handleRegister}>
+                  <form onSubmit={handleRegister} noValidate>
                     {regError   && <div className="lr-alert lr-alert-error">{regError}</div>}
                     {regSuccess && <div className="lr-alert lr-alert-success">{regSuccess}</div>}
 
-                    {!regOtpRequired && <>
-                      <div className="lr-field">
-                      <label className="lr-label">Full Name</label>
-                      <div className="lr-input-wrap">
-                        <input className="lr-input" type="text" placeholder="Your name" required
-                          value={regData.username} onChange={e => setRegData(p => ({ ...p, username: e.target.value }))} />
-                        <i className="pe-7s-user lr-input-icon" />
-                      </div>
-                    </div>
+                    {!regOtpRequired && (
+                      <>
+                        <div className="lr-field">
+                          <label className="lr-label" htmlFor="reg-name">Full Name</label>
+                          <div className={`lr-input-wrap ${regErrors.username && regTouched.username ? "is-invalid" : ""}`}>
+                            <input
+                              id="reg-name"
+                              name="username"
+                              className={`lr-input ${regErrors.username && regTouched.username ? "is-invalid" : ""}`}
+                              type="text"
+                              placeholder="Priya Sharma"
+                              value={regData.username}
+                              onChange={handleRegChange}
+                              onBlur={handleRegBlur}
+                              autoComplete="name"
+                            />
+                            <i className="pe-7s-user lr-input-icon" />
+                          </div>
+                          {regTouched.username && <FieldError error={regErrors.username} />}
+                        </div>
 
-                    <div className="lr-field">
-                      <label className="lr-label">Email Address</label>
-                      <div className="lr-input-wrap">
-                        <input className="lr-input" type="email" placeholder="you@example.com" required
-                          value={regData.email} onChange={e => setRegData(p => ({ ...p, email: e.target.value }))} />
-                        <i className="pe-7s-mail lr-input-icon" />
-                      </div>
-                    </div>
+                        <div className="lr-field">
+                          <label className="lr-label" htmlFor="reg-email">Email Address</label>
+                          <div className={`lr-input-wrap ${regErrors.email && regTouched.email ? "is-invalid" : ""}`}>
+                            <input
+                              id="reg-email"
+                              name="email"
+                              className={`lr-input ${regErrors.email && regTouched.email ? "is-invalid" : ""}`}
+                              type="email"
+                              placeholder="you@example.com"
+                              value={regData.email}
+                              onChange={handleRegChange}
+                              onBlur={handleRegBlur}
+                              autoComplete="email"
+                            />
+                            <i className="pe-7s-mail lr-input-icon" />
+                          </div>
+                          {regTouched.email && <FieldError error={regErrors.email} />}
+                        </div>
 
-                    <div className="lr-field">
-                      <label className="lr-label">Password</label>
-                      <PasswordInput
-                        value={regData.password}
-                        onChange={e => setRegData(p => ({ ...p, password: e.target.value }))}
-                        placeholder="Min. 8 characters"
-                      />
-                    </div>
+                        <div className="lr-field">
+                          <label className="lr-label" htmlFor="reg-phone">Phone Number</label>
+                          <div className={`lr-input-wrap ${regErrors.phone && regTouched.phone ? "is-invalid" : ""}`}>
+                            <input
+                              id="reg-phone"
+                              name="phone"
+                              className={`lr-input ${regErrors.phone && regTouched.phone ? "is-invalid" : ""}`}
+                              type="tel"
+                              placeholder="+91 98765 43210"
+                              value={regData.phone}
+                              onChange={handleRegChange}
+                              onBlur={handleRegBlur}
+                              autoComplete="tel"
+                            />
+                            <i className="pe-7s-call lr-input-icon" />
+                          </div>
+                          {regTouched.phone && <FieldError error={regErrors.phone} />}
+                        </div>
 
-                    <div className="lr-field">
-                      <label className="lr-label">Phone Number</label>
-                      <div className="lr-input-wrap">
-                        <input className="lr-input" type="tel" placeholder="+91 00000 00000" required
-                          value={regData.phone} onChange={e => setRegData(p => ({ ...p, phone: e.target.value }))} />
-                        <i className="pe-7s-call lr-input-icon" />
-                      </div>
-                    </div>
-                    </>}
+                        <div className="lr-field">
+                          <label className="lr-label" htmlFor="reg-password">Password</label>
+                          <PasswordInput
+                            id="reg-password"
+                            name="password"
+                            value={regData.password}
+                            onChange={handleRegChange}
+                            onBlur={handleRegBlur}
+                            placeholder="Min. 8 characters with letter & number"
+                            isInvalid={Boolean(regErrors.password && regTouched.password)}
+                            autoComplete="new-password"
+                          />
+                          {regTouched.password && <FieldError error={regErrors.password} />}
+
+                          {regData.password && (
+                            <div className="lr-pwd-meter">
+                              <div className="lr-pwd-bars">
+                                {[1, 2, 3, 4].map((step) => {
+                                  const strength = getPasswordStrength(regData.password);
+                                  return (
+                                    <div
+                                      key={step}
+                                      className="lr-pwd-bar"
+                                      style={{
+                                        background: strength.score >= step ? strength.color : "#E8E0D5"
+                                      }}
+                                    />
+                                  );
+                                })}
+                              </div>
+                              <div className="lr-pwd-text">
+                                <span style={{ color: "#777" }}>Password Strength:</span>
+                                <span style={{ color: getPasswordStrength(regData.password).color }}>
+                                  {getPasswordStrength(regData.password).label}
+                                </span>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="lr-field">
+                          <label className="lr-label" htmlFor="reg-confirm-password">Confirm Password</label>
+                          <PasswordInput
+                            id="reg-confirm-password"
+                            name="confirmPassword"
+                            value={regData.confirmPassword}
+                            onChange={handleRegChange}
+                            onBlur={handleRegBlur}
+                            placeholder="Re-enter your password"
+                            isInvalid={Boolean(regErrors.confirmPassword && regTouched.confirmPassword)}
+                            autoComplete="new-password"
+                          />
+                          {regTouched.confirmPassword && <FieldError error={regErrors.confirmPassword} />}
+                        </div>
+                      </>
+                    )}
 
                     {regOtpRequired && (
                       <div className="lr-field">
-                        <label className="lr-label">Email Verification Code</label>
-                        <div className="lr-input-wrap">
-                          <input className="lr-input" type="text" inputMode="numeric" autoComplete="one-time-code"
-                            placeholder="Enter 6-digit code" maxLength={6} required
-                            value={regOtp} onChange={e => setRegOtp(e.target.value.replace(/\D/g, ""))} />
+                        <label className="lr-label" htmlFor="reg-otp">Email Verification Code</label>
+                        <div className={`lr-input-wrap ${regErrors.otp && regTouched.otp ? "is-invalid" : ""}`}>
+                          <input
+                            id="reg-otp"
+                            name="otp"
+                            className={`lr-input ${regErrors.otp && regTouched.otp ? "is-invalid" : ""}`}
+                            type="text"
+                            inputMode="numeric"
+                            autoComplete="one-time-code"
+                            placeholder="Enter 6-digit code"
+                            maxLength={6}
+                            value={regOtp}
+                            onChange={(e) => {
+                              const val = e.target.value.replace(/\D/g, "");
+                              setRegOtp(val);
+                              if (regTouched.otp) {
+                                const err = validateReg("otp", val);
+                                setRegErrors((p) => ({ ...p, otp: err }));
+                              }
+                            }}
+                            onBlur={() => {
+                              setRegTouched((p) => ({ ...p, otp: true }));
+                              const err = validateReg("otp", regOtp);
+                              setRegErrors((p) => ({ ...p, otp: err }));
+                            }}
+                          />
                         </div>
-                        <p className="lr-switch">Check your email for the code. It expires in 10 minutes.</p>
+                        {regTouched.otp && <FieldError error={regErrors.otp} />}
+                        <p className="lr-switch" style={{ marginTop: 10, textAlign: "left", fontSize: 12 }}>
+                          Check your email ({regData.email}) for the code. It expires in 10 minutes.
+                        </p>
                       </div>
                     )}
 
