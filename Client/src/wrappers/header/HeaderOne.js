@@ -39,14 +39,14 @@ const S = {
     whiteSpace:     "nowrap",
     position:       "relative",
     width:          "100%",
-    background:     "linear-gradient(90deg, #1C0316 0%, #24061D 50%, #2D0525 100%)",
-    backgroundColor: "#24061D",
+    background:     "rgba(36, 6, 29, 0.98)",
+    backgroundColor: "rgba(36, 6, 29, 0.98)",
     color:          "#E5C365",
     borderBottom:   "1.5px solid rgba(197, 155, 39, 0.35)",
     boxShadow:      "0 2px 8px rgba(36, 6, 29, 0.25)",
   },
   header: {
-    background:           "linear-gradient(90deg, #24061D 0%, #2A0722 50%, #3E0634 100%)",
+    background:           "#f8ebd7",
     backdropFilter:       "blur(16px)",
     WebkitBackdropFilter: "blur(16px)",
     position:             "sticky",
@@ -56,12 +56,12 @@ const S = {
     maxWidth:             "100%",
     boxSizing:            "border-box",
     borderBottom:         "1.5px solid rgba(197, 155, 39, 0.45)",
-    boxShadow:            "0 6px 20px rgba(36, 6, 29, 0.45)",
+    boxShadow:            "0 4px 18px rgba(46, 5, 13, 0.08)",
     transition:           "box-shadow .3s ease, background .3s ease",
   },
   headerStick: {
-    boxShadow:            "0 10px 30px rgba(36, 6, 29, 0.55)",
-    background:           "linear-gradient(90deg, rgba(36, 6, 29, 0.98) 0%, rgba(42, 7, 34, 0.98) 50%, rgba(62, 6, 52, 0.98) 100%)",
+    boxShadow:            "0 8px 24px rgba(46, 5, 13, 0.14)",
+    background:           "rgba(248, 235, 215, 0.98)",
     borderBottom:         "1.5px solid rgba(197, 155, 39, 0.55)",
   },
   mainRow: {
@@ -126,9 +126,9 @@ const S = {
     display:        "inline-flex",
     alignItems:     "center",
     justifyContent: "center",
-    border:         "1px solid rgba(229, 195, 101, 0.35)",
-    background:     "rgba(255, 255, 255, 0.12)",
-    color:          "#FAF7F2",
+    border:         "1px solid rgba(197, 155, 39, 0.45)",
+    background:     "#FFFFFF",
+    color:          "#720E1E",
     cursor:         "pointer",
     borderRadius:   14,
     transition:     "all .25s cubic-bezier(0.16, 1, 0.3, 1)",
@@ -143,7 +143,7 @@ const S = {
     boxSizing:      "border-box",
     borderRadius:   9,
     background:     C.goldGradient,
-    border:         "2px solid #24061D",
+    border:         "2px solid #f8ebd7",
     color:          C.maroonDeep,
     fontSize:       9.5,
     fontWeight:     800,
@@ -819,9 +819,9 @@ const HeaderOne = ({ shop }) => {
           position: sticky !important;
           top: 0;
           z-index: 999;
-          background: linear-gradient(90deg, #24061D 0%, #2A0722 50%, #3E0634 100%) !important;
+          background: #f8ebd7 !important;
           border-bottom: 1.5px solid rgba(197, 155, 39, 0.45) !important;
-          box-shadow: 0 6px 20px rgba(36, 6, 29, 0.45) !important;
+          box-shadow: 0 4px 18px rgba(46, 5, 13, 0.08) !important;
           transition: background .25s ease, box-shadow .25s ease;
         }
 
@@ -832,8 +832,8 @@ const HeaderOne = ({ shop }) => {
           right: 0 !important;
           width: 100% !important;
           z-index: 1000 !important;
-          background: linear-gradient(90deg, rgba(36, 6, 29, 0.98) 0%, rgba(42, 7, 34, 0.98) 50%, rgba(62, 6, 52, 0.98) 100%) !important;
-          box-shadow: 0 10px 30px rgba(36, 6, 29, 0.55) !important;
+          background: rgba(248, 235, 215, 0.98) !important;
+          box-shadow: 0 8px 24px rgba(46, 5, 13, 0.14) !important;
           border-bottom: 1.5px solid rgba(197, 155, 39, 0.55) !important;
           animation: embHeaderSlideDown 0.28s cubic-bezier(0.16, 1, 0.3, 1);
         }
@@ -869,7 +869,7 @@ const HeaderOne = ({ shop }) => {
           box-shadow: 0 10px 22px rgba(197, 155, 39, 0.28) !important;
         }
 
-        /* ── Nav links: unbolded, increased size, warm ivory silk cream color (#FBECD7) ── */
+        /* ── Nav links on #f8ebd7: refined deep maroon-charcoal with gold accents ── */
         .emb-nav-link {
           position: relative;
           display: inline-flex;
@@ -878,9 +878,9 @@ const HeaderOne = ({ shop }) => {
           padding: 6px 16px;
           font-family: 'Cormorant Garamond', Georgia, serif;
           font-size: 22px !important;
-          font-weight: 500 !important;
+          font-weight: 600 !important;
           letter-spacing: 0.03em;
-          color: #FBECD7 !important;
+          color: #2E050D !important;
           background: transparent;
           border: 1px solid transparent;
           cursor: pointer;
@@ -908,8 +908,8 @@ const HeaderOne = ({ shop }) => {
         }
 
         .emb-nav-link:not(.is-shop-gold):hover {
-          color: #DFB143 !important;
-          background: rgba(251, 236, 215, 0.08) !important;
+          color: #720E1E !important;
+          background: rgba(197, 155, 39, 0.12) !important;
           border-color: transparent !important;
         }
 
@@ -923,18 +923,18 @@ const HeaderOne = ({ shop }) => {
         }
 
         .emb-nav-link:not(.is-shop-gold).is-open {
-          background: rgba(251, 236, 215, 0.12) !important;
+          background: rgba(197, 155, 39, 0.15) !important;
           border-color: transparent !important;
-          color: #DFB143 !important;
+          color: #720E1E !important;
         }
 
         /* ── Active state: Sleek Gold Underline Bar (except Shop & Collections) ── */
         .emb-nav-link:not(.is-shop-gold).is-active {
-          color: #DFB143 !important;
+          color: #720E1E !important;
           background: transparent !important;
           border-color: transparent !important;
-          font-weight: 600 !important;
-          text-shadow: 0 1px 10px rgba(223, 177, 67, 0.35);
+          font-weight: 700 !important;
+          text-shadow: 0 1px 8px rgba(197, 155, 39, 0.25);
         }
 
         .emb-nav-link:not(.is-shop-gold).is-active::after {
@@ -994,19 +994,19 @@ const HeaderOne = ({ shop }) => {
         }
 
         .emb-brand-vika {
-          color: #FFF4E5;
-          text-shadow: 0 2px 14px rgba(255, 244, 229, 0.45), 0 0 24px rgba(223, 177, 67, 0.3);
+          color: #720E1E;
+          text-shadow: 0 1px 2px rgba(114, 14, 30, 0.15);
           letter-spacing: 0.06em;
           display: inline-block;
         }
 
         .emb-brand-vastra {
-          background: linear-gradient(135deg, #FFE599 0%, #DFB143 45%, #FFF0B8 75%, #C59B27 100%);
+          background: linear-gradient(135deg, #B88E20 0%, #DFB143 45%, #9E7412 100%);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           margin-left: 8px;
           letter-spacing: 0.08em;
-          filter: drop-shadow(0 2px 8px rgba(223, 177, 67, 0.55));
+          filter: drop-shadow(0 1px 2px rgba(197, 155, 39, 0.35));
           display: inline-block;
         }
 
@@ -1015,7 +1015,7 @@ const HeaderOne = ({ shop }) => {
           font-size: 8.5px;
           letter-spacing: 0.22em;
           text-indent: 0.22em;
-          color: #E5C365 !important;
+          color: #720E1E !important;
           text-transform: uppercase;
           font-weight: 700;
           margin-top: 4px;
@@ -1026,7 +1026,7 @@ const HeaderOne = ({ shop }) => {
           gap: 6px;
           white-space: nowrap;
           width: 100%;
-          text-shadow: 0 1px 6px rgba(0, 0, 0, 0.3);
+          text-shadow: none;
         }
 
         /* ── Dropdown notch ── */
@@ -1197,10 +1197,12 @@ const HeaderOne = ({ shop }) => {
         }
 
         /* ── Icon buttons: refined glass-tile on maroon → gold on hover ── */
+        /* ── Icon buttons: elegant white tiles with gold border & maroon icon on #f8ebd7 ── */
         .emb-icon-btn {
-          border: 1px solid rgba(229, 195, 101, 0.35) !important;
-          background: rgba(255, 255, 255, 0.12) !important;
-          color: #FAF7F2 !important;
+          border: 1px solid rgba(197, 155, 39, 0.45) !important;
+          background: #FFFFFF !important;
+          color: #720E1E !important;
+          box-shadow: 0 2px 6px rgba(114, 14, 30, 0.06) !important;
           transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
         }
 
@@ -1209,7 +1211,7 @@ const HeaderOne = ({ shop }) => {
           color: #380710 !important;
           border-color: #E5C365 !important;
           transform: translateY(-2px);
-          box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35) !important;
+          box-shadow: 0 6px 14px rgba(197, 155, 39, 0.35) !important;
         }
 
         .emb-icon-btn.active {
@@ -1274,8 +1276,8 @@ const HeaderOne = ({ shop }) => {
           display: flex;
           overflow: hidden;
           width: 100%;
-          background: linear-gradient(90deg, #1C0316 0%, #24061D 50%, #2D0525 100%) !important;
-          background-color: #24061D !important;
+          background: rgba(36, 6, 29, 0.98) !important;
+          background-color: rgba(36, 6, 29, 0.98) !important;
           border-bottom: 1.5px solid rgba(197, 155, 39, 0.35) !important;
         }
 
