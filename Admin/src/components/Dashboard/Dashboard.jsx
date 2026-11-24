@@ -75,12 +75,34 @@ function Pill({ label, bg, color }) {
   );
 }
 
-function Badge({ up, children }) {
+function Badge({ up, children, onClick, title }) {
+  const isClickable = Boolean(onClick);
   return (
-    <span style={{ display:'inline-flex', alignItems:'center', gap:3, fontSize:11, fontWeight:700,
-      padding:'2px 8px', borderRadius:20,
-      background: up ? T.greenBg : T.redBg,
-      color: up ? T.green : T.red }}>
+    <span
+      role={isClickable ? 'button' : undefined}
+      tabIndex={isClickable ? 0 : undefined}
+      title={title}
+      onClick={e => {
+        if (isClickable) {
+          e.stopPropagation();
+          onClick(e);
+        }
+      }}
+      onKeyDown={e => {
+        if (isClickable && (e.key === 'Enter' || e.key === ' ')) {
+          e.stopPropagation();
+          e.preventDefault();
+          onClick(e);
+        }
+      }}
+      style={{
+        display:'inline-flex', alignItems:'center', gap:3, fontSize:11, fontWeight:700,
+        padding:'2px 8px', borderRadius:20,
+        background: up ? T.greenBg : T.redBg,
+        color: up ? T.green : T.red,
+        cursor: isClickable ? 'pointer' : 'inherit',
+        transition: 'all 0.15s ease',
+      }}>
       {up ? '▲' : '▼'} {children}
     </span>
   );
@@ -95,18 +117,121 @@ function IconBox({ icon, bg, size = 44 }) {
   );
 }
 
-function StatCard({ label, value, sub, badge, badgeUp, icon, iconBg, loading }) {
+function StatCard({
+  label,
+  value,
+  sub,
+  badge,
+  badgeUp,
+  icon,
+  iconBg,
+  loading,
+  onClick,
+  onBadgeClick,
+  badgeTitle,
+  onSubClick,
+  subTitle,
+  tooltip,
+}) {
+  const [hovered, setHovered] = useState(false);
+  const isClickable = Boolean(onClick);
+
   return (
-    <div style={{ ...card, display:'flex', justifyContent:'space-between', alignItems:'flex-start' }}>
-      <div>
-        <div style={{ fontSize:11, color:T.muted, fontWeight:600, textTransform:'uppercase', letterSpacing:'.5px', marginBottom:4 }}>{label}</div>
-        <div style={{ fontSize:22, fontWeight:800, color:T.text, lineHeight:1, marginBottom:4 }}>
+    <div
+      role={isClickable ? 'button' : undefined}
+      tabIndex={isClickable ? 0 : undefined}
+      onClick={onClick}
+      onKeyDown={e => {
+        if (isClickable && (e.key === 'Enter' || e.key === ' ')) {
+          e.preventDefault();
+          onClick();
+        }
+      }}
+      onMouseEnter={() => isClickable && setHovered(true)}
+      onMouseLeave={() => isClickable && setHovered(false)}
+      title={tooltip || (isClickable ? `Click to view ${label}` : undefined)}
+      style={{
+        ...card,
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'flex-start',
+        cursor: isClickable ? 'pointer' : 'default',
+        transform: isClickable && hovered ? 'translateY(-3px)' : 'translateY(0)',
+        boxShadow: isClickable && hovered
+          ? '0 10px 24px rgba(115, 103, 240, 0.15), 0 2px 6px rgba(0, 0, 0, 0.04)'
+          : '0 1px 3px rgba(0, 0, 0, 0.04)',
+        borderColor: isClickable && hovered ? '#7367F0' : T.border,
+        transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+        position: 'relative',
+        userSelect: 'none',
+      }}
+    >
+      <div style={{ flex: 1, minWidth: 0, paddingRight: 8 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginBottom: 4 }}>
+          <span
+            style={{
+              fontSize: 11,
+              color: isClickable && hovered ? T.primary : T.muted,
+              fontWeight: 700,
+              textTransform: 'uppercase',
+              letterSpacing: '.5px',
+              transition: 'color 0.2s ease',
+            }}
+          >
+            {label}
+          </span>
+          {isClickable && (
+            <span
+              style={{
+                fontSize: 12,
+                opacity: hovered ? 1 : 0.4,
+                transform: hovered ? 'translate(1px, -1px)' : 'none',
+                transition: 'all 0.2s ease',
+                color: hovered ? T.primary : T.muted,
+                lineHeight: 1,
+              }}
+            >
+              ↗
+            </span>
+          )}
+        </div>
+        <div style={{ fontSize: 22, fontWeight: 800, color: T.text, lineHeight: 1.1, marginBottom: 5 }}>
           {loading ? '—' : value}
         </div>
-        {badge && !loading && <Badge up={badgeUp}>{badge}</Badge>}
-        {sub && !loading && <div style={{ fontSize:11, color:T.muted, marginTop:4 }}>{sub}</div>}
+        {badge && !loading && (
+          <Badge up={badgeUp} onClick={onBadgeClick} title={badgeTitle}>
+            {badge}
+          </Badge>
+        )}
+        {sub && !loading && (
+          <div
+            onClick={e => {
+              if (onSubClick) {
+                e.stopPropagation();
+                onSubClick();
+              }
+            }}
+            title={subTitle}
+            style={{
+              fontSize: 11,
+              color: T.muted,
+              marginTop: 4,
+              cursor: onSubClick ? 'pointer' : 'inherit',
+            }}
+          >
+            {sub}
+          </div>
+        )}
       </div>
-      <IconBox icon={icon} bg={iconBg} />
+      <div
+        style={{
+          transform: isClickable && hovered ? 'scale(1.06)' : 'scale(1)',
+          transition: 'transform 0.2s ease',
+          flexShrink: 0,
+        }}
+      >
+        <IconBox icon={icon} bg={iconBg} />
+      </div>
     </div>
   );
 }
@@ -519,24 +644,74 @@ export default function Dashboard({ showToast }) {
 
         {/* ── STAT CARDS ────────────────────────────────────────────────── */}
         <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(220px,1fr))', gap:14, alignItems:'stretch' }}>
-          <StatCard label="New Orders" icon="🆕" iconBg={T.orangeBg} loading={ordersLoading}
+          <StatCard
+            label="New Orders"
+            icon="🆕"
+            iconBg={T.orangeBg}
+            loading={ordersLoading}
             value={fmtNum(sales.newOrdersCount)}
-            badge="needs attention" badgeUp={false} sub="awaiting processing" />
-          <StatCard label="Total Orders" icon="🛒" iconBg={T.greenBg} loading={ordersLoading}
+            badge="needs attention"
+            badgeUp={false}
+            sub="awaiting processing"
+            onClick={() => navigate('/orders_new')}
+            tooltip="View New Orders awaiting processing"
+          />
+          <StatCard
+            label="Total Orders"
+            icon="🛒"
+            iconBg={T.greenBg}
+            loading={ordersLoading}
             value={fmtNum(sales.ordersCount)}
-            badge={`${sales.cancellations} cancelled`} badgeUp={false} sub="total placed" />
-          <StatCard label="Total Revenue" icon="💰" iconBg={T.primaryBg} loading={ordersLoading}
+            badge={`${sales.cancellations} cancelled`}
+            badgeUp={false}
+            sub="total placed"
+            onClick={() => navigate('/orders')}
+            onBadgeClick={() => navigate('/orders_cancelled')}
+            badgeTitle="View Cancelled Orders"
+            tooltip="View All Orders"
+          />
+          <StatCard
+            label="Total Revenue"
+            icon="💰"
+            iconBg={T.primaryBg}
+            loading={ordersLoading}
             value={fmtINR(sales.totalRevenue)}
-            badge={`${sales.growth > 0 ? '+' : ''}${sales.growth}% this month`} badgeUp={sales.growth > 0}
-            sub={`${sales.deliveredCount} delivered`} />
-          <StatCard label="Total Products" icon="📦" iconBg={T.orangeBg} loading={productsLoading}
+            badge={`${sales.growth > 0 ? '+' : ''}${sales.growth}% this month`}
+            badgeUp={sales.growth > 0}
+            sub={`${sales.deliveredCount} delivered`}
+            onClick={() => navigate('/orders_delivered')}
+            onSubClick={() => navigate('/orders_delivered')}
+            subTitle="View Delivered Orders"
+            tooltip="View Delivered Orders & Revenue Details"
+          />
+          <StatCard
+            label="Total Products"
+            icon="📦"
+            iconBg={T.orangeBg}
+            loading={productsLoading}
             value={fmtNum(allProducts.length)}
-            badge={`${products.lowStock.length} low stock`} badgeUp={false}
-            sub={`${products.outOfStock.length} out of stock`} />
-          <StatCard label="Total Customers" icon="👥" iconBg={T.blueBg} loading={isCustomersLoading}
+            badge={`${products.lowStock.length} low stock`}
+            badgeUp={false}
+            sub={`${products.outOfStock.length} out of stock`}
+            onClick={() => navigate('/products')}
+            onBadgeClick={() => navigate('/stock')}
+            badgeTitle="Manage Low Stock in Stock Management"
+            onSubClick={() => navigate('/stock')}
+            subTitle="Manage Out of Stock in Stock Management"
+            tooltip="View Products Catalog"
+          />
+          <StatCard
+            label="Total Customers"
+            icon="👥"
+            iconBg={T.blueBg}
+            loading={isCustomersLoading}
             value={fmtNum(uniqueCustomerCount)}
-            badge={newCustomersThisMonth > 0 ? `+${newCustomersThisMonth} this month` : null} badgeUp={true}
-            sub={`${allCustomers.length} registered`} />
+            badge={newCustomersThisMonth > 0 ? `+${newCustomersThisMonth} this month` : null}
+            badgeUp={true}
+            sub={`${allCustomers.length} registered`}
+            onClick={() => navigate('/customers')}
+            tooltip="View Customers"
+          />
         </div>
 
         {/* ── REVENUE CHART + DONUT ──────────────────────────────────────── */}
@@ -619,7 +794,7 @@ export default function Dashboard({ showToast }) {
         {/* ── ORDER STATUS | BEST SELLING | INVENTORY ───────────────────── */}
         <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:14 }}>
           <div style={card}>
-            <SectionHeader title="Order Status" sub={`${fmtNum(sales.ordersCount)} total orders`} />
+            <SectionHeader title="Order Status" sub={`${fmtNum(sales.ordersCount)} total orders`} action="View Orders" onAction={() => navigate('/orders')} />
             {ordersLoading ? (
               <div style={{ color:T.muted, textAlign:'center', padding:16, fontSize:13 }}>Loading…</div>
             ) : (
@@ -627,8 +802,26 @@ export default function Dashboard({ showToast }) {
                 {STATUS_CONFIG.map(({ key, label, color }) => {
                   const cnt = sales.statusCounts[key] || 0;
                   const pct = sales.ordersCount ? Math.round((cnt / sales.ordersCount) * 100) : 0;
+                  const statusRoute = {
+                    confirmed: '/orders_confirmed',
+                    shipped: '/orders_shipped',
+                    out_for_delivery: '/orders_delivery',
+                    delivered: '/orders_delivered',
+                  }[key];
                   return (
-                    <div key={key}>
+                    <div
+                      key={key}
+                      onClick={() => statusRoute && navigate(statusRoute)}
+                      style={{
+                        cursor: statusRoute ? 'pointer' : 'default',
+                        padding: '4px 6px',
+                        borderRadius: 6,
+                        transition: 'background 0.15s ease',
+                      }}
+                      onMouseEnter={e => { if (statusRoute) e.currentTarget.style.background = '#F6F6F9'; }}
+                      onMouseLeave={e => { if (statusRoute) e.currentTarget.style.background = 'transparent'; }}
+                      title={statusRoute ? `View ${label} Orders` : undefined}
+                    >
                       <div style={{ display:'flex', justifyContent:'space-between', fontSize:12, marginBottom:3 }}>
                         <span style={{ color:T.text, fontWeight:500 }}>{label}</span>
                         <span style={{ color, fontWeight:700 }}>{fmtNum(cnt)} ({pct}%)</span>
@@ -673,7 +866,7 @@ export default function Dashboard({ showToast }) {
           </div>
 
           <div style={card}>
-            <SectionHeader title="Inventory Alerts" sub="Low & out of stock" />
+            <SectionHeader title="Inventory Alerts" sub="Low & out of stock" action="Stock Manager" onAction={() => navigate('/stock')} />
             {productsLoading ? (
               <div style={{ color:T.muted, textAlign:'center', padding:16, fontSize:13 }}>Loading…</div>
             ) : (products.lowStock.length === 0 && products.outOfStock.length === 0) ? (
@@ -688,7 +881,12 @@ export default function Dashboard({ showToast }) {
                 </thead>
                 <tbody>
                   {[...products.outOfStock, ...products.lowStock].slice(0, 5).map(v => (
-                    <tr key={v.productId}>
+                    <tr
+                      key={v.productId}
+                      onClick={() => navigate('/stock')}
+                      style={{ cursor: 'pointer' }}
+                      title="Open in Stock Management"
+                    >
                       <td style={{ padding:'8px 0', borderBottom:`1px solid #F9F9F9` }}>
                         <div style={{ fontWeight:600, color:T.text, maxWidth:140, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{v.productName}</div>
                         <div style={{ fontSize:11, color:T.muted }}>{v.category}</div>
@@ -976,6 +1174,22 @@ export default function Dashboard({ showToast }) {
               </div>
             </>
           )}
+        </div>
+
+        {/* Footer Credit */}
+        <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', flexWrap:'wrap', gap:8, padding:'10px 4px 16px', fontSize:12, color:T.muted }}>
+          <div>Copyright © {new Date().getFullYear()} Vika Vasthra Admin Panel</div>
+          <div>
+            Developed by{' '}
+            <a
+              href="https://saitechnosolutions.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ color: T.primary, textDecoration: 'none', fontWeight: 600 }}
+            >
+              Sai Techno Solutions Pvt. Ltd
+            </a>
+          </div>
         </div>
 
       </div>

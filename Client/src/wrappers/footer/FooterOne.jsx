@@ -40,11 +40,10 @@ const FooterOne = ({
 
         .footer-copyright-bar {
           display: flex;
-          justify-content: space-evenly;
+          justify-content: space-between;
           align-items: center;
           flex-wrap: wrap;
           gap: 15px;
-          text-align: center;
         }
 
         .footer-links-list {
@@ -383,8 +382,6 @@ const FooterOne = ({
               >
                 <div style={{ marginBottom: "12px", color: TEXT_LIGHT }}>
                   <strong style={{ color: GOLD_LIGHT, display: "block", fontSize: "14px", marginBottom: "3px" }}>Vikraman.k</strong>
-                  Murari Enclave,<br />
-                  Maragondanahalli,<br />
                   Electronic City phase 1,<br />
                   Bangalore - 560100,<br />
                   Karnataka
@@ -486,8 +483,8 @@ const FooterOne = ({
               <h3 className="footer-heading">Social Media</h3>
               <div className="footer-social-icons">
                 {[
-                  { label: "@ajn_elampillai", url: "https://www.instagram.com/ajn_elampillai/" },
-                  { label: "@jst_elampillai", url: "https://www.instagram.com/jst_elampillai/" },
+                  { label: "@vika_vastra", url: "" },
+                  { label: "@v_ka_vasthra", url: "" },
                 ].map((account, idx) => (
                   <a
                     key={idx}
@@ -533,8 +530,33 @@ const FooterOne = ({
         <div style={{ backgroundColor: "#5A0B17", padding: "15px 0", borderTop: `1px solid ${GOLD_BORDER}` }}>
           <div className={containerClass || "container"}>
             <div className="footer-copyright-bar">
-              <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "12px", color: "rgba(250, 247, 242, 0.75)", margin: 0, textAlign: "center" }}>
+              <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "12px", color: "rgba(250, 247, 242, 0.75)", margin: 0 }}>
                 Copyright © {new Date().getFullYear()} Vika Vastra | All Rights Reserved.
+              </p>
+              <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "12px", color: "rgba(250, 247, 242, 0.75)", margin: 0 }}>
+                Developed by{" "}
+                <a
+                  href="https://saitechnosolutions.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    color: GOLD_LIGHT,
+                    textDecoration: "none",
+                    fontWeight: 600,
+                    transition: "all 0.2s ease",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.color = "#FFFFFF";
+                    e.currentTarget.style.textDecoration = "underline";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.color = GOLD_LIGHT;
+                    e.currentTarget.style.textDecoration = "none";
+                  }}
+                  title="Sai Techno Solutions Pvt. Ltd"
+                >
+                  Sai Techno Solutions Pvt. Ltd
+                </a>
               </p>
             </div>
           </div>
