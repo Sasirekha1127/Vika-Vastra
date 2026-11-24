@@ -1,4 +1,3 @@
-import { getProductColors, matchesColors } from "../../helpers/productColors";
 import { Fragment, useState, useEffect, useCallback, useMemo } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -76,7 +75,6 @@ const normalize = (p) => {
     id:               String(p.id),
     name:             p.productName,
     variants:         (Array.isArray(p.Variants) ? p.Variants : []).filter(variant => variant.isActive !== false),
-    colors:           getProductColors(p),
     sku:              p.sku || '',
     mrp,
     salesPrice,
@@ -223,7 +221,7 @@ const PriceRangeSlider = ({ min, max, priceMin, priceMax, onChange }) => {
 
 // ── SIDEBAR ───────────────────────────────────────────────────────────────────
 const Sidebar = ({
-  categories, brands, colors, selectedColors, onColor,
+  categories, brands,
   activeCategory, activeBrand,
   onCategory, onBrand,
   priceMin, priceMax, globalPriceMin, globalPriceMax, onPriceChange,
@@ -285,19 +283,6 @@ const Sidebar = ({
           border: 2px solid #fff; box-shadow: 0 1px 6px rgba(0,0,0,0.25); cursor: grab;
         }
         .price-thumb--right::-webkit-slider-thumb { position: relative; z-index: 2; }
-        .km-color-checkbox {
-          width: 16px !important;
-          height: 16px !important;
-          min-width: 16px !important;
-          max-width: 16px !important;
-          margin: 0 !important;
-          padding: 0 !important;
-          flex-shrink: 0 !important;
-          accent-color: ${COLOR.primary} !important;
-          cursor: pointer !important;
-          box-shadow: none !important;
-        }
-        .km-color-item:hover { color: ${COLOR.primary} !important; }
       `}</style>
 
       {/* ── Categories ── */}
@@ -372,56 +357,6 @@ const Sidebar = ({
         </SideSection>
       )}
 
-      {/* ── Color ── */}
-      {colors.length > 0 && (
-        <SideSection title="Color">
-          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-            {colors.map((color) => {
-              const isSelected = selectedColors.includes(color);
-              return (
-                <label
-                  key={color}
-                  className="km-color-item"
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 10,
-                    margin: 0,
-                    padding: "4px 0",
-                    cursor: "pointer",
-                    fontSize: 13,
-                    color: isSelected ? COLOR.primary : "#444",
-                    fontWeight: isSelected ? 600 : 400,
-                    textTransform: "capitalize",
-                    userSelect: "none",
-                    transition: "color .15s",
-                  }}
-                >
-                  <input
-                    type="checkbox"
-                    className="km-color-checkbox"
-                    checked={isSelected}
-                    onChange={() => onColor(color)}
-                    style={{
-                      width: 16,
-                      height: 16,
-                      minWidth: 16,
-                      maxWidth: 16,
-                      margin: 0,
-                      padding: 0,
-                      flexShrink: 0,
-                      accentColor: COLOR.primary,
-                      cursor: "pointer",
-                      verticalAlign: "middle",
-                    }}
-                  />
-                  <span>{color}</span>
-                </label>
-              );
-            })}
-          </div>
-        </SideSection>
-      )}
       <SideSection title="Price Range">
         <PriceRangeSlider
           min={globalPriceMin}
@@ -1307,7 +1242,6 @@ const GLOBAL_PRICE_MAX = 10000;
 
 // ── MAIN PAGE ─────────────────────────────────────────────────────────────────
 const ShopGridStandard = ({ shop }) => {
-  const [selectedColors, setSelectedColors] = useState([]);
   const [layout,            setLayout]            = useState("grid");
   const [sortValue,         setSortValue]         = useState("");
   const [activeCategory,    setActiveCategory]    = useState("");
@@ -1364,16 +1298,13 @@ const ShopGridStandard = ({ shop }) => {
     // Always set (or clear) every filter so stale state never bleeds through
     setActiveCategory(   cat   ? decodeURIComponent(cat)   : "");
     setActiveBrand(      brand ? decodeURIComponent(brand) : "");
-    setSelectedColors(params.getAll("color").map(color => color.trim().toLowerCase()).filter(Boolean));
     setSearchTerm(       q     ? decodeURIComponent(q)     : "");
   }, [location.search]);
 
-  useEffect(() => { setCurrentPage(1); }, [selectedColors, activeCategory, activeBrand, searchTerm, sortValue, priceMin, priceMax]);
-
-  const colors = useMemo(() => [...new Set(productsData.flatMap(product => product.colors))].sort((a, b) => a.localeCompare(b)), [productsData]);
+  useEffect(() => { setCurrentPage(1); }, [activeCategory, activeBrand, searchTerm, sortValue, priceMin, priceMax]);
 
   const filtered = useMemo(() => {
-    let result = productsData.filter(product => matchesColors(product, selectedColors));
+    let result = [...productsData];
 
     // Category filter
     if (activeCategory) {
@@ -1407,14 +1338,13 @@ const ShopGridStandard = ({ shop }) => {
     }
 
     return result;
-  }, [productsData, selectedColors, activeCategory, activeBrand, searchTerm, priceMin, priceMax, globalPriceMin, globalPriceMax, sortValue]);
+  }, [productsData, activeCategory, activeBrand, searchTerm, priceMin, priceMax, globalPriceMin, globalPriceMax, sortValue]);
 
   const totalCount  = filtered.length;
   const offset      = (currentPage - 1) * pageLimit;
   const currentData = filtered.slice(offset, offset + pageLimit);
 
   const clearAllFilters = () => {
-    setSelectedColors([]);
     setActiveCategory("");
     setActiveBrand("");
     setSearchTerm("");
@@ -1423,7 +1353,7 @@ const ShopGridStandard = ({ shop }) => {
   };
 
   const isPriceFilterActive = priceMin > globalPriceMin || priceMax < globalPriceMax;
-  const hasFilters = selectedColors.length > 0 || activeCategory || activeBrand || searchTerm || isPriceFilterActive;
+  const hasFilters = activeCategory || activeBrand || searchTerm || isPriceFilterActive;
 
   const emptyMessage = searchTerm
     ? `No products found for "${searchTerm}". Try a different search term.`
@@ -1456,9 +1386,6 @@ const ShopGridStandard = ({ shop }) => {
               <div className="col-lg-3 order-2 order-lg-1">
                 <div style={{ marginRight: 12 }}>
                   <Sidebar
-                    colors={colors}
-                    selectedColors={selectedColors}
-                    onColor={color => setSelectedColors(current => current.includes(color) ? current.filter(value => value !== color) : [...current, color])}
                     categories={categories}
                     brands={brands}
                     activeCategory={activeCategory}
@@ -1507,7 +1434,6 @@ const ShopGridStandard = ({ shop }) => {
                         <button onClick={() => setActiveBrand("")} style={{ background: "none", border: "none", cursor: "pointer", color: COLOR.accent, fontSize: 14, lineHeight: 1, padding: 0 }}>×</button>
                       </span>
                     )}
-                    {selectedColors.map(color => <button key={color} type="button" onClick={() => setSelectedColors(current => current.filter(value => value !== color))} aria-label={`Remove color filter ${color}`} style={{ fontSize: 11, border: '1px solid #e0e0e0', borderRadius: 20, padding: '3px 10px', background: '#fff', cursor: 'pointer' }}>Color: {color} ×</button>)}
                     {isPriceFilterActive && (
                       <span style={{ background: "#f0fff4", color: "#2d7a4f", fontSize: 12, padding: "4px 10px", borderRadius: 20, display: "flex", alignItems: "center", gap: 6 }}>
                         💰 {CUR}{priceMin.toLocaleString()} – {CUR}{priceMax.toLocaleString()}
