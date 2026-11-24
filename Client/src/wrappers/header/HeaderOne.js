@@ -39,14 +39,14 @@ const S = {
     whiteSpace:     "nowrap",
     position:       "relative",
     width:          "100%",
-    background:     "#FBECD7",
-    backgroundColor: "#FBECD7",
-    color:          "#720E1E",
-    borderBottom:   "1.5px solid rgba(197, 155, 39, 0.45)",
-    boxShadow:      "0 2px 8px rgba(114, 14, 30, 0.08)",
+    background:     "linear-gradient(90deg, #1C0316 0%, #24061D 50%, #2D0525 100%)",
+    backgroundColor: "#24061D",
+    color:          "#E5C365",
+    borderBottom:   "1.5px solid rgba(197, 155, 39, 0.35)",
+    boxShadow:      "0 2px 8px rgba(36, 6, 29, 0.25)",
   },
   header: {
-    background:           "#720E1E",
+    background:           "linear-gradient(90deg, #24061D 0%, #2A0722 50%, #3E0634 100%)",
     backdropFilter:       "blur(16px)",
     WebkitBackdropFilter: "blur(16px)",
     position:             "sticky",
@@ -55,14 +55,14 @@ const S = {
     width:                "100%",
     maxWidth:             "100%",
     boxSizing:            "border-box",
-    borderBottom:         "1.5px solid rgba(197, 155, 39, 0.5)",
-    boxShadow:            "0 6px 20px rgba(46, 5, 13, 0.35)",
+    borderBottom:         "1.5px solid rgba(197, 155, 39, 0.45)",
+    boxShadow:            "0 6px 20px rgba(36, 6, 29, 0.45)",
     transition:           "box-shadow .3s ease, background .3s ease",
   },
   headerStick: {
-    boxShadow:            "0 10px 30px rgba(46, 5, 13, 0.45)",
-    background:           "rgba(114, 14, 30, 0.98)",
-    borderBottom:         "1.5px solid rgba(197, 155, 39, 0.6)",
+    boxShadow:            "0 10px 30px rgba(36, 6, 29, 0.55)",
+    background:           "linear-gradient(90deg, rgba(36, 6, 29, 0.98) 0%, rgba(42, 7, 34, 0.98) 50%, rgba(62, 6, 52, 0.98) 100%)",
+    borderBottom:         "1.5px solid rgba(197, 155, 39, 0.55)",
   },
   mainRow: {
     display:        "flex",
@@ -143,7 +143,7 @@ const S = {
     boxSizing:      "border-box",
     borderRadius:   9,
     background:     C.goldGradient,
-    border:         "2px solid #720E1E",
+    border:         "2px solid #24061D",
     color:          C.maroonDeep,
     fontSize:       9.5,
     fontWeight:     800,
@@ -819,8 +819,9 @@ const HeaderOne = ({ shop }) => {
           position: sticky !important;
           top: 0;
           z-index: 999;
-          background: #720E1E !important;
-          border-bottom: 1.5px solid rgba(197, 155, 39, 0.5) !important;
+          background: linear-gradient(90deg, #24061D 0%, #2A0722 50%, #3E0634 100%) !important;
+          border-bottom: 1.5px solid rgba(197, 155, 39, 0.45) !important;
+          box-shadow: 0 6px 20px rgba(36, 6, 29, 0.45) !important;
           transition: background .25s ease, box-shadow .25s ease;
         }
 
@@ -831,9 +832,9 @@ const HeaderOne = ({ shop }) => {
           right: 0 !important;
           width: 100% !important;
           z-index: 1000 !important;
-          background: rgba(114, 14, 30, 0.98) !important;
-          box-shadow: 0 10px 30px rgba(46, 5, 13, 0.45) !important;
-          border-bottom: 1.5px solid rgba(197, 155, 39, 0.6) !important;
+          background: linear-gradient(90deg, rgba(36, 6, 29, 0.98) 0%, rgba(42, 7, 34, 0.98) 50%, rgba(62, 6, 52, 0.98) 100%) !important;
+          box-shadow: 0 10px 30px rgba(36, 6, 29, 0.55) !important;
+          border-bottom: 1.5px solid rgba(197, 155, 39, 0.55) !important;
           animation: embHeaderSlideDown 0.28s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
@@ -1273,9 +1274,9 @@ const HeaderOne = ({ shop }) => {
           display: flex;
           overflow: hidden;
           width: 100%;
-          background: #FBECD7 !important;
-          background-color: #FBECD7 !important;
-          border-bottom: 1.5px solid rgba(197, 155, 39, 0.45) !important;
+          background: linear-gradient(90deg, #1C0316 0%, #24061D 50%, #2D0525 100%) !important;
+          background-color: #24061D !important;
+          border-bottom: 1.5px solid rgba(197, 155, 39, 0.35) !important;
         }
 
         @keyframes emb-marquee {
@@ -1308,8 +1309,8 @@ const HeaderOne = ({ shop }) => {
           font-weight: 700;
           letter-spacing: 0.14em;
           text-transform: uppercase;
-          color: #720E1E !important;
-          text-shadow: none !important;
+          color: #E5C365 !important;
+          text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4) !important;
         }
 
         /* ── Mobile menu items ── */
