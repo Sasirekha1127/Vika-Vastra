@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import { getAllInstagramPosts, getImageUrl } from "../../api";
 
 const T = {
-  plum: "#2d1b47",
+  maroon: "#720E1E",
+  maroonDark: "#5A0B17",
   gold: "#c9963a",
   goldLt: "#e8b85c",
   border: "#e8ddd0",
@@ -83,8 +84,8 @@ function InstaCell({ item, screenWidth, index, instagramUrl }) {
         transform: lift ? "translateY(-6px)" : "translateY(0)",
         transition: "transform 0.34s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.34s ease, border-color 0.3s ease",
         boxShadow: lift
-          ? "0 22px 40px rgba(45,27,71,0.16)"
-          : "0 4px 14px rgba(45,27,71,0.06)",
+          ? "0 22px 40px rgba(114,14,30,0.16)"
+          : "0 4px 14px rgba(114,14,30,0.06)",
         animationDelay: `${index * 80}ms`,
         width: "100%",
       }}
@@ -104,7 +105,7 @@ function InstaCell({ item, screenWidth, index, instagramUrl }) {
         <span style={{
           position: "absolute", top: 10, right: 10,
           width: 30, height: 30, borderRadius: 10,
-          background: "rgba(45,27,71,0.78)", color: "#fff",
+          background: "rgba(114,14,30,0.85)", color: "#fff",
           display: "inline-flex", alignItems: "center", justifyContent: "center",
           pointerEvents: "none",
         }}>
@@ -115,7 +116,7 @@ function InstaCell({ item, screenWidth, index, instagramUrl }) {
         {screenWidth > 768 && (
           <div style={{
             position: "absolute", inset: 0,
-            background: "rgba(45,27,71,0.5)",
+            background: "rgba(114,14,30,0.55)",
             display: "flex", alignItems: "center", justifyContent: "center",
             opacity: hovered ? 1 : 0,
             transition: "opacity 0.28s ease",
@@ -123,7 +124,7 @@ function InstaCell({ item, screenWidth, index, instagramUrl }) {
           }}>
             <div style={{
               display: "inline-flex", alignItems: "center", gap: 8,
-              background: T.goldLt, color: T.plum,
+              background: T.goldLt, color: T.maroon,
               borderRadius: 14, padding: "9px 18px",
               fontFamily: T.sans, fontSize: 12.5, fontWeight: 700, letterSpacing: "0.04em",
             }}>
@@ -139,7 +140,7 @@ function InstaCell({ item, screenWidth, index, instagramUrl }) {
         <div style={{ fontFamily: T.sans, fontSize: 10.5, color: T.gold, letterSpacing: "0.1em", marginBottom: 3, fontWeight: 600 }}>
           {item.tag}
         </div>
-        <div style={{ fontFamily: T.serif, fontSize: screenWidth <= 600 ? 18 : 17, color: T.plum, fontWeight: 700, letterSpacing: "0.01em", lineHeight: 1.25 }}>
+        <div style={{ fontFamily: T.serif, fontSize: screenWidth <= 600 ? 18 : 17, color: T.maroon, fontWeight: 700, letterSpacing: "0.01em", lineHeight: 1.25 }}>
           {item.label}
         </div>
       </div>
@@ -166,12 +167,12 @@ function SkeletonRow({ cols, count, screenWidth }) {
 // ─── Two account configs ─────────────────────────────────────────────────────
 const INSTAGRAM_ACCOUNTS = [
   {
-    handle: "@ajn_elampillai",
-    url: "https://www.instagram.com/ajn_elampillai/",
+    handle: "@vika_vastra",
+    url: "",
   },
   {
-    handle: "@jst_elampillai",
-    url: "https://www.instagram.com/jst_elampillai/",
+    handle: "@v_k_vastra",
+    url: "",
   },
 ];
 
@@ -226,14 +227,15 @@ export function InstagramSection({ spaceBottomClass = "pb-0" }) {
           transition: background 0.25s ease, color 0.25s ease;
         }
         .ig-cta-btn:hover {
-          background: ${T.plum} !important;
+          background: ${T.maroon} !important;
           color: #fff !important;
-          border-color: ${T.plum} !important;
+          border-color: ${T.maroon} !important;
           transform: translateY(-2px);
+          box-shadow: 0 8px 24px rgba(114, 14, 30, 0.22) !important;
         }
         .ig-cta-btn:hover .ig-cta-chip {
           background: ${T.goldLt} !important;
-          color: ${T.plum} !important;
+          color: ${T.maroon} !important;
         }
         .ig-cta-btn:focus-visible { outline: 2px solid ${T.gold}; outline-offset: 3px; }
         .ig-ed-row > div { -webkit-tap-highlight-color: transparent; }
@@ -256,7 +258,7 @@ export function InstagramSection({ spaceBottomClass = "pb-0" }) {
             fontSize: screenWidth <= 600 ? "30px" : "clamp(32px, 4vw, 42px)",
             fontWeight: 700,
             fontStyle: "italic",
-            color: T.plum,
+            color: T.maroon,
             letterSpacing: "0.02em",
             textTransform: "capitalize",
             margin: "0 0 16px",
@@ -311,7 +313,7 @@ export function InstagramSection({ spaceBottomClass = "pb-0" }) {
             fontStyle: "italic",
             fontWeight: 600,
             fontSize: screenWidth <= 600 ? 18 : 20,
-            color: T.plum,
+            color: T.maroon,
             letterSpacing: "0.02em",
             marginBottom: 18,
           }}>
@@ -329,7 +331,7 @@ export function InstagramSection({ spaceBottomClass = "pb-0" }) {
             {INSTAGRAM_ACCOUNTS.map((account) => (
               <a
                 key={account.handle}
-                href={account.url}
+                href={account.url || `https://www.instagram.com/${account.handle.replace('@', '')}/`}
                 target="_blank"
                 rel="noreferrer"
                 className="ig-cta-btn"
@@ -338,17 +340,17 @@ export function InstagramSection({ spaceBottomClass = "pb-0" }) {
                   fontSize: screenWidth <= 600 ? 13 : 14,
                   fontWeight: 600,
                   letterSpacing: "0.03em",
-                  color: T.plum,
+                  color: T.maroon,
                   textDecoration: "none",
                   display: "inline-flex",
                   alignItems: "center",
                   justifyContent: "flex-start",
                   gap: 12,
                   padding: "8px 24px 8px 8px",
-                  border: `1px solid rgba(201,150,58,0.55)`,
+                  border: `1.5px solid rgba(201,150,58,0.55)`,
                   borderRadius: 16,
                   background: "#fff",
-                  boxShadow: "0 4px 14px rgba(45,27,71,0.06)",
+                  boxShadow: "0 4px 14px rgba(114,14,30,0.06)",
                   cursor: "pointer",
                   width: screenWidth <= 480 ? "100%" : "auto",
                   maxWidth: 280,
@@ -357,10 +359,10 @@ export function InstagramSection({ spaceBottomClass = "pb-0" }) {
               >
                 <span className="ig-cta-chip" style={{
                   width: 34, height: 34, borderRadius: 11, flexShrink: 0,
-                  background: "#f3ecf7", color: T.plum,
+                  background: "rgba(201,150,58,0.15)", color: T.maroon,
                   display: "inline-flex", alignItems: "center", justifyContent: "center",
                 }}>
-                  <InstagramIcon size={17} />
+                  <InstagramIcon size={17} color={T.maroon} />
                 </span>
                 <span>{account.handle}</span>
               </a>
@@ -376,7 +378,7 @@ export function InstagramSection({ spaceBottomClass = "pb-0" }) {
             padding: "0 16px",
           }}>
             Tag us{" "}
-            <strong style={{ color: T.gold, fontWeight: 700 }}>#vikavasthra</strong>
+            <strong style={{ color: T.gold, fontWeight: 700 }}>#vikavastra</strong>
             {" "}to be featured in our gallery
           </p>
         </div>
