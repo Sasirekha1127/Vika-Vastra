@@ -5,6 +5,7 @@ import LayoutOne from "../../layouts/LayoutOne";
 import HeroSliderOne from "./HeroSliderOne";
 import DiscountOfferSection from "../../wrappers/discount/DiscountOfferSection";
 import SareeCarouselSection from "./SareeCarouselSection";
+import PromoOfferBanner from "./PromoOfferBanner";
 import ShopByCollections from "./ShopByCollections";
 import EmartebuyBanners from "./EmartebuyBanners ";
 import NewArrivals from "./Newarrivals";
@@ -22,6 +23,7 @@ const HomeCosmetics = ({ shop }) => {
       >
         <HeroSliderOne />
         <ShopByCollections spaceTopClass="pt-60" spaceBottomClass="pb-60" />
+        <PromoOfferBanner />
         <NewArrivals shop={shop} />
         
         <BestSellers shop={shop} />

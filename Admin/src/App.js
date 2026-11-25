@@ -19,14 +19,14 @@ import Toast from './components/Toast/Toast';
 import './styles/global.css';
 import Swal from 'sweetalert2';
 import DeliveryZones from './components/Deliveryzones/Deliveryzones';
-import LiveProducts from './components/LiveProducts/LiveProducts';
+// import LiveProducts from './components/LiveProducts/LiveProducts';
 import InstagramPostsAdmin from './components/Instagrampostsadmin/Instagrampostsadmin'; 
 import PromoBar from './components/Promobar/Promobar'; 
 
 const PAGE_CONFIG = {
   dashboard:          { title: 'Dashboard' },
   categories:         { title: 'Categories' },
-  brands:             { title: 'Brands' },
+  // brands:             { title: 'Brands' },
   products:           { title: 'Products' },
   stock:              { title: 'Stock Management' },
   customers:          { title: 'Customers' },
@@ -43,7 +43,7 @@ const PAGE_CONFIG = {
   'delivery-zones':   { title: 'Delivery Zone Charges' },
   banners:            { title: 'Banners' },
   'offer-banners':    { title: 'Offer Banners' },
-  'live-products':    { title: 'What More Live' },
+  // 'live-products':    { title: 'What More Live' },
   'instagram-posts':  { title: 'Instagram Posts' }, // ← NEW
 };
 
@@ -61,7 +61,7 @@ function AdminLayoutWrapper({ handleLogout, showToast, toast }) {
           <Routes>
             <Route path="/dashboard"          element={<Dashboard     showToast={showToast} />} />
             <Route path="/categories"         element={<Categories    showToast={showToast} />} />
-            <Route path="/brands"             element={<Brands        showToast={showToast} />} />
+            {/* <Route path="/brands"             element={<Brands        showToast={showToast} />} /> */}
             <Route path="/products"           element={<Products      showToast={showToast} />} />
             <Route path="/stock"              element={<Stock         showToast={showToast} />} />
             <Route path="/customers"          element={<Customers     showToast={showToast} />} />
@@ -70,7 +70,7 @@ function AdminLayoutWrapper({ handleLogout, showToast, toast }) {
             <Route path="/delivery-zones"     element={<DeliveryZones showToast={showToast} />} />
             <Route path="/banners"            element={<Banners       showToast={showToast} />} />
             <Route path="/offer-banners"      element={<OfferBanners  showToast={showToast} />} />
-            <Route path="/live-products"      element={<LiveProducts  showToast={showToast} />} />
+            {/* <Route path="/live-products"      element={<LiveProducts  showToast={showToast} />} /> */}
             <Route path="/instagram-posts"    element={<InstagramPostsAdmin showToast={showToast} />} /> {/* ← NEW */}
 
             <Route path="/orders"             element={<Orders showToast={showToast} status={null} />} />
