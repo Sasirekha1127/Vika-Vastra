@@ -45,6 +45,7 @@ const PromoOfferBanner = () => {
   if (loading || !banners.length) return null;
 
   const handleBannerClick = (banner) => {
+    if (!banner) return;
     const target = banner.link || banner.shopUrl || "/shop";
     if (target.startsWith("http://") || target.startsWith("https://")) {
       window.location.href = target;
@@ -78,9 +79,10 @@ const PromoOfferBanner = () => {
         .pob-root {
           position: relative;
           z-index: 5;
-          margin-top: -55px;
-          margin-bottom: 35px;
+          margin-top: -45px;
+          margin-bottom: 30px;
           width: 100%;
+          background: transparent !important;
         }
 
         .pob-container {
@@ -89,47 +91,30 @@ const PromoOfferBanner = () => {
           padding: 0 24px;
           width: 100%;
           box-sizing: border-box;
+          background: transparent !important;
         }
 
         .pob-card-wrapper {
           position: relative;
           width: 100%;
-          border-radius: 24px;
-          overflow: hidden;
-          box-shadow: 0 14px 40px rgba(62, 5, 51, 0.16), 0 4px 14px rgba(0, 0, 0, 0.08);
-          background: #3E0533;
-          aspect-ratio: 980 / 222;
-          min-height: 110px;
+          background: transparent !important;
+          border-radius: 0;
+          overflow: visible;
           cursor: pointer;
-          transition: transform 0.3s ease, box-shadow 0.3s ease;
+          transition: transform 0.3s ease;
         }
 
         .pob-card-wrapper:hover {
-          transform: translateY(-4px);
-          box-shadow: 0 18px 48px rgba(62, 5, 51, 0.22), 0 6px 18px rgba(0, 0, 0, 0.1);
-        }
-
-        .pob-slide {
-          position: absolute;
-          inset: 0;
-          width: 100%;
-          height: 100%;
-          opacity: 0;
-          transition: opacity 0.7s ease-in-out;
-          pointer-events: none;
-        }
-
-        .pob-slide.is-active {
-          opacity: 1;
-          pointer-events: auto;
+          transform: translateY(-3px);
         }
 
         .pob-image {
           width: 100%;
-          height: 100%;
-          object-fit: cover;
-          object-position: center;
+          height: auto;
           display: block;
+          margin: 0 auto;
+          background: transparent !important;
+          border: none;
         }
 
         .pob-arrow {
@@ -140,7 +125,7 @@ const PromoOfferBanner = () => {
           width: 38px;
           height: 38px;
           border-radius: 50%;
-          background: rgba(36, 6, 29, 0.7);
+          background: rgba(36, 6, 29, 0.75);
           border: 1.5px solid rgba(229, 195, 101, 0.7);
           color: #E5C365;
           display: flex;
@@ -183,7 +168,7 @@ const PromoOfferBanner = () => {
           height: 8px;
           border-radius: 999px;
           border: 1px solid rgba(229, 195, 101, 0.8);
-          background: rgba(255, 255, 255, 0.45);
+          background: rgba(255, 255, 255, 0.55);
           cursor: pointer;
           padding: 0;
           transition: all 0.3s ease;
@@ -197,15 +182,11 @@ const PromoOfferBanner = () => {
 
         @media (max-width: 768px) {
           .pob-root {
-            margin-top: -28px;
-            margin-bottom: 24px;
+            margin-top: -24px;
+            margin-bottom: 20px;
           }
           .pob-container {
             padding: 0 14px;
-          }
-          .pob-card-wrapper {
-            border-radius: 16px;
-            box-shadow: 0 8px 24px rgba(62, 5, 51, 0.12);
           }
           .pob-arrow {
             display: none !important;
@@ -223,11 +204,8 @@ const PromoOfferBanner = () => {
 
         @media (max-width: 480px) {
           .pob-root {
-            margin-top: -20px;
-            margin-bottom: 20px;
-          }
-          .pob-card-wrapper {
-            border-radius: 12px;
+            margin-top: -18px;
+            margin-bottom: 16px;
           }
         }
       `}</style>
@@ -236,6 +214,7 @@ const PromoOfferBanner = () => {
         <div className="pob-container">
           <div
             className="pob-card-wrapper"
+            onClick={() => handleBannerClick(banners[current])}
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
@@ -243,14 +222,24 @@ const PromoOfferBanner = () => {
             {banners.map((banner, i) => (
               <div
                 key={banner.id || i}
-                className={`pob-slide ${current === i ? "is-active" : ""}`}
-                onClick={() => handleBannerClick(banner)}
+                style={{
+                  display: current === i ? "block" : "none",
+                  width: "100%",
+                  background: "transparent",
+                }}
               >
                 <img
                   src={getImageUrl(banner.image)}
                   alt={banner.title || "Offer Banner"}
                   className="pob-image"
                   loading={i === 0 ? "eager" : "lazy"}
+                  style={{
+                    width: "100%",
+                    height: "auto",
+                    display: "block",
+                    background: "transparent",
+                    margin: "0 auto",
+                  }}
                 />
               </div>
             ))}
