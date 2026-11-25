@@ -217,7 +217,7 @@ const css = `
     background:
       radial-gradient(ellipse at 50% 0%, #fff6ee 0%, rgba(255,246,238,0) 60%),
       linear-gradient(180deg, #fcefe4 0%, #fbe9dc 100%);
-    padding: 36px 0 65px;
+    padding: 36px 0 80px;
     font-family: 'Hanken Grotesk', sans-serif;
     overflow: hidden;
   }
@@ -410,11 +410,12 @@ const css = `
   .shc-dot.is-active { width: 24px; background: var(--shc-maroon); }
 
   @media (max-width: 1024px) {
+    .shc-root { padding: 32px 0 70px; }
     .shc-stage.has-carousel { padding: 0 48px; }
     .shc-row { --visible: 4; --gap: 28px; }
   }
   @media (max-width: 768px) {
-    .shc-root { padding: 28px 0 45px; }
+    .shc-root { padding: 28px 0 55px; }
     .shc-stage { padding: 0 16px; }
     .shc-stage.has-carousel { padding: 0 42px; }
     .shc-row { --visible: 3; --gap: 18px; }
@@ -430,6 +431,7 @@ const css = `
     .shc-heading__far  { flex-basis: 70px; }
   }
   @media (max-width: 480px) {
+    .shc-root { padding: 24px 0 45px; }
     .shc-stage { padding: 0 12px; }
     .shc-stage.has-carousel { padding: 0 38px; }
     .shc-row { --visible: 2; --gap: 16px; }

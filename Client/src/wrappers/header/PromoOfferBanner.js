@@ -79,7 +79,7 @@ const PromoOfferBanner = () => {
         .pob-root {
           position: relative;
           z-index: 5;
-          margin-top: -45px;
+          margin-top: -105px;
           margin-bottom: 30px;
           width: 100%;
           background: transparent !important;
@@ -180,9 +180,16 @@ const PromoOfferBanner = () => {
           box-shadow: 0 0 8px rgba(197, 155, 39, 0.7);
         }
 
+        @media (max-width: 1024px) {
+          .pob-root {
+            margin-top: -85px;
+            margin-bottom: 24px;
+          }
+        }
+
         @media (max-width: 768px) {
           .pob-root {
-            margin-top: -24px;
+            margin-top: -55px;
             margin-bottom: 20px;
           }
           .pob-container {
@@ -204,7 +211,7 @@ const PromoOfferBanner = () => {
 
         @media (max-width: 480px) {
           .pob-root {
-            margin-top: -18px;
+            margin-top: -42px;
             margin-bottom: 16px;
           }
         }
