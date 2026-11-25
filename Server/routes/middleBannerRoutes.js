@@ -19,7 +19,9 @@ const multerMiddleware = (req, res, next) => {
 router.get('/',           getAllMiddleBanners);
 router.get('/:id',        getMiddleBannerById);
 router.post('/add',       multerMiddleware, addMiddleBanner);
+router.post('/',          multerMiddleware, addMiddleBanner);
 router.put('/update/:id', multerMiddleware, updateMiddleBanner);
+router.put('/:id',        multerMiddleware, updateMiddleBanner);
 router.delete('/:id',     deleteMiddleBanner);
 
 module.exports = router;

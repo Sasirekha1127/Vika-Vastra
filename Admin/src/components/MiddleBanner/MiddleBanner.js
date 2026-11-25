@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import DataTable from '../DataTable/DataTable';
 import Swal from 'sweetalert2';
+import { getImageUrl } from '../../api';
 
 const API = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
 const pillClass = { Active: 'pill-active', Inactive: 'pill-inactive' };
@@ -21,7 +22,7 @@ export default function MiddleBanner({ showToast }) {
   }, []);
 
   const fetchBanners = () => {
-    fetch(`${API}/middle-banners`)
+    fetch(`${API}/middle-banners?t=${Date.now()}`, { cache: 'no-store' })
       .then(r => r.json())
       .then(data => {
         setRows(Array.isArray(data) ? data : []);
@@ -46,7 +47,7 @@ export default function MiddleBanner({ showToast }) {
       status: banner.status || 'Active',
     });
     setImageFile(null);
-    setPreviewUrl(banner.image ? `${API}/${banner.image}` : null);
+    setPreviewUrl(getImageUrl(banner.image));
     setShowForm(true);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -291,7 +292,7 @@ export default function MiddleBanner({ showToast }) {
               <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                 {row.image ? (
                   <img
-                    src={`${API}/${row.image}`}
+                    src={getImageUrl(row.image)}
                     alt="Middle Banner"
                     style={{
                       width: 160,

@@ -16,15 +16,50 @@ const PromoOfferBanner = () => {
   useEffect(() => {
     const fetchBanners = async () => {
       try {
-        const res = await fetch(`${API}/middle-banners`);
-        if (!res.ok) throw new Error("Failed to load middle banners");
-        const data = await res.json();
-        const active = Array.isArray(data)
-          ? data.filter((b) => b.status === "Active")
-          : [];
+        let active = [];
+        try {
+          const res = await fetch(`${API}/middle-banners?t=${Date.now()}`, { cache: "no-store" });
+          if (res.ok) {
+            const data = await res.json();
+            active = Array.isArray(data)
+              ? data.filter((b) => b.status === "Active")
+              : [];
+          }
+        } catch (e) {
+          console.warn("middle-banners fetch failed, trying offer-banners fallback", e);
+        }
+
+        if (!active.length) {
+          try {
+            const fallbackRes = await fetch(`${API}/offer-banners?t=${Date.now()}`, { cache: "no-store" });
+            if (fallbackRes.ok) {
+              const fData = await fallbackRes.json();
+              active = Array.isArray(fData)
+                ? fData.filter((b) => b.status === "Active")
+                : [];
+            }
+          } catch (_) {}
+        }
+
+        // Default active fallback so homepage middle banner is never blank
+        if (!active.length) {
+          active = [{
+            id: 'default-middle-banner',
+            image: 'uploads/middle-banners/middle-deals-banner.png',
+            link: '/shop',
+            status: 'Active',
+          }];
+        }
+
         setBanners(active);
       } catch (err) {
         console.error("PromoOfferBanner: fetch failed", err);
+        setBanners([{
+          id: 'default-middle-banner',
+          image: 'uploads/middle-banners/middle-deals-banner.png',
+          link: '/shop',
+          status: 'Active',
+        }]);
       } finally {
         setLoading(false);
       }

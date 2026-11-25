@@ -21,6 +21,7 @@ const OrderItem = require('./models/OrderItem');
 const Return = require('./models/Return');
 const DeliveryZone = require('./models/DeliveryZone');
 const Banner = require('./models/Banner');
+const MiddleBanner = require('./models/MiddleBanner');
 const OfferBanner = require('./models/Offerbanner');
 const LiveProduct = require('./models/LiveProduct');
 const InstagramPost = require('./models/InstagramPost');
