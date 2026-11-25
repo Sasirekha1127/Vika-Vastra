@@ -39,11 +39,11 @@ const S = {
     whiteSpace:     "nowrap",
     position:       "relative",
     width:          "100%",
-    background:     "rgba(36, 6, 29, 0.98)",
-    backgroundColor: "rgba(36, 6, 29, 0.98)",
+    background:     "linear-gradient(90deg, #4E0815 0%, #5A0B26 30%, #440A3A 70%, #2E052D 100%)",
+    backgroundColor: "#3A0720",
     color:          "#E5C365",
-    borderBottom:   "1.5px solid rgba(197, 155, 39, 0.35)",
-    boxShadow:      "0 2px 8px rgba(36, 6, 29, 0.25)",
+    borderBottom:   "1.5px solid rgba(197, 155, 39, 0.45)",
+    boxShadow:      "0 2px 10px rgba(46, 5, 20, 0.35)",
   },
   header: {
     background:           "#f8ebd7",
@@ -1266,9 +1266,9 @@ const HeaderOne = ({ shop }) => {
           display: flex;
           overflow: hidden;
           width: 100%;
-          background: rgba(36, 6, 29, 0.98) !important;
-          background-color: rgba(36, 6, 29, 0.98) !important;
-          border-bottom: 1.5px solid rgba(197, 155, 39, 0.35) !important;
+          background: linear-gradient(90deg, #4E0815 0%, #5A0B26 30%, #440A3A 70%, #2E052D 100%) !important;
+          background-color: #3A0720 !important;
+          border-bottom: 1.5px solid rgba(197, 155, 39, 0.45) !important;
         }
 
         @keyframes emb-marquee {
