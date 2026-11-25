@@ -38,9 +38,17 @@ const NAV_ITEMS = [
         )
       },
       {
+        id: 'middle-banner', label: 'Middle Banner', icon: (
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <rect x="2" y="6" width="20" height="12" rx="2" />
+            <line x1="2" y1="12" x2="22" y2="12" />
+          </svg>
+        )
+      },
+      {
         id: 'offer-banners', label: 'Offer Banners', icon: (
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/>
+            <path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z" />
           </svg>
         )
       },

@@ -7,25 +7,25 @@ const sequelize = require('./config/db');
 const { DataTypes } = require('sequelize');
 
 // --- 1. MODELS IMPORT ---
-const Category        = require('./models/Category');
-const SubCategory     = require('./models/SubCategory');
-const Product         = require('./models/Product');
-const ProductVariant  = require('./models/ProductVariant');
-const UserLogin       = require('./models/UserLogin');
-const Customer        = require('./models/Customer');
+const Category = require('./models/Category');
+const SubCategory = require('./models/SubCategory');
+const Product = require('./models/Product');
+const ProductVariant = require('./models/ProductVariant');
+const UserLogin = require('./models/UserLogin');
+const Customer = require('./models/Customer');
 const CustomerAddress = require('./models/CustomerAddress');
-const Cart            = require('./models/Cart');
-const Wishlist        = require('./models/Wishlist');
-const Order           = require('./models/Order');
-const OrderItem       = require('./models/OrderItem');
-const Return          = require('./models/Return');
-const DeliveryZone    = require('./models/DeliveryZone');
-const Banner          = require('./models/Banner');
-const OfferBanner     = require('./models/Offerbanner');
-const LiveProduct     = require('./models/LiveProduct');
-const InstagramPost   = require('./models/InstagramPost');
-const PromoBar        = require('./models/PromoBar');
-const Coupon          = require('./models/Coupon');
+const Cart = require('./models/Cart');
+const Wishlist = require('./models/Wishlist');
+const Order = require('./models/Order');
+const OrderItem = require('./models/OrderItem');
+const Return = require('./models/Return');
+const DeliveryZone = require('./models/DeliveryZone');
+const Banner = require('./models/Banner');
+const OfferBanner = require('./models/Offerbanner');
+const LiveProduct = require('./models/LiveProduct');
+const InstagramPost = require('./models/InstagramPost');
+const PromoBar = require('./models/PromoBar');
+const Coupon = require('./models/Coupon');
 
 // --- 2. DEFINE RELATIONSHIPS ---
 Category.hasMany(SubCategory, { foreignKey: 'categoryId' });
@@ -41,7 +41,7 @@ Order.hasMany(OrderItem, { foreignKey: 'orderId', onDelete: 'CASCADE' });
 OrderItem.belongsTo(Order, { foreignKey: 'orderId' });
 
 OrderItem.belongsTo(Product, { foreignKey: 'product_id', as: 'Product' });
-Product.hasMany(OrderItem,   { foreignKey: 'product_id' });
+Product.hasMany(OrderItem, { foreignKey: 'product_id' });
 OrderItem.belongsTo(ProductVariant, { foreignKey: 'variantId', as: 'Variant', constraints: false });
 Wishlist.belongsTo(ProductVariant, { foreignKey: 'variantId', as: 'Variant', constraints: false });
 
@@ -49,47 +49,48 @@ Order.hasMany(Return, { foreignKey: 'order_id' });
 Return.belongsTo(Order, { foreignKey: 'order_id' });
 
 Wishlist.belongsTo(Product, { foreignKey: 'productId', as: 'Product' });
-Product.hasMany(Wishlist,   { foreignKey: 'productId' });
+Product.hasMany(Wishlist, { foreignKey: 'productId' });
 
 // FIX: UserLogin hasMany CustomerAddress (was Customer)
 // CustomerAddresses.customer_id now references userlogin.id
 UserLogin.hasMany(CustomerAddress, {
-    foreignKey: 'customer_id',
-    as: 'addresses',
-    onDelete: 'CASCADE'
+  foreignKey: 'customer_id',
+  as: 'addresses',
+  onDelete: 'CASCADE'
 });
 CustomerAddress.belongsTo(UserLogin, {
-    foreignKey: 'customer_id',
-    as: 'customer'
+  foreignKey: 'customer_id',
+  as: 'customer'
 });
 
 // --- 3. ROUTES IMPORT ---
-const adminRoutes           = require('./routes/adminRoutes');
-const categoryRoutes        = require('./routes/categoryRoutes');
-const productRoutes         = require('./routes/productRoutes');
-const brandRoutes           = require('./routes/brandRoutes');
-const stockRoutes           = require('./routes/stockRoutes');
-const customerRoutes        = require('./routes/customerRoutes');
+const adminRoutes = require('./routes/adminRoutes');
+const categoryRoutes = require('./routes/categoryRoutes');
+const productRoutes = require('./routes/productRoutes');
+const brandRoutes = require('./routes/brandRoutes');
+const stockRoutes = require('./routes/stockRoutes');
+const customerRoutes = require('./routes/customerRoutes');
 const customerAddressRoutes = require('./routes/customerAddressRoutes');
-const reviewRoutes          = require('./routes/reviewRoutes');
-const dashboardRoutes       = require('./routes/dashboardRoutes');
-const subCategoryRoutes     = require('./routes/subCategoryRoutes');
-const userLoginRoutes       = require('./routes/userloginRoutes');
-const cartRoutes            = require('./routes/cartRoutes');
-const wishlistRoutes        = require('./routes/wishlistRoutes');
-const couponRoutes          = require('./routes/couponRoutes');
-const razorpayRoutes        = require('./routes/razorpayRoutes');
-const orderRoutes           = require('./routes/orderRoutes');
-const returnRoutes          = require('./routes/returnRoutes');
-const contactroutes         = require('./routes/contactRoutes');
-const deliveryZonesRouter   = require('./routes/DeliveryzoneRoutes');
-const bannerRoutes          = require('./routes/bannerRoutes');
-const offerBannerRoutes     = require('./routes/offerbannerRoutes');
-const liveProductRoutes     = require('./routes/liveProductRoutes');
-const instagramPostRoutes   = require('./routes/instagrampostRoutes');
-const promoBarRoutes        = require('./routes/promoBarRoutes');
-const emailCampaignRoutes   = require('./routes/emailCampaignRoutes');
-const passwordResetRoutes   = require('./routes/passwordResetRoutes');
+const reviewRoutes = require('./routes/reviewRoutes');
+const dashboardRoutes = require('./routes/dashboardRoutes');
+const subCategoryRoutes = require('./routes/subCategoryRoutes');
+const userLoginRoutes = require('./routes/userloginRoutes');
+const cartRoutes = require('./routes/cartRoutes');
+const wishlistRoutes = require('./routes/wishlistRoutes');
+const couponRoutes = require('./routes/couponRoutes');
+const razorpayRoutes = require('./routes/razorpayRoutes');
+const orderRoutes = require('./routes/orderRoutes');
+const returnRoutes = require('./routes/returnRoutes');
+const contactroutes = require('./routes/contactRoutes');
+const deliveryZonesRouter = require('./routes/DeliveryzoneRoutes');
+const bannerRoutes = require('./routes/bannerRoutes');
+const middleBannerRoutes = require('./routes/middleBannerRoutes');
+const offerBannerRoutes = require('./routes/offerbannerRoutes');
+const liveProductRoutes = require('./routes/liveProductRoutes');
+const instagramPostRoutes = require('./routes/instagrampostRoutes');
+const promoBarRoutes = require('./routes/promoBarRoutes');
+const emailCampaignRoutes = require('./routes/emailCampaignRoutes');
+const passwordResetRoutes = require('./routes/passwordResetRoutes');
 
 const app = express();
 
@@ -182,11 +183,11 @@ app.get('/product/:id', async (req, res, next) => {
     const primaryImage = imageExistsForSharing(row.image) ? absoluteImageUrl(row.image) : null;
     const galleryImage = gallery.find(item => imageExistsForSharing(item.url));
     const image = primaryImage || (galleryImage && absoluteImageUrl(galleryImage.url)) || defaultShareImage;
-    const description = String(row.shortDescription || row.longDescription || `Shop ${row.productName} at Vika Vasthra.`).replace(/\s+/g, ' ').trim().slice(0, 300);
+    const description = String(row.shortDescription || row.longDescription || `Shop ${row.productName} at Vika Vastra.`).replace(/\s+/g, ' ').trim().slice(0, 300);
     const url = `${websiteUrl}${req.path}`;
     const html = fs.readFileSync(frontendIndexPath, 'utf8');
     res.status(200).type('html').send(renderPageMetadata(html, {
-      title: `${row.productName} | Vika Vasthra`, description, image, url, type: 'product',
+      title: `${row.productName} | Vika Vastra`, description, image, url, type: 'product',
     }));
   } catch (error) {
     next(error);
@@ -198,8 +199,8 @@ app.get('/', (req, res, next) => {
   try {
     const html = fs.readFileSync(frontendIndexPath, 'utf8');
     res.type('html').send(renderPageMetadata(html, {
-      title: 'Vika Vasthra | A Heritage in Every Drape',
-      description: 'Vika Vasthra - A Heritage in Every Drape. Premium Saree Collection For Online Shopping.',
+      title: 'Vika Vastra | A Heritage in Every Drape',
+      description: 'Vika Vastra - A Heritage in Every Drape. Premium Saree Best collection For Online Shopping.',
       image: defaultShareImage,
       url: `${websiteUrl}/`,
     }));
@@ -212,37 +213,38 @@ app.use((req, res, next) => {
 });
 
 // --- 5. ROUTES SETUP ---
-app.use('/api/user',             userLoginRoutes);
-app.use('/api/users',            userLoginRoutes);
-app.use('/api/auth',             adminRoutes);
-app.use('/api/categories',       categoryRoutes);
-app.use('/api/products',         productRoutes);
-app.use('/api/brands',           brandRoutes);
-app.use('/api/stocks',           stockRoutes);
+app.use('/api/user', userLoginRoutes);
+app.use('/api/users', userLoginRoutes);
+app.use('/api/auth', adminRoutes);
+app.use('/api/categories', categoryRoutes);
+app.use('/api/products', productRoutes);
+app.use('/api/brands', brandRoutes);
+app.use('/api/stocks', stockRoutes);
 
 // Address routes FIRST, then customer routes (order matters for Express)
-app.use('/api/customers',        customerAddressRoutes);
-app.use('/api/customers',        customerRoutes);
+app.use('/api/customers', customerAddressRoutes);
+app.use('/api/customers', customerRoutes);
 
-app.use('/api/reviews',          reviewRoutes);
-app.use('/api/dashboard',        dashboardRoutes);
-app.use('/api/subcategories',    subCategoryRoutes);
-app.use('/api/cart',             cartRoutes);
-app.use('/api/wishlist',         wishlistRoutes);
-app.use('/api/coupons',          couponRoutes);
-app.use('/api/razorpay',         razorpayRoutes);
-app.use('/api/orders',           orderRoutes);
-app.use('/api/returns',          returnRoutes);
-app.use('/api/contact',          contactroutes);
-app.use('/api/contacts',         contactroutes);
-app.use('/api/delivery-zones',   deliveryZonesRouter);
-app.use('/api/banners',          bannerRoutes);
-app.use('/api/offer-banners',    offerBannerRoutes);
-app.use('/api/live-products',    liveProductRoutes);
-app.use('/api/instagram-posts',  instagramPostRoutes);
-app.use('/api/promo-bar',        promoBarRoutes);
-app.use('/api/email-campaigns',  emailCampaignRoutes);
-app.use('/api/password-reset',   passwordResetRoutes);
+app.use('/api/reviews', reviewRoutes);
+app.use('/api/dashboard', dashboardRoutes);
+app.use('/api/subcategories', subCategoryRoutes);
+app.use('/api/cart', cartRoutes);
+app.use('/api/wishlist', wishlistRoutes);
+app.use('/api/coupons', couponRoutes);
+app.use('/api/razorpay', razorpayRoutes);
+app.use('/api/orders', orderRoutes);
+app.use('/api/returns', returnRoutes);
+app.use('/api/contact', contactroutes);
+app.use('/api/contacts', contactroutes);
+app.use('/api/delivery-zones', deliveryZonesRouter);
+app.use('/api/banners', bannerRoutes);
+app.use('/api/middle-banners', middleBannerRoutes);
+app.use('/api/offer-banners', offerBannerRoutes);
+app.use('/api/live-products', liveProductRoutes);
+app.use('/api/instagram-posts', instagramPostRoutes);
+app.use('/api/promo-bar', promoBarRoutes);
+app.use('/api/email-campaigns', emailCampaignRoutes);
+app.use('/api/password-reset', passwordResetRoutes);
 
 // --- 6. SAFE MIGRATIONS & START ---
 const PORT = process.env.PORT || 5000;

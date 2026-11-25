@@ -16,8 +16,8 @@ const PromoOfferBanner = () => {
   useEffect(() => {
     const fetchBanners = async () => {
       try {
-        const res = await fetch(`${API}/offer-banners`);
-        if (!res.ok) throw new Error("Failed to load offer banners");
+        const res = await fetch(`${API}/middle-banners`);
+        if (!res.ok) throw new Error("Failed to load middle banners");
         const data = await res.json();
         const active = Array.isArray(data)
           ? data.filter((b) => b.status === "Active")

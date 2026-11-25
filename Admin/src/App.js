@@ -14,37 +14,39 @@ import Coupons from './components/Coupons/AddCoupon';
 import Orders from './components/orders/orders';
 import AdminContactManager from './components/Admincontactmanager';
 import Banners from './components/Banners/Banners';
+import MiddleBanner from './components/MiddleBanner/MiddleBanner';
 import OfferBanners from './components/OfferBanners/OfferBanners';
 import Toast from './components/Toast/Toast';
 import './styles/global.css';
 import Swal from 'sweetalert2';
 import DeliveryZones from './components/Deliveryzones/Deliveryzones';
 // import LiveProducts from './components/LiveProducts/LiveProducts';
-import InstagramPostsAdmin from './components/Instagrampostsadmin/Instagrampostsadmin'; 
-import PromoBar from './components/Promobar/Promobar'; 
+import InstagramPostsAdmin from './components/Instagrampostsadmin/Instagrampostsadmin';
+import PromoBar from './components/Promobar/Promobar';
 
 const PAGE_CONFIG = {
-  dashboard:          { title: 'Dashboard' },
-  categories:         { title: 'Categories' },
+  dashboard: { title: 'Dashboard' },
+  categories: { title: 'Categories' },
   // brands:             { title: 'Brands' },
-  products:           { title: 'Products' },
-  stock:              { title: 'Stock Management' },
-  customers:          { title: 'Customers' },
-  reviews:            { title: 'Reviews' },
-  coupons:            { title: 'Coupon Management' },
-  orders:             { title: 'All Orders' },
-  orders_new:         { title: 'New Orders' },
-  orders_confirmed:   { title: 'Confirmed Orders' },
-  orders_shipped:     { title: 'Shipped Orders' },
-  orders_delivery:    { title: 'Out for Delivery' },
-  orders_delivered:   { title: 'Delivered Orders' },
-  orders_cancelled:   { title: 'Cancelled Orders' },
-  contacts:           { title: 'Contact Requests' },
-  'delivery-zones':   { title: 'Delivery Zone Charges' },
-  banners:            { title: 'Banners' },
-  'offer-banners':    { title: 'Offer Banners' },
+  products: { title: 'Products' },
+  stock: { title: 'Stock Management' },
+  customers: { title: 'Customers' },
+  reviews: { title: 'Reviews' },
+  coupons: { title: 'Coupon Management' },
+  orders: { title: 'All Orders' },
+  orders_new: { title: 'New Orders' },
+  orders_confirmed: { title: 'Confirmed Orders' },
+  orders_shipped: { title: 'Shipped Orders' },
+  orders_delivery: { title: 'Out for Delivery' },
+  orders_delivered: { title: 'Delivered Orders' },
+  orders_cancelled: { title: 'Cancelled Orders' },
+  contacts: { title: 'Contact Requests' },
+  'delivery-zones': { title: 'Delivery Zone Charges' },
+  banners: { title: 'Banners' },
+  'middle-banner': { title: 'Middle Banner' },
+  'offer-banners': { title: 'Offer Banners' },
   // 'live-products':    { title: 'What More Live' },
-  'instagram-posts':  { title: 'Instagram Posts' }, // ← NEW
+  'instagram-posts': { title: 'Instagram Posts' }, // ← NEW
 };
 
 function AdminLayoutWrapper({ handleLogout, showToast, toast }) {
@@ -59,29 +61,30 @@ function AdminLayoutWrapper({ handleLogout, showToast, toast }) {
         <Topbar title={cfg.title} />
         <div className="content">
           <Routes>
-            <Route path="/dashboard"          element={<Dashboard     showToast={showToast} />} />
-            <Route path="/categories"         element={<Categories    showToast={showToast} />} />
+            <Route path="/dashboard" element={<Dashboard showToast={showToast} />} />
+            <Route path="/categories" element={<Categories showToast={showToast} />} />
             {/* <Route path="/brands"             element={<Brands        showToast={showToast} />} /> */}
-            <Route path="/products"           element={<Products      showToast={showToast} />} />
-            <Route path="/stock"              element={<Stock         showToast={showToast} />} />
-            <Route path="/customers"          element={<Customers     showToast={showToast} />} />
-            <Route path="/reviews"            element={<Reviews       showToast={showToast} />} />
-            <Route path="/coupons"            element={<Coupons       showToast={showToast} />} />
-            <Route path="/delivery-zones"     element={<DeliveryZones showToast={showToast} />} />
-            <Route path="/banners"            element={<Banners       showToast={showToast} />} />
-            <Route path="/offer-banners"      element={<OfferBanners  showToast={showToast} />} />
+            <Route path="/products" element={<Products showToast={showToast} />} />
+            <Route path="/stock" element={<Stock showToast={showToast} />} />
+            <Route path="/customers" element={<Customers showToast={showToast} />} />
+            <Route path="/reviews" element={<Reviews showToast={showToast} />} />
+            <Route path="/coupons" element={<Coupons showToast={showToast} />} />
+            <Route path="/delivery-zones" element={<DeliveryZones showToast={showToast} />} />
+            <Route path="/banners" element={<Banners showToast={showToast} />} />
+            <Route path="/middle-banner" element={<MiddleBanner showToast={showToast} />} />
+            <Route path="/offer-banners" element={<OfferBanners showToast={showToast} />} />
             {/* <Route path="/live-products"      element={<LiveProducts  showToast={showToast} />} /> */}
-            <Route path="/instagram-posts"    element={<InstagramPostsAdmin showToast={showToast} />} /> {/* ← NEW */}
+            <Route path="/instagram-posts" element={<InstagramPostsAdmin showToast={showToast} />} /> {/* ← NEW */}
 
-            <Route path="/orders"             element={<Orders showToast={showToast} status={null} />} />
-            <Route path="/orders_new"         element={<Orders showToast={showToast} status="processing" />} />
-            <Route path="/orders_confirmed"   element={<Orders showToast={showToast} status="confirmed" />} />
-            <Route path="/orders_shipped"     element={<Orders showToast={showToast} status="shipped" />} />
-            <Route path="/orders_delivery"    element={<Orders showToast={showToast} status="out_for_delivery" />} />
-            <Route path="/orders_delivered"   element={<Orders showToast={showToast} status="delivered" />} />
-            <Route path="/orders_cancelled"   element={<Orders showToast={showToast} status="cancelled" />} />
+            <Route path="/orders" element={<Orders showToast={showToast} status={null} />} />
+            <Route path="/orders_new" element={<Orders showToast={showToast} status="processing" />} />
+            <Route path="/orders_confirmed" element={<Orders showToast={showToast} status="confirmed" />} />
+            <Route path="/orders_shipped" element={<Orders showToast={showToast} status="shipped" />} />
+            <Route path="/orders_delivery" element={<Orders showToast={showToast} status="out_for_delivery" />} />
+            <Route path="/orders_delivered" element={<Orders showToast={showToast} status="delivered" />} />
+            <Route path="/orders_cancelled" element={<Orders showToast={showToast} status="cancelled" />} />
 
-            <Route path="/contacts"           element={<AdminContactManager showToast={showToast} />} />
+            <Route path="/contacts" element={<AdminContactManager showToast={showToast} />} />
             <Route path="/promo-bar" element={<PromoBar showToast={showToast} />} />
 
             <Route path="/" element={<Navigate to="/dashboard" />} />
