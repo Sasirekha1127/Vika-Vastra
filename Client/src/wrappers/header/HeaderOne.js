@@ -39,11 +39,11 @@ const S = {
     whiteSpace:     "nowrap",
     position:       "relative",
     width:          "100%",
-    background:     "#3E0533",
-    backgroundColor: "#3E0533",
-    color:          "#E5C365",
-    borderBottom:   "1.5px solid rgba(197, 155, 39, 0.45)",
-    boxShadow:      "0 2px 10px rgba(46, 5, 20, 0.35)",
+    background:     "#430B4D",
+    backgroundColor: "#430B4D",
+    color:          "#FFFFFF",
+    borderBottom:   "none",
+    boxShadow:      "none",
   },
   header: {
     background:           "#f8ebd7",
@@ -69,7 +69,7 @@ const S = {
     alignItems:     "center",
     justifyContent: "space-between",
     padding:        "0 48px",
-    height:         86,
+    height:         92,
     position:       "relative",
     width:          "100%",
     maxWidth:       "100%",
@@ -84,9 +84,9 @@ const S = {
   },
   /* brand image sizing fallback */
   brandImg: {
-    height:     56,
+    height:     72,
     width:      "auto",
-    maxWidth:   270,
+    maxWidth:   350,
     objectFit:  "contain",
     display:    "block",
   },
@@ -586,7 +586,7 @@ const MobileMenu = ({ isOpen, onClose, categories, catLoading, catError, isLogge
             <img
               src={`${process.env.PUBLIC_URL}/vika-brand-logo.png`}
               alt="Vika Vastra - A Heritage in Every Drape"
-              style={{ height: 38, width: "auto", maxWidth: 200, objectFit: "contain", display: "block" }}
+              style={{ height: 48, width: "auto", maxWidth: 240, objectFit: "contain", display: "block" }}
             />
           </Link>
           <button
@@ -846,9 +846,9 @@ const HeaderOne = ({ shop }) => {
         }
 
         .emb-brand-img {
-          height: 56px;
+          height: 72px;
           width: auto;
-          max-width: 270px;
+          max-width: 350px;
           object-fit: contain;
           display: block;
           transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), filter 0.25s ease;
@@ -1266,9 +1266,10 @@ const HeaderOne = ({ shop }) => {
           display: flex;
           overflow: hidden;
           width: 100%;
-          background: #3E0533 !important;
-          background-color: #3E0533 !important;
-          border-bottom: 1.5px solid rgba(197, 155, 39, 0.45) !important;
+          background: #430B4D !important;
+          background-color: #430B4D !important;
+          border-bottom: none !important;
+          box-shadow: none !important;
         }
 
         @keyframes emb-marquee {
@@ -1301,8 +1302,8 @@ const HeaderOne = ({ shop }) => {
           font-weight: 700;
           letter-spacing: 0.14em;
           text-transform: uppercase;
-          color: #E5C365 !important;
-          text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4) !important;
+          color: #FFFFFF !important;
+          text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
         }
 
         /* ── Mobile menu items ── */
@@ -1369,23 +1370,23 @@ const HeaderOne = ({ shop }) => {
 
         /* ── Responsive adjustments ── */
         @media (max-width: 1199px) and (min-width: 992px) {
-          .emb-main-row   { padding: 0 24px !important; }
+          .emb-main-row   { padding: 0 24px !important; height: 86px !important; }
           .emb-nav-link   { padding: 5px 12px !important; font-size: 18.5px !important; }
-          .emb-brand-img  { height: 48px !important; max-width: 230px !important; }
+          .emb-brand-img  { height: 62px !important; max-width: 300px !important; }
         }
 
         @media (max-width: 991px) {
           .emb-nav-center { display: none !important; }
-          .emb-main-row   { padding: 0 16px !important; height: 74px !important; }
-          .emb-brand-img  { height: 44px !important; max-width: 210px !important; }
+          .emb-main-row   { padding: 0 16px !important; height: 78px !important; }
+          .emb-brand-img  { height: 56px !important; max-width: 270px !important; }
           .emb-icon-btn   { width: 38px !important; height: 38px !important; }
           .emb-badge      { min-width: 16px !important; height: 16px !important; font-size: 8.5px !important; }
           .emb-search-overlay-inner { padding: 14px 16px !important; }
         }
 
         @media (max-width: 575px) {
-          .emb-main-row   { padding: 0 12px !important; height: 62px !important; }
-          .emb-brand-img  { height: 34px !important; max-width: 165px !important; }
+          .emb-main-row   { padding: 0 12px !important; height: 68px !important; }
+          .emb-brand-img  { height: 46px !important; max-width: 220px !important; }
           .emb-icon-btn   { width: 34px !important; height: 34px !important; }
           .emb-badge      { min-width: 15px !important; height: 15px !important; font-size: 8px !important; }
           .emb-icons-right{ gap: 8px !important; }
@@ -1393,7 +1394,7 @@ const HeaderOne = ({ shop }) => {
         }
 
         @media (max-width: 380px) {
-          .emb-brand-img  { height: 28px !important; max-width: 135px !important; }
+          .emb-brand-img  { height: 38px !important; max-width: 180px !important; }
         }
 
         @media (max-width: 991px) { .d-lg-none { display: inline-flex !important; } }
