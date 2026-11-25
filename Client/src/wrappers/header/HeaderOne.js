@@ -78,32 +78,17 @@ const S = {
   logoWrap: {
     display:        "inline-flex",
     alignItems:     "center",
-    gap:            14,
     textDecoration: "none",
     flexShrink:     0,
-    paddingRight:   28,
+    paddingRight:   24,
   },
-  /* arch-shaped frame – echoes temple / heritage doorways */
-  logoFrame: {
-    width:          58,
-    height:         66,
-    borderRadius:   "28px 28px 12px 12px",
-    background:     "#FFFFFF",
-    border:         "2px solid rgba(197, 155, 39, 0.65)",
-    display:        "flex",
-    alignItems:     "center",
-    justifyContent: "center",
-    padding:        5,
-    boxShadow:      "0 6px 18px rgba(114, 14, 30, 0.16)",
-    flexShrink:     0,
-    transition:     "all .28s ease",
-  },
-  logoIcon: {
-    width:      "100%",
-    height:     "100%",
+  /* brand image sizing fallback */
+  brandImg: {
+    height:     56,
+    width:      "auto",
+    maxWidth:   270,
     objectFit:  "contain",
     display:    "block",
-    transition: "transform .25s ease",
   },
   navCenter: {
     display:        "flex",
@@ -326,9 +311,10 @@ const S = {
     display:        "flex",
     alignItems:     "center",
     justifyContent: "space-between",
-    padding:        "20px",
-    background:     "linear-gradient(135deg, #4A0713 0%, #32040C 100%)",
-    borderBottom:   `2px solid ${C.gold}`,
+    padding:        "16px 20px",
+    background:     "#f8ebd7",
+    borderBottom:   "1.5px solid rgba(197, 155, 39, 0.45)",
+    boxShadow:      "0 2px 10px rgba(46, 5, 13, 0.06)",
   },
 };
 
@@ -596,26 +582,17 @@ const MobileMenu = ({ isOpen, onClose, categories, catLoading, catError, isLogge
 
         {/* Mobile Header */}
         <div style={S.mobileMenuHeader}>
-          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <div style={{ width: 42, height: 48, borderRadius: "21px 21px 9px 9px", background: "#fff", border: "1.5px solid rgba(197,155,39,0.6)", padding: 4, boxSizing: "border-box", display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <img src={`${process.env.PUBLIC_URL}/vika-icon.png`} alt="Vika Vastra" style={{ width: "100%", height: "100%", objectFit: "contain", display: "block" }} />
-            </div>
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center" }}>
-              <div style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: 22, fontWeight: 800, lineHeight: 1.1, textAlign: "center" }}>
-                <span style={{ color: "#FFF4E5", textShadow: "0 2px 10px rgba(255,244,229,0.4)" }}>VIKA </span>
-                <span style={{ color: C.goldLight, textShadow: "0 2px 10px rgba(229,195,101,0.5)" }}>VASTRA</span>
-              </div>
-              <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 7.5, letterSpacing: "0.22em", textIndent: "0.22em", color: C.goldLight, textTransform: "uppercase", fontWeight: 700, marginTop: 3, textAlign: "center", width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: 5 }}>
-                <span style={{ color: C.goldLight, fontSize: 5 }}>◆</span>
-                <span>A HERITAGE IN EVERY DRAPE</span>
-                <span style={{ color: C.goldLight, fontSize: 5 }}>◆</span>
-              </div>
-            </div>
-          </div>
+          <Link to="/" onClick={onClose} style={{ textDecoration: "none", display: "inline-flex", alignItems: "center" }} aria-label="Vika Vastra Home">
+            <img
+              src={`${process.env.PUBLIC_URL}/vika-brand-logo.png`}
+              alt="Vika Vastra - A Heritage in Every Drape"
+              style={{ height: 38, width: "auto", maxWidth: 200, objectFit: "contain", display: "block" }}
+            />
+          </Link>
           <button
             onClick={onClose}
             aria-label="Close menu"
-            style={{ width: 36, height: 36, display: "flex", alignItems: "center", justifyContent: "center", border: "1px solid rgba(229,195,101,0.45)", background: "transparent", borderRadius: 12, color: "#F6E9C8", cursor: "pointer" }}
+            style={{ width: 36, height: 36, display: "flex", alignItems: "center", justifyContent: "center", border: "1px solid rgba(197, 155, 39, 0.45)", background: "#FFFFFF", borderRadius: 12, color: "#720E1E", cursor: "pointer", boxShadow: "0 2px 6px rgba(114, 14, 30, 0.08)" }}
           >
             <IconClose />
           </button>
@@ -861,12 +838,25 @@ const HeaderOne = ({ shop }) => {
           pointer-events: none;
         }
 
-        .emb-logo-wrap { transition: transform 0.25s ease; }
+        .emb-logo-wrap {
+          display: inline-flex;
+          align-items: center;
+          text-decoration: none;
+          transition: transform 0.25s ease;
+        }
 
-        .emb-logo-wrap:hover .emb-logo-icon-frame {
-          border-color: ${C.gold} !important;
-          transform: translateY(-2px);
-          box-shadow: 0 10px 22px rgba(197, 155, 39, 0.28) !important;
+        .emb-brand-img {
+          height: 56px;
+          width: auto;
+          max-width: 270px;
+          object-fit: contain;
+          display: block;
+          transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), filter 0.25s ease;
+        }
+
+        .emb-logo-wrap:hover .emb-brand-img {
+          transform: scale(1.025);
+          filter: drop-shadow(0 4px 12px rgba(114, 14, 30, 0.12));
         }
 
         /* ── Nav links on #f8ebd7: refined deep maroon-charcoal with gold accents ── */
@@ -1381,19 +1371,13 @@ const HeaderOne = ({ shop }) => {
         @media (max-width: 1199px) and (min-width: 992px) {
           .emb-main-row   { padding: 0 24px !important; }
           .emb-nav-link   { padding: 5px 12px !important; font-size: 18.5px !important; }
-          .emb-brand-wordmark { align-items: center !important; text-align: center !important; }
-          .emb-brand-title{ font-size: 30px !important; justify-content: center !important; text-align: center !important; }
-          .emb-brand-sub  { font-size: 8px !important; letter-spacing: 0.20em !important; text-indent: 0.20em !important; justify-content: center !important; text-align: center !important; width: 100% !important; }
-          .emb-logo-icon-frame { width: 50px !important; height: 58px !important; }
+          .emb-brand-img  { height: 48px !important; max-width: 230px !important; }
         }
 
         @media (max-width: 991px) {
           .emb-nav-center { display: none !important; }
           .emb-main-row   { padding: 0 16px !important; height: 74px !important; }
-          .emb-brand-wordmark { align-items: center !important; text-align: center !important; }
-          .emb-brand-title{ font-size: 28px !important; justify-content: center !important; text-align: center !important; }
-          .emb-brand-sub  { font-size: 7.5px !important; letter-spacing: 0.18em !important; text-indent: 0.18em !important; margin-top: 3px !important; justify-content: center !important; text-align: center !important; width: 100% !important; }
-          .emb-logo-icon-frame { width: 46px !important; height: 52px !important; }
+          .emb-brand-img  { height: 44px !important; max-width: 210px !important; }
           .emb-icon-btn   { width: 38px !important; height: 38px !important; }
           .emb-badge      { min-width: 16px !important; height: 16px !important; font-size: 8.5px !important; }
           .emb-search-overlay-inner { padding: 14px 16px !important; }
@@ -1401,14 +1385,15 @@ const HeaderOne = ({ shop }) => {
 
         @media (max-width: 575px) {
           .emb-main-row   { padding: 0 12px !important; height: 62px !important; }
-          .emb-brand-wordmark { align-items: center !important; text-align: center !important; }
-          .emb-brand-title{ font-size: 22px !important; justify-content: center !important; text-align: center !important; }
-          .emb-brand-sub  { font-size: 6.5px !important; letter-spacing: 0.12em !important; text-indent: 0.12em !important; justify-content: center !important; text-align: center !important; width: 100% !important; }
-          .emb-logo-icon-frame { width: 34px !important; height: 40px !important; }
+          .emb-brand-img  { height: 34px !important; max-width: 165px !important; }
           .emb-icon-btn   { width: 34px !important; height: 34px !important; }
           .emb-badge      { min-width: 15px !important; height: 15px !important; font-size: 8px !important; }
           .emb-icons-right{ gap: 8px !important; }
           .emb-promo-wrap { font-size: 11.5px !important; padding: 6px 0 !important; }
+        }
+
+        @media (max-width: 380px) {
+          .emb-brand-img  { height: 28px !important; max-width: 135px !important; }
         }
 
         @media (max-width: 991px) { .d-lg-none { display: inline-flex !important; } }
@@ -1429,27 +1414,13 @@ const HeaderOne = ({ shop }) => {
       <header className={`emb-header${scroll > 36 ? " is-sticky" : ""}`} style={{ ...S.header, ...(scroll > 36 ? S.headerStick : {}) }}>
         <div className="emb-main-row" style={S.mainRow}>
 
-          {/* LEFT: BRAND LOGO & WORDMARK */}
-          <Link to="/" className="emb-logo-wrap" style={S.logoWrap}>
-            <div className="emb-logo-icon-frame" style={S.logoFrame}>
-              <img
-                className="emb-logo-icon"
-                src={`${process.env.PUBLIC_URL}/vika-icon.png`}
-                alt="Vika Vastra"
-                style={S.logoIcon}
-              />
-            </div>
-            <div className="emb-brand-wordmark">
-              <div className="emb-brand-title">
-                <span className="emb-brand-vika">VIKA</span>
-                <span className="emb-brand-vastra">VASTRA</span>
-              </div>
-              <div className="emb-brand-sub">
-                <span style={{ color: C.goldLight, fontSize: 6 }}>◆</span>
-                <span style={{ color: C.goldLight }}>A HERITAGE IN EVERY DRAPE</span>
-                <span style={{ color: C.goldLight, fontSize: 6 }}>◆</span>
-              </div>
-            </div>
+          {/* LEFT: BRAND LOGO */}
+          <Link to="/" className="emb-logo-wrap" style={S.logoWrap} aria-label="Vika Vastra Home">
+            <img
+              className="emb-brand-img"
+              src={`${process.env.PUBLIC_URL}/vika-brand-logo.png`}
+              alt="Vika Vastra - A Heritage in Every Drape"
+            />
           </Link>
 
           {/* CENTER: DESKTOP NAVIGATION MENU */}
