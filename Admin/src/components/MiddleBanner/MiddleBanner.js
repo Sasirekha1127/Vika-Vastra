@@ -35,7 +35,7 @@ export default function MiddleBanner({ showToast }) {
   const closeForm = () => {
     setShowForm(false);
     setEditingId(null);
-    setFormData({ link: '/shop', status: 'Active' });
+    setFormData({ link: '/shop', status: 'Active', position: 'new_arrivals' });
     setImageFile(null);
     setPreviewUrl(null);
   };
@@ -45,6 +45,7 @@ export default function MiddleBanner({ showToast }) {
     setFormData({
       link: banner.link || '/shop',
       status: banner.status || 'Active',
+      position: banner.position || 'new_arrivals',
     });
     setImageFile(null);
     setPreviewUrl(getImageUrl(banner.image));
@@ -69,6 +70,7 @@ export default function MiddleBanner({ showToast }) {
     const data = new FormData();
     data.append('link', formData.link || '/shop');
     data.append('status', formData.status || 'Active');
+    data.append('position', formData.position || 'new_arrivals');
 
     if (imageFile) {
       data.append('image', imageFile);
@@ -234,6 +236,18 @@ export default function MiddleBanner({ showToast }) {
                 )}
               </div>
 
+              <div className="km-field">
+                <label className="km-label">Section Placement</label>
+                <select
+                  className="km-select"
+                  value={formData.position || 'new_arrivals'}
+                  onChange={e => setFormData({ ...formData, position: e.target.value })}
+                >
+                  <option value="new_arrivals">Above New Arrivals (Section 1)</option>
+                  <option value="best_sellers">Above Best Sellers (Section 2)</option>
+                </select>
+              </div>
+
               {/* Status and Optional Link */}
               <div className="km-field">
                 <label className="km-label">Link (optional redirect)</label>
@@ -283,7 +297,7 @@ export default function MiddleBanner({ showToast }) {
       )}
 
       <DataTable
-        columns={['#', 'Banner Image', 'Target Link', 'Status', 'Actions']}
+        columns={['#', 'Banner Image', 'Placement', 'Target Link', 'Status', 'Actions']}
         initialRows={rows}
         renderRow={(row, i) => (
           <tr key={row.id}>
@@ -307,6 +321,22 @@ export default function MiddleBanner({ showToast }) {
                   <span>🖼️ No image</span>
                 )}
               </div>
+            </td>
+            <td>
+              <span style={{
+                padding: '4px 10px',
+                borderRadius: 6,
+                fontSize: 12,
+                fontWeight: 600,
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 5,
+                background: row.position === 'best_sellers' ? 'rgba(235, 94, 40, 0.15)' : 'rgba(108, 92, 231, 0.15)',
+                color: row.position === 'best_sellers' ? '#ff9f43' : '#a29bfe',
+                border: row.position === 'best_sellers' ? '1px solid rgba(235, 94, 40, 0.3)' : '1px solid rgba(108, 92, 231, 0.3)',
+              }}>
+                {row.position === 'best_sellers' ? '⭐ Above Best Sellers' : '✨ Above New Arrivals'}
+              </span>
             </td>
             <td style={{ color: '#8899a6' }}>{row.link || '/shop'}</td>
             <td>

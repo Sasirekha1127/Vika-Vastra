@@ -30,7 +30,14 @@ const upload = multer({
 // ── GET all ─────────────────────────────────────────────────────
 const getAllMiddleBanners = async (req, res) => {
   try {
-    const banners = await MiddleBanner.findAll({ order: [['createdAt', 'DESC']] });
+    const where = {};
+    if (req.query.position) {
+      where.position = req.query.position;
+    }
+    if (req.query.status) {
+      where.status = req.query.status;
+    }
+    const banners = await MiddleBanner.findAll({ where, order: [['createdAt', 'DESC']] });
     res.json(banners);
   } catch (err) {
     console.error('getAllMiddleBanners:', err);
@@ -58,7 +65,7 @@ const addMiddleBanner = async (req, res) => {
     }
 
     const image = req.file.path.replace(/\\/g, '/');
-    const { link, status } = req.body;
+    const { link, status, position } = req.body;
 
     const banner = await MiddleBanner.create({
       title: 'Middle Banner',
@@ -66,6 +73,7 @@ const addMiddleBanner = async (req, res) => {
       link: link || '/shop',
       shopUrl: link || '/shop',
       status: status || 'Active',
+      position: position || 'new_arrivals',
     });
 
     res.status(201).json({
@@ -93,12 +101,13 @@ const updateMiddleBanner = async (req, res) => {
       image = req.file.path.replace(/\\/g, '/');
     }
 
-    const { link, status } = req.body;
+    const { link, status, position } = req.body;
     await banner.update({
       image,
       link: link !== undefined ? link : banner.link,
       shopUrl: link !== undefined ? link : banner.shopUrl,
       status: status !== undefined ? status : banner.status,
+      position: position !== undefined ? position : banner.position,
     });
 
     res.json({ message: 'Middle banner updated successfully', banner });

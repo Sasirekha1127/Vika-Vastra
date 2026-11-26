@@ -4,7 +4,7 @@ import { getImageUrl } from "../../api";
 
 const API = process.env.REACT_APP_API_URL || "http://localhost:5000/api";
 
-const PromoOfferBanner = () => {
+const PromoOfferBanner = ({ position = "new_arrivals" }) => {
   const [banners, setBanners] = useState([]);
   const [current, setCurrent] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -14,58 +14,52 @@ const PromoOfferBanner = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    let isMounted = true;
     const fetchBanners = async () => {
       try {
         let active = [];
         try {
-          const res = await fetch(`${API}/middle-banners?t=${Date.now()}`, { cache: "no-store" });
+          const res = await fetch(`${API}/middle-banners?position=${position}&t=${Date.now()}`, { cache: "no-store" });
           if (res.ok) {
             const data = await res.json();
             active = Array.isArray(data)
-              ? data.filter((b) => b.status === "Active")
+              ? data.filter((b) => b.status === "Active" && (!b.position || b.position === position))
               : [];
           }
         } catch (e) {
-          console.warn("middle-banners fetch failed, trying offer-banners fallback", e);
+          console.warn("middle-banners fetch failed", e);
         }
 
         if (!active.length) {
-          try {
-            const fallbackRes = await fetch(`${API}/offer-banners?t=${Date.now()}`, { cache: "no-store" });
-            if (fallbackRes.ok) {
-              const fData = await fallbackRes.json();
-              active = Array.isArray(fData)
-                ? fData.filter((b) => b.status === "Active")
-                : [];
-            }
-          } catch (_) {}
+          if (position === "best_sellers") {
+            active = [{
+              id: 'default-bestsellers-banner',
+              image: 'uploads/middle-banners/top-deals-middle-banner.png',
+              link: '/shop',
+              status: 'Active',
+              position: 'best_sellers',
+            }];
+          } else {
+            active = [{
+              id: 'default-newarrivals-banner',
+              image: 'uploads/middle-banners/middle-deals-banner.png',
+              link: '/shop',
+              status: 'Active',
+              position: 'new_arrivals',
+            }];
+          }
         }
 
-        // Default active fallback so homepage middle banner is never blank
-        if (!active.length) {
-          active = [{
-            id: 'default-middle-banner',
-            image: 'uploads/middle-banners/middle-deals-banner.png',
-            link: '/shop',
-            status: 'Active',
-          }];
-        }
-
-        setBanners(active);
+        if (isMounted) setBanners(active);
       } catch (err) {
         console.error("PromoOfferBanner: fetch failed", err);
-        setBanners([{
-          id: 'default-middle-banner',
-          image: 'uploads/middle-banners/middle-deals-banner.png',
-          link: '/shop',
-          status: 'Active',
-        }]);
       } finally {
-        setLoading(false);
+        if (isMounted) setLoading(false);
       }
     };
     fetchBanners();
-  }, []);
+    return () => { isMounted = false; };
+  }, [position]);
 
   // Auto rotate if multiple banners
   useEffect(() => {
@@ -244,15 +238,34 @@ const PromoOfferBanner = () => {
           }
         }
 
-        @media (max-width: 480px) {
-          .pob-root {
-            margin-top: -42px;
+        .pob-root.pob-root--bestsellers {
+          margin-top: 38px;
+          margin-bottom: 30px;
+        }
+
+        @media (max-width: 1024px) {
+          .pob-root.pob-root--bestsellers {
+            margin-top: 28px;
+            margin-bottom: 22px;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .pob-root.pob-root--bestsellers {
+            margin-top: 20px;
             margin-bottom: 16px;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .pob-root.pob-root--bestsellers {
+            margin-top: 16px;
+            margin-bottom: 12px;
           }
         }
       `}</style>
 
-      <div className="pob-root">
+      <div className={`pob-root pob-root--${String(position).replace(/_/g, '')}`}>
         <div className="pob-container">
           <div
             className="pob-card-wrapper"

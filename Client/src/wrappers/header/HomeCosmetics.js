@@ -23,9 +23,10 @@ const HomeCosmetics = ({ shop }) => {
       >
         <HeroSliderOne />
         <ShopByCollections spaceTopClass="pt-60" spaceBottomClass="pb-60" />
-        <PromoOfferBanner />
+        <PromoOfferBanner position="new_arrivals" />
         <NewArrivals shop={shop} />
         
+        <PromoOfferBanner position="best_sellers" />
         <BestSellers shop={shop} />
    
         <SareeCarouselSection

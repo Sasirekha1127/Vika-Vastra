@@ -38,6 +38,11 @@ const MiddleBanner = sequelize.define('MiddleBanner', {
     type: DataTypes.ENUM('Active', 'Inactive'),
     defaultValue: 'Active',
   },
+  position: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    defaultValue: 'new_arrivals',
+  },
   startDate: {
     type: DataTypes.DATEONLY,
     allowNull: true,
