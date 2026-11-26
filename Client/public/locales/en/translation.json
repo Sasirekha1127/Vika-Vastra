@@ -62,7 +62,7 @@
     "product_simple": "Product Simple",
     "product_variation": "Product Variation",
     "product_affiliate": "Product Affiliate",
-    "collection": "Collection",
+    "Best collection": "Best collection",
     "pages": "Pages",
     "cart": "Cart",
     "checkout": "Checkout",
@@ -80,4 +80,4 @@
     "blog_details_standard": "Blog Details Standard",
     "blog_details_video": "Blog Details Video",
     "blog_details_slider": "Blog Details Slider"
-}  
+}

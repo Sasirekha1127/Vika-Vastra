@@ -62,7 +62,7 @@
     "product_simple": "Produkt Einfach",
     "product_variation": "Produktvariation",
     "product_affiliate": "Produkt-Partner",
-    "collection": "Sammlung",
+    "Best collection": "Sammlung",
     "pages": "Seiten",
     "cart": "Wagen",
     "checkout": "Auschecken",
@@ -80,4 +80,4 @@
     "blog_details_standard": "Blog Details Standard",
     "blog_details_video": "Blog Details Video",
     "blog_details_slider": "Blog Details Schieberegler"
-}  
+}

@@ -328,32 +328,32 @@ const styles = `
 `;
 
 const PhoneIcon = () => (
-  <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.7 11.5 19.79 19.79 0 01.64 2.82 2 2 0 012.62 1h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.91 8.64a16 16 0 006.29 6.29l1-1a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+  <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.7 11.5 19.79 19.79 0 01.64 2.82 2 2 0 012.62 1h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.91 8.64a16 16 0 006.29 6.29l1-1a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" /></svg>
 );
 const MailIcon = () => (
-  <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+  <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" /><polyline points="22,6 12,13 2,6" /></svg>
 );
 const MapIcon = () => (
-  <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+  <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" /><circle cx="12" cy="10" r="3" /></svg>
 );
 const SendIcon = () => (
-  <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+  <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13" /><polygon points="22 2 15 22 11 13 2 9 22 2" /></svg>
 );
 const CheckIcon = () => (
-  <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+  <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12" /></svg>
 );
 
 const EMPTY = { name: "", email: "", phone: "", subject: "", message: "" };
 
 export default function ContactPage({ shop }) {
-  const [form, setForm]                 = useState(EMPTY);
-  const [errors, setErrors]             = useState({});
-  const [touched, setTouched]           = useState({});
-  const [sent, setSent]                 = useState(false);
-  const [hiding, setHiding]             = useState(false);
-  const [loading, setLoading]           = useState(false);
-  const [submitError, setSubmitError]   = useState('');
-  const [errorHiding, setErrorHiding]   = useState(false);
+  const [form, setForm] = useState(EMPTY);
+  const [errors, setErrors] = useState({});
+  const [touched, setTouched] = useState({});
+  const [sent, setSent] = useState(false);
+  const [hiding, setHiding] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [submitError, setSubmitError] = useState('');
+  const [errorHiding, setErrorHiding] = useState(false);
 
   const validateField = (name, value) => {
     const val = (value || "").trim();
@@ -459,9 +459,9 @@ export default function ContactPage({ shop }) {
     setSubmitError('');
 
     submitContact({
-      name:    form.name.trim(),
-      email:   form.email.trim(),
-      phone:   form.phone.trim(),
+      name: form.name.trim(),
+      email: form.email.trim(),
+      phone: form.phone.trim(),
       subject: form.subject.trim(),
       message: form.message.trim(),
     })
@@ -533,7 +533,7 @@ export default function ContactPage({ shop }) {
             <div className="map-wrap">
               {/* ✅ Updated to Elampillai store location */}
               <iframe
-                title="Vika Vasthra Store Location"
+                title="Vika Vastra Store Location"
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
                 allowFullScreen
@@ -558,7 +558,7 @@ export default function ContactPage({ shop }) {
                 />
                 {errors.name && touched.name && (
                   <span className="field-error">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" /></svg>
                     {errors.name}
                   </span>
                 )}
@@ -576,7 +576,7 @@ export default function ContactPage({ shop }) {
                 />
                 {errors.email && touched.email && (
                   <span className="field-error">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" /></svg>
                     {errors.email}
                   </span>
                 )}
@@ -594,7 +594,7 @@ export default function ContactPage({ shop }) {
                 />
                 {errors.phone && touched.phone && (
                   <span className="field-error">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" /></svg>
                     {errors.phone}
                   </span>
                 )}
@@ -612,7 +612,7 @@ export default function ContactPage({ shop }) {
                 />
                 {errors.subject && touched.subject && (
                   <span className="field-error">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" /></svg>
                     {errors.subject}
                   </span>
                 )}
@@ -635,7 +635,7 @@ export default function ContactPage({ shop }) {
                 />
                 {errors.message && touched.message && (
                   <span className="field-error">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" /></svg>
                     {errors.message}
                   </span>
                 )}
@@ -653,7 +653,7 @@ export default function ContactPage({ shop }) {
               {sent && (
                 <div className={`success-banner full${hiding ? " banner-hide" : ""}`}>
                   <CheckIcon />
-                  Thank you for reaching out to Vika Vasthra! We'll get back to you very soon.
+                  Thank you for reaching out to Vika Vastra! We'll get back to you very soon.
                 </div>
               )}
 

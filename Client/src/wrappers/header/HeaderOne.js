@@ -137,7 +137,7 @@ const S = {
     alignItems:     "center",
     justifyContent: "center",
     pointerEvents:  "none",
-    fontFamily:     "'DM Sans', sans-serif",
+    fontFamily:     "'Poppins', sans-serif",
     lineHeight:     1,
   },
   dropdown: {
@@ -178,7 +178,7 @@ const S = {
     border:         "none",
     borderRadius:   12,
     cursor:         "pointer",
-    fontFamily:     "'DM Sans', sans-serif",
+    fontFamily:     "'Poppins', sans-serif",
     fontWeight:     500,
     letterSpacing:  "0.02em",
     textDecoration: "none",
@@ -255,7 +255,7 @@ const S = {
     color:          C.maroonDeep,
     border:         "none",
     borderRadius:   14,
-    fontFamily:     "'DM Sans', sans-serif",
+    fontFamily:     "'Poppins', sans-serif",
     fontSize:       14,
     fontWeight:     700,
     letterSpacing:  "0.03em",
@@ -867,10 +867,10 @@ const HeaderOne = ({ shop }) => {
           align-items: center;
           gap: 7px;
           padding: 6px 16px;
-          font-family: 'Cormorant Garamond', Georgia, serif;
-          font-size: 22px !important;
-          font-weight: 600 !important;
-          letter-spacing: 0.03em;
+          font-family: 'Poppins', sans-serif !important;
+          font-size: 15.5px !important;
+          font-weight: 500 !important;
+          letter-spacing: 0.02em;
           color: #2E050D !important;
           background: transparent;
           border: 1px solid transparent;
@@ -1002,7 +1002,7 @@ const HeaderOne = ({ shop }) => {
         }
 
         .emb-brand-sub {
-          font-family: 'DM Sans', sans-serif;
+          font-family: 'Poppins', sans-serif;
           font-size: 8.5px;
           letter-spacing: 0.22em;
           text-indent: 0.22em;
@@ -1127,7 +1127,7 @@ const HeaderOne = ({ shop }) => {
         }
 
         .emb-cat-view {
-          font-family: 'DM Sans', sans-serif;
+          font-family: 'Poppins', sans-serif;
           font-size: 11px;
           color: ${C.muted};
         }
@@ -1165,7 +1165,7 @@ const HeaderOne = ({ shop }) => {
         }
 
         .emb-view-all-btn {
-          font-family: 'DM Sans', sans-serif;
+          font-family: 'Poppins', sans-serif;
           font-size: 12.5px;
           font-weight: 700;
           letter-spacing: 0.04em;
@@ -1321,7 +1321,7 @@ const HeaderOne = ({ shop }) => {
           border-radius: 14px;
           cursor: pointer;
           transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
-          font-family: 'DM Sans', sans-serif;
+          font-family: 'Poppins', sans-serif;
         }
 
         .emb-mobile-nav-item:hover {
@@ -1373,7 +1373,7 @@ const HeaderOne = ({ shop }) => {
         /* ── Responsive adjustments ── */
         @media (max-width: 1199px) and (min-width: 992px) {
           .emb-main-row   { padding: 0 24px !important; height: 86px !important; }
-          .emb-nav-link   { padding: 5px 12px !important; font-size: 18.5px !important; }
+          .emb-nav-link   { padding: 5px 12px !important; font-size: 14.5px !important; }
           .emb-brand-img  { height: 62px !important; max-width: 300px !important; }
         }
 

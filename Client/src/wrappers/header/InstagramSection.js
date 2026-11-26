@@ -8,11 +8,11 @@ const T = {
   goldLt: "#e8b85c",
   border: "#e8ddd0",
   muted: "#7a6a6a",
-  serif: "'Cormorant Garamond', serif",
-  sans: "'DM Sans', sans-serif",
+  serif: "'Playfair Display', serif",
+  sans: "'Poppins', sans-serif",
 };
 
-const FONTS = `@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600;700&display=swap');`;
+const FONTS = `@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Poppins:wght@300;400;500;600;700&display=swap');`;
 
 const IMAGE_HEIGHT = {
   desktop: "250px",
@@ -256,8 +256,8 @@ export function InstagramSection({ spaceBottomClass = "pb-0" }) {
           <h2 style={{
             fontFamily: T.serif,
             fontSize: screenWidth <= 600 ? "30px" : "clamp(32px, 4vw, 42px)",
-            fontWeight: 700,
-            fontStyle: "italic",
+            fontWeight: 600,
+            fontStyle: "normal",
             color: T.maroon,
             letterSpacing: "0.02em",
             textTransform: "capitalize",

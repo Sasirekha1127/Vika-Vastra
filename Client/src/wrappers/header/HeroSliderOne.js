@@ -201,7 +201,8 @@ const HeroSliderOne = () => {
                         textTransform: 'uppercase',
                         color: '#E5C365',
                         marginBottom: 12,
-                        fontWeight: 700,
+                        fontFamily: "'Playfair Display', Georgia, serif",
+                        fontWeight: 600,
                         textShadow: '1px 1px 4px rgba(0,0,0,0.6)',
                       }}
                     >
@@ -217,7 +218,7 @@ const HeroSliderOne = () => {
                       lineHeight: 1.15,
                       marginBottom: 14,
                       color: '#ffffff',
-                      fontFamily: 'Georgia, serif',
+                      fontFamily: "'Playfair Display', Georgia, serif",
                       textShadow: '2px 2px 8px rgba(0,0,0,0.6)',
                     }}
                   >
@@ -251,7 +252,8 @@ const HeroSliderOne = () => {
                         fontSize: 'clamp(11px, 1vw, 13px)',
                         letterSpacing: 1.5,
                         textTransform: 'uppercase',
-                        fontWeight: 700,
+                        fontFamily: "'Poppins', sans-serif",
+                        fontWeight: 600,
                         background: GOLD,
                         color: '#1a1a1a',
                         border: 'none',

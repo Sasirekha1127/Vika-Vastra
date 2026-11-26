@@ -144,14 +144,14 @@ const printCustomerInvoice = (order, displayOrderNumber, parseAddress) => {
   const isIntraState = destinationState.toLowerCase() === 'tamil nadu';
   const money = value => Number(value || 0).toFixed(2);
   const stateCodes = {
-    'jammu and kashmir':'01','himachal pradesh':'02','punjab':'03','chandigarh':'04',
-    'uttarakhand':'05','haryana':'06','delhi':'07','rajasthan':'08','uttar pradesh':'09',
-    'bihar':'10','sikkim':'11','arunachal pradesh':'12','nagaland':'13','manipur':'14',
-    'mizoram':'15','tripura':'16','meghalaya':'17','assam':'18','west bengal':'19',
-    'jharkhand':'20','odisha':'21','chhattisgarh':'22','madhya pradesh':'23','gujarat':'24',
-    'daman and diu':'25','dadra and nagar haveli':'26','maharashtra':'27','andhra pradesh':'28',
-    'karnataka':'29','goa':'30','lakshadweep':'31','kerala':'32','tamil nadu':'33',
-    'puducherry':'34','andaman and nicobar islands':'35','telangana':'36','andhra pradesh (new)':'37'
+    'jammu and kashmir': '01', 'himachal pradesh': '02', 'punjab': '03', 'chandigarh': '04',
+    'uttarakhand': '05', 'haryana': '06', 'delhi': '07', 'rajasthan': '08', 'uttar pradesh': '09',
+    'bihar': '10', 'sikkim': '11', 'arunachal pradesh': '12', 'nagaland': '13', 'manipur': '14',
+    'mizoram': '15', 'tripura': '16', 'meghalaya': '17', 'assam': '18', 'west bengal': '19',
+    'jharkhand': '20', 'odisha': '21', 'chhattisgarh': '22', 'madhya pradesh': '23', 'gujarat': '24',
+    'daman and diu': '25', 'dadra and nagar haveli': '26', 'maharashtra': '27', 'andhra pradesh': '28',
+    'karnataka': '29', 'goa': '30', 'lakshadweep': '31', 'kerala': '32', 'tamil nadu': '33',
+    'puducherry': '34', 'andaman and nicobar islands': '35', 'telangana': '36', 'andhra pradesh (new)': '37'
   };
   const stateCode = state => stateCodes[String(state || '').toLowerCase()] || '—';
   const addressLines = addr => [
@@ -197,7 +197,7 @@ const printCustomerInvoice = (order, displayOrderNumber, parseAddress) => {
     .footer{display:flex;padding:12px 16px;background:#fafafa}.terms{flex:1.2;border-right:1px solid #ddd;padding-right:16px}.sign{flex:.9;text-align:right;padding-left:16px;display:flex;flex-direction:column;justify-content:space-between;min-height:70px}
     @media print{body{padding:0}@page{size:A4;margin:10mm}th{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
   </style></head><body><div class="invoice">
-    <header class="header"><div class="seller"><h1>VIKA VASTHRA</h1><div>Vikraman.k, Murari Enclave, Maragondanahalli</div><div>Electronic City phase 1, Bangalore - 560100, Karnataka</div><div><b>Phone:</b> +91 9482944552 &nbsp;|&nbsp; <b>Email:</b> vikram.25feb@gmail.com &nbsp;|&nbsp; <b>Web:</b> www.vikavasthra.com</div></div>
+    <header class="header"><div class="seller"><h1>Vika Vastra</h1><div>Vikraman.k,</div><div>Electronic City phase 1, Bangalore - 560100, Karnataka</div><div><b>Phone:</b> +91 9482944552 &nbsp;|&nbsp; <b>Email:</b> vikram.25feb@gmail.com &nbsp;|&nbsp; <b>Web:</b> www.vikavasthra.com</div></div>
     <div class="meta"><div class="badge">TAX INVOICE</div><div><span>Invoice No:</span><b>${invoiceEscape(invoiceNo)}</b></div><div><span>Invoice Date:</span><b>${invoiceEscape(invoiceDate)}</b></div><div><span>Order Ref:</span><b>${invoiceEscape(displayOrderNumber)}</b></div><div><span>Place of Supply:</span><b>${invoiceEscape(destinationState)} (${stateCode(destinationState)})</b></div><div><span>Reverse Charge:</span><b>No</b></div></div></header>
     <section class="parties"><div class="party"><div class="party-title">Billed To (Receiver Details)</div><div class="party-name">${invoiceEscape(billedName)}</div>
     ${billing.gstBilling && buyerGst.gstin ? `<div class="gstin">GSTIN: ${invoiceEscape(buyerGst.gstin)}</div>` : ''}
@@ -210,10 +210,10 @@ const printCustomerInvoice = (order, displayOrderNumber, parseAddress) => {
 };
 
 const STATUS_STEPS = [
-  { key: "confirmed",        label: "Confirmed",        icon: "✓" },
-  { key: "shipped",          label: "Shipped",          icon: "📦" },
+  { key: "confirmed", label: "Confirmed", icon: "✓" },
+  { key: "shipped", label: "Shipped", icon: "📦" },
   { key: "out_for_delivery", label: "Out for Delivery", icon: "🛵" },
-  { key: "delivered",        label: "Delivered",        icon: "✓" },
+  { key: "delivered", label: "Delivered", icon: "✓" },
 ];
 
 const CANCELLED_STEPS = [
@@ -222,17 +222,17 @@ const CANCELLED_STEPS = [
 ];
 
 const STATUS_LABELS = {
-  confirmed:        "Confirmed",
-  shipped:          "Shipped",
+  confirmed: "Confirmed",
+  shipped: "Shipped",
   out_for_delivery: "Out for Delivery",
-  delivered:        "Delivered",
-  refunded:         "Refunded",
-  processing:       "Processing",
-  in_transit:       "In Transit",
+  delivered: "Delivered",
+  refunded: "Refunded",
+  processing: "Processing",
+  in_transit: "In Transit",
   return_requested: "Return Requested",
-  return_approved:  "Return Approved",
+  return_approved: "Return Approved",
   return_picked_up: "Return Picked Up",
-  return_received:  "Return Received",
+  return_received: "Return Received",
 };
 
 const FILTER_TABS = [
@@ -267,14 +267,14 @@ const StatusBadge = ({ status }) => {
 };
 
 const TrackingStepper = ({ status }) => {
-  const steps      = ["cancelled", "refunded"].includes(status) ? CANCELLED_STEPS : STATUS_STEPS;
+  const steps = ["cancelled", "refunded"].includes(status) ? CANCELLED_STEPS : STATUS_STEPS;
   const currentIdx = steps.findIndex(s => s.key === status);
   return (
     <div className="mo-tracker">
       <div className="mo-tracker-title">Order Progress</div>
       <div className="mo-steps">
         {steps.map((step, i) => {
-          const done    = i < currentIdx;
+          const done = i < currentIdx;
           const current = i === currentIdx;
           return (
             <div key={step.key} className={`mo-step${done ? " done" : ""}${current ? " current" : ""}`}>
@@ -290,22 +290,22 @@ const TrackingStepper = ({ status }) => {
 
 const SkeletonCard = () => (
   <div className="mo-skel-card">
-    <div style={{ display:"flex", justifyContent:"space-between", marginBottom:"16px" }}>
-      <div className="mo-skeleton" style={{ width:"140px", height:"16px" }} />
-      <div className="mo-skeleton" style={{ width:"80px", height:"22px", borderRadius:"20px" }} />
+    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "16px" }}>
+      <div className="mo-skeleton" style={{ width: "140px", height: "16px" }} />
+      <div className="mo-skeleton" style={{ width: "80px", height: "22px", borderRadius: "20px" }} />
     </div>
-    <div style={{ display:"flex", gap:"12px", marginBottom:"16px" }}>
-      {[1,2].map(i => (
-        <div key={i} className="mo-skeleton" style={{ width:"58px", height:"58px", borderRadius:"6px", flexShrink:0 }} />
+    <div style={{ display: "flex", gap: "12px", marginBottom: "16px" }}>
+      {[1, 2].map(i => (
+        <div key={i} className="mo-skeleton" style={{ width: "58px", height: "58px", borderRadius: "6px", flexShrink: 0 }} />
       ))}
-      <div style={{ flex:1 }}>
-        <div className="mo-skeleton" style={{ width:"60%", height:"13px", marginBottom:"8px" }} />
-        <div className="mo-skeleton" style={{ width:"40%", height:"11px" }} />
+      <div style={{ flex: 1 }}>
+        <div className="mo-skeleton" style={{ width: "60%", height: "13px", marginBottom: "8px" }} />
+        <div className="mo-skeleton" style={{ width: "40%", height: "11px" }} />
       </div>
     </div>
-    <div style={{ display:"flex", justifyContent:"space-between", paddingTop:"14px", borderTop:"1px solid #f3ede3" }}>
-      <div className="mo-skeleton" style={{ width:"90px", height:"18px" }} />
-      <div className="mo-skeleton" style={{ width:"120px", height:"32px", borderRadius:"4px" }} />
+    <div style={{ display: "flex", justifyContent: "space-between", paddingTop: "14px", borderTop: "1px solid #f3ede3" }}>
+      <div className="mo-skeleton" style={{ width: "90px", height: "18px" }} />
+      <div className="mo-skeleton" style={{ width: "120px", height: "32px", borderRadius: "4px" }} />
     </div>
   </div>
 );
@@ -326,11 +326,11 @@ const getCustomerId = () => {
 };
 
 const MyOrders = ({ shop }) => {
-  const [orders,      setOrders]      = useState([]);
-  const [loading,     setLoading]     = useState(true);
-  const [error,       setError]       = useState(null);
-  const [activeTab,   setActiveTab]   = useState("all");
-  const [expandedId,  setExpandedId]  = useState(null);
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [activeTab, setActiveTab] = useState("all");
+  const [expandedId, setExpandedId] = useState(null);
   const [notLoggedIn, setNotLoggedIn] = useState(false);
 
   const customerId = getCustomerId();
@@ -346,15 +346,15 @@ const MyOrders = ({ shop }) => {
       try {
         setLoading(true);
         setError(null);
-        const res  = await fetch(`${API_BASE}/orders/customer/${customerId}`);
-        
+        const res = await fetch(`${API_BASE}/orders/customer/${customerId}`);
+
         if (!res.ok) {
           throw new Error(`HTTP error! status: ${res.status}`);
         }
-        
+
         const data = await res.json();
         console.log('📦 Orders data from API:', data);
-        
+
         if (data.success) {
           const sortedOrders = data.orders.sort((a, b) => b.id - a.id);
           setOrders(sortedOrders);
@@ -382,7 +382,7 @@ const MyOrders = ({ shop }) => {
 
   const renderAddress = (raw) => {
     const a = parseAddress(raw);
-    if (!a) return <span style={{ color:"#bbb" }}>—</span>;
+    if (!a) return <span style={{ color: "#bbb" }}>—</span>;
     const parts = [a.address1 || a.line, a.address2, a.city, a.state, a.postcode, a.country].filter(Boolean);
     return parts.map((p, i) => <div key={i} className="mo-detail-line">{p}</div>);
   };
@@ -430,7 +430,7 @@ const MyOrders = ({ shop }) => {
                   >
                     {tab.label}
                     {!loading && (
-                      <span style={{ marginLeft:"4px", opacity:0.7 }}>
+                      <span style={{ marginLeft: "4px", opacity: 0.7 }}>
                         ({orders.length})
                       </span>
                     )}
@@ -471,15 +471,15 @@ const MyOrders = ({ shop }) => {
 
             {/* ── Order cards ── */}
             {!loading && !notLoggedIn && !error && visible.map((order, idx) => {
-              const items        = order.OrderItems || [];
+              const items = order.OrderItems || [];
               const previewItems = items.slice(0, 2);
-              const extraCount   = items.length - 2;
-              const isExpanded   = expandedId === order.id;
-              const addr         = parseAddress(order.shipping_address) || parseAddress(order.billing_address);
+              const extraCount = items.length - 2;
+              const isExpanded = expandedId === order.id;
+              const addr = parseAddress(order.shipping_address) || parseAddress(order.billing_address);
               const displayOrderNumber = getDisplayOrderNumber(order);
 
               return (
-                <div key={order.id} className="mo-card" style={{ animationDelay:`${idx * 0.06}s` }}>
+                <div key={order.id} className="mo-card" style={{ animationDelay: `${idx * 0.06}s` }}>
 
                   {/* ── Header ── */}
                   <div className="mo-card-head">
@@ -498,7 +498,7 @@ const MyOrders = ({ shop }) => {
                       previewItems.map((item, i) => {
                         const previewImage = getImageUrl(item.image || item.img);
                         return (
-                          <div key={i} style={{ display:"flex", alignItems:"center", gap:"10px", flex:1, minWidth:0 }}>
+                          <div key={i} style={{ display: "flex", alignItems: "center", gap: "10px", flex: 1, minWidth: 0 }}>
                             <div className="mo-item-img">
                               {previewImage ? <img src={previewImage} alt={item.name} /> : "🛍️"}
                             </div>
@@ -525,7 +525,7 @@ const MyOrders = ({ shop }) => {
                           <div className="mo-detail-section-title">Shipping Address</div>
                           {renderAddress(order.shipping_address || order.billing_address)}
                           {addr?.phone && (
-                            <div className="mo-detail-line" style={{ marginTop:"4px" }}>
+                            <div className="mo-detail-line" style={{ marginTop: "4px" }}>
                               📞 {addr.phone}
                             </div>
                           )}
@@ -555,7 +555,7 @@ const MyOrders = ({ shop }) => {
                       </div>
 
                       {/* Items table */}
-                      <div className="mo-detail-section-title" style={{ marginBottom:"10px" }}>Items Ordered</div>
+                      <div className="mo-detail-section-title" style={{ marginBottom: "10px" }}>Items Ordered</div>
                       <table className="mo-items-table">
                         <thead>
                           <tr>
@@ -582,7 +582,7 @@ const MyOrders = ({ shop }) => {
                                   </span>
                                 )}
                               </td>
-                              <td style={{ color:"#888" }}>× {item.quantity || 1}</td>
+                              <td style={{ color: "#888" }}>× {item.quantity || 1}</td>
                               <td>₹{((item.price || 0) * (item.quantity || 1)).toFixed(2)}</td>
                             </tr>
                           ))}
@@ -590,24 +590,24 @@ const MyOrders = ({ shop }) => {
                       </table>
 
                       {/* Price breakdown */}
-                      <div style={{ marginTop:"16px", paddingTop:"14px", borderTop:"1px solid #ede8e2", display:"flex", flexDirection:"column", alignItems:"flex-end", gap:"5px" }}>
+                      <div style={{ marginTop: "16px", paddingTop: "14px", borderTop: "1px solid #ede8e2", display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "5px" }}>
                         {order.subtotal > 0 && (
-                          <div style={{ fontSize:"12px", color:"#888" }}>
-                            Subtotal: <strong style={{ color:"#444" }}>₹{parseFloat(order.subtotal).toFixed(2)}</strong>
+                          <div style={{ fontSize: "12px", color: "#888" }}>
+                            Subtotal: <strong style={{ color: "#444" }}>₹{parseFloat(order.subtotal).toFixed(2)}</strong>
                           </div>
                         )}
                         {order.discount > 0 && (
-                          <div style={{ fontSize:"12px", color:"#C9933A" }}>
+                          <div style={{ fontSize: "12px", color: "#C9933A" }}>
                             Discount: −₹{parseFloat(order.discount).toFixed(2)}
                           </div>
                         )}
                         {order.delivery_charge > 0 && (
-                          <div style={{ fontSize:"12px", color:"#888" }}>
+                          <div style={{ fontSize: "12px", color: "#888" }}>
                             Delivery: ₹{parseFloat(order.delivery_charge).toFixed(2)}
                           </div>
                         )}
                         {order.tax > 0 && (
-                          <div style={{ fontSize:"12px", color:"#888" }}>
+                          <div style={{ fontSize: "12px", color: "#888" }}>
                             Tax: ₹{parseFloat(order.tax).toFixed(2)}
                           </div>
                         )}

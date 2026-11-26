@@ -34,23 +34,23 @@ const productName = (p) => {
 };
 
 export default function LiveProducts({ showToast }) {
-  const [rows, setRows]             = useState([]);
-  const [loading, setLoading]       = useState(true);
-  const [showForm, setShowForm]     = useState(false);
-  const [editingId, setEditingId]   = useState(null);
+  const [rows, setRows] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [showForm, setShowForm] = useState(false);
+  const [editingId, setEditingId] = useState(null);
   const [editingRow, setEditingRow] = useState(null);
 
   // ── All products for the dropdown ──────────────────────────────
-  const [allProducts, setAllProducts]         = useState([]);
+  const [allProducts, setAllProducts] = useState([]);
   const [productsLoading, setProductsLoading] = useState(false);
-  const [productSearch, setProductSearch]     = useState('');
+  const [productSearch, setProductSearch] = useState('');
 
   const [formData, setFormData] = useState({
     title: '', price: '', originalPrice: '', discountPercent: '',
     link: '', sortOrder: 1, status: 'Active', mediaType: 'image',
   });
-  const [imageFile, setImageFile]     = useState(null);
-  const [videoFile, setVideoFile]     = useState(null);
+  const [imageFile, setImageFile] = useState(null);
+  const [videoFile, setVideoFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [videoPreview, setVideoPreview] = useState(null);
   const videoPreviewRef = useRef(null);
@@ -87,14 +87,14 @@ export default function LiveProducts({ showToast }) {
     setEditingId(row.id);
     setEditingRow(row);
     setFormData({
-      title:           row.title           || '',
-      price:           row.price           || '',
-      originalPrice:   row.originalPrice   || '',
-      discountPercent: row.discountPercent  || '',
-      link:            row.link            || (row.productId ? `/product/${row.productId}` : ''),
-      sortOrder:       row.sortOrder       || 1,
-      status:          row.status          || 'Active',
-      mediaType:       row.mediaType       || 'image',
+      title: row.title || '',
+      price: row.price || '',
+      originalPrice: row.originalPrice || '',
+      discountPercent: row.discountPercent || '',
+      link: row.link || (row.productId ? `/product/${row.productId}` : ''),
+      sortOrder: row.sortOrder || 1,
+      status: row.status || 'Active',
+      mediaType: row.mediaType || 'image',
     });
     setImageFile(null);
     setVideoFile(null);
@@ -162,7 +162,7 @@ export default function LiveProducts({ showToast }) {
       return;
     }
     if (!formData.link || !formData.link.trim()) {
-      showToast('Missing Product Link', 'Please enter a product or collection link URL.');
+      showToast('Missing Product Link', 'Please enter a product or Best collection link URL.');
       return;
     }
     if (formData.sortOrder === '' || Number(formData.sortOrder) < 1) {
@@ -184,7 +184,7 @@ export default function LiveProducts({ showToast }) {
     if (videoFile) data.append('video', videoFile);
 
     const method = editingId ? 'PUT' : 'POST';
-    const url    = editingId
+    const url = editingId
       ? `${API}/live-products/update/${editingId}`
       : `${API}/live-products/add`;
 
@@ -329,14 +329,14 @@ export default function LiveProducts({ showToast }) {
                 <label className="km-label">
                   Product Link / URL <span style={{ color: '#ef4444' }}>*</span>
                   <span style={{ marginLeft: 8, fontSize: 11, color: '#6366f1', fontWeight: 500 }}>
-                    (links "View Product" button to a product or collection page)
+                    (links "View Product" button to a product or Best collection page)
                   </span>
                 </label>
                 <input
                   className="km-input"
                   type="text"
                   required
-                  placeholder="e.g. /product/13 or /shop or /collections"
+                  placeholder="e.g. /product/13 or /shop or /Best collections"
                   value={formData.link}
                   onChange={e => set('link', e.target.value)}
                 />
@@ -370,8 +370,8 @@ export default function LiveProducts({ showToast }) {
                   {imageFile
                     ? <p className="km-file-selected">✓ {imageFile.name}</p>
                     : <p className="km-file-label">
-                        {editingRow?.image ? 'Click to replace image' : 'Click to upload image'}
-                      </p>}
+                      {editingRow?.image ? 'Click to replace image' : 'Click to upload image'}
+                    </p>}
                   <input type="file" accept="image/*" onChange={handleImageChange} />
                 </div>
               </div>
@@ -416,10 +416,10 @@ export default function LiveProducts({ showToast }) {
                   {videoFile
                     ? <p className="km-file-selected">✓ {videoFile.name}</p>
                     : <p className="km-file-label">
-                        {editingRow?.video
-                          ? 'Click to replace video (mp4, mov, webm — max 30 sec)'
-                          : 'Click to upload video (mp4, mov, webm — max 30 sec)'}
-                      </p>}
+                      {editingRow?.video
+                        ? 'Click to replace video (mp4, mov, webm — max 30 sec)'
+                        : 'Click to upload video (mp4, mov, webm — max 30 sec)'}
+                    </p>}
                   <input type="file" accept="video/mp4,video/mov,video/webm,video/avi"
                     onChange={handleVideoChange} />
                 </div>
@@ -464,7 +464,7 @@ export default function LiveProducts({ showToast }) {
                         const vid = e.target;
                         const playPromise = vid.play();
                         if (playPromise !== undefined) {
-                          playPromise.catch(() => {}); // ignore AbortError from a quick mouseleave
+                          playPromise.catch(() => { }); // ignore AbortError from a quick mouseleave
                         }
                       }}
                       onMouseLeave={e => {
@@ -531,7 +531,7 @@ export default function LiveProducts({ showToast }) {
                 </td>
                 <td>
                   <button className="action-btn btn-edit" onClick={() => handleEditClick(row)}>Edit</button>
-                  <button className="action-btn btn-del"  onClick={() => handleDelete(row.id)}>Delete</button>
+                  <button className="action-btn btn-del" onClick={() => handleDelete(row.id)}>Delete</button>
                 </td>
               </tr>
             );
@@ -553,4 +553,4 @@ const newBadge = {
   background: '#10b981', color: '#fff',
   fontSize: 10, fontWeight: 700,
   padding: '2px 6px', borderRadius: 4, letterSpacing: 0.5,
-};
+};

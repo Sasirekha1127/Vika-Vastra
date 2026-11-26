@@ -14,7 +14,7 @@ const policies = {
     sections: [
       {
         heading: "Order Processing Time",
-        content: `All orders placed on Vika Vasthra are processed within 1–2 business days of successful payment confirmation. Orders placed on weekends or public holidays will be processed on the next working business day. You will receive an email or SMS notification once your order has been confirmed and is being prepared for dispatch.`,
+        content: `All orders placed on Vika Vastra are processed within 1–2 business days of successful payment confirmation. Orders placed on weekends or public holidays will be processed on the next working business day. You will receive an email or SMS notification once your order has been confirmed and is being prepared for dispatch.`,
       },
       {
         heading: "Delivery Timeframe",
@@ -26,7 +26,7 @@ const policies = {
       },
       {
         heading: "Packaging",
-        content: `At Vika Vasthra, we believe that unboxing a saree should feel like receiving a gift. Every order is carefully folded or box depending on the product. Sarees are packed to prevent wrinkling, colour transfer, and damage during transit. We use eco-friendly packaging materials wherever possible as part of our commitment to sustainability.`,
+        content: `At Vika Vastra, we believe that unboxing a saree should feel like receiving a gift. Every order is carefully folded or box depending on the product. Sarees are packed to prevent wrinkling, colour transfer, and damage during transit. We use eco-friendly packaging materials wherever possible as part of our commitment to sustainability.`,
       },
       {
         heading: "Order Tracking",
@@ -46,12 +46,12 @@ const policies = {
       },
       {
         heading: "Damaged in Transit",
-        content: `In the rare event that your saree arrives damaged due to transit, please do not accept the package if the outer box or parcel is visibly torn or tampered with. If damage is noticed after opening, take clear photographs immediately and email us at support@Vika Vasthra2020@gmail.com within 24 hours of delivery with your order ID and photos. We will arrange a replacement or full refund at no additional cost.
+        content: `In the rare event that your saree arrives damaged due to transit, please do not accept the package if the outer box or parcel is visibly torn or tampered with. If damage is noticed after opening, take clear photographs immediately and email us at support@Vika Vastra2020@gmail.com within 24 hours of delivery with your order ID and photos. We will arrange a replacement or full refund at no additional cost.
         Note - Video of parcel opening is mandatory for return or exchange request`,
       },
       {
         heading: "International Shipping",
-        content: `Currently, Vika Vasthra ships exclusively within India. We are actively working on enabling international shipping using whatsapp for worldwide shipment. If you are an international customer, please direct whatsapp message or support@support@vikavasthra.com`,
+        content: `Currently, Vika Vastra ships exclusively within India. We are actively working on enabling international shipping using whatsapp for worldwide shipment. If you are an international customer, please direct whatsapp message or support@support@vikavasthra.com`,
       },
     ],
   },
@@ -71,7 +71,7 @@ const policies = {
       },
       {
         heading: "How to Initiate a Return",
-        content: `To initiate a return: (1) Log in to your Vika Vasthra account. (2) Go to "My Orders" and select the relevant order. (3) Click "Request Return" and provide the reason along with clear photographs of the product. (4) Our customer support team will review your request within 24–48 hours and provide approval along with a return pickup date. Do not ship the product back on your own without receiving prior approval from our team.`,
+        content: `To initiate a return: (1) Log in to your Vika Vastra account. (2) Go to "My Orders" and select the relevant order. (3) Click "Request Return" and provide the reason along with clear photographs of the product. (4) Our customer support team will review your request within 24–48 hours and provide approval along with a return pickup date. Do not ship the product back on your own without receiving prior approval from our team.`,
       },
       {
         heading: "Return Pickup",
@@ -87,7 +87,7 @@ const policies = {
       },
       {
         heading: "Cancellation Policy",
-        content: `Orders can be cancelled free of charge within 30 Mins of placement by contacting us at supportVika Vasthra2020@gmail.com or through "My Orders". Once the order has been dispatched, cancellation is no longer possible.`,
+        content: `Orders can be cancelled free of charge within 30 Mins of placement by contacting us at supportVika Vastra2020@gmail.com or through "My Orders". Once the order has been dispatched, cancellation is no longer possible.`,
       },
     ],
   },
@@ -99,7 +99,7 @@ const policies = {
     sections: [
       {
         heading: "Introduction",
-        content: `At Vika Vasthra, we are committed to protecting your privacy and ensuring the security of your personal information. This Privacy Policy explains how we collect, use, store, and protect the data you provide when you visit our website or place an order. By using Vika Vasthra, you consent to the practices described in this policy. We encourage you to read this document carefully.`,
+        content: `At Vika Vastra, we are committed to protecting your privacy and ensuring the security of your personal information. This Privacy Policy explains how we collect, use, store, and protect the data you provide when you visit our website or place an order. By using Vika Vastra, you consent to the practices described in this policy. We encourage you to read this document carefully.`,
       },
       {
         heading: "Information We Collect",
@@ -107,7 +107,7 @@ const policies = {
       },
       {
         heading: "How We Use Your Information",
-        content: `Your information is used for the following purposes: (1) Processing and fulfilling your orders including dispatch, tracking, and delivery coordination. (2) Sending transactional communications such as order confirmations, shipping updates, and return notifications. (3) Customer support — resolving queries, complaints, and return/exchange requests. (4) Personalising your shopping experience, including product recommendations based on browsing history. (5) Sending promotional emails, offers, and new collection announcements — only if you have opted in to marketing communications. (6) Fraud detection, security monitoring, and prevention of unauthorised access. (7) Analysing website traffic and user behaviour to improve our platform.`,
+        content: `Your information is used for the following purposes: (1) Processing and fulfilling your orders including dispatch, tracking, and delivery coordination. (2) Sending transactional communications such as order confirmations, shipping updates, and return notifications. (3) Customer support — resolving queries, complaints, and return/exchange requests. (4) Personalising your shopping experience, including product recommendations based on browsing history. (5) Sending promotional emails, offers, and new Best collection announcements — only if you have opted in to marketing communications. (6) Fraud detection, security monitoring, and prevention of unauthorised access. (7) Analysing website traffic and user behaviour to improve our platform.`,
       },
       {
         heading: "Data Storage & Retention",
@@ -127,11 +127,11 @@ const policies = {
       },
       {
         heading: "Your Rights",
-        content: `As a user of Vika Vasthra, you have the following rights regarding your personal data: (1) Right to access — request a copy of the personal data we hold about you. (2) Right to correction — update or correct inaccurate information in your account settings. (3) Right to deletion — request that we delete your personal data, subject to legal obligations. (4) Right to opt out — unsubscribe from marketing communications at any time using the unsubscribe link in emails or by contacting us. (5) Right to data portability — request your data in a machine-readable format. To exercise any of these rights, contact us at supportVika Vasthra2020@gmail.com.`,
+        content: `As a user of Vika Vastra, you have the following rights regarding your personal data: (1) Right to access — request a copy of the personal data we hold about you. (2) Right to correction — update or correct inaccurate information in your account settings. (3) Right to deletion — request that we delete your personal data, subject to legal obligations. (4) Right to opt out — unsubscribe from marketing communications at any time using the unsubscribe link in emails or by contacting us. (5) Right to data portability — request your data in a machine-readable format. To exercise any of these rights, contact us at supportVika Vastra2020@gmail.com.`,
       },
       {
         heading: "Children's Privacy",
-        content: `Vika Vasthra is not intended for use by individuals under the age of 18. We do not knowingly collect personal information from minors. If we become aware that a minor has provided us with personal data without parental consent, we will delete that information immediately. Parents or guardians who believe their child has submitted personal information to us should contact us at supportVika Vasthra2020@gmail.com.`,
+        content: `Vika Vastra is not intended for use by individuals under the age of 18. We do not knowingly collect personal information from minors. If we become aware that a minor has provided us with personal data without parental consent, we will delete that information immediately. Parents or guardians who believe their child has submitted personal information to us should contact us at supportVika Vastra2020@gmail.com.`,
       },
       {
         heading: "Changes to This Policy",
@@ -147,15 +147,15 @@ const policies = {
     sections: [
       {
         heading: "Acceptance of Terms",
-        content: `By accessing, browsing, or using the Vika Vasthra website (vikavasthra.com) and mobile platform, or by placing an order with us, you acknowledge that you have read, understood, and agree to be legally bound by these Terms and Conditions. If you do not accept any part of these terms, you must immediately discontinue the use of our platform and services. These terms apply to all visitors, registered users, and customers of Vika Vasthra.`,
+        content: `By accessing, browsing, or using the Vika Vastra website (vikavasthra.com) and mobile platform, or by placing an order with us, you acknowledge that you have read, understood, and agree to be legally bound by these Terms and Conditions. If you do not accept any part of these terms, you must immediately discontinue the use of our platform and services. These terms apply to all visitors, registered users, and customers of Vika Vastra.`,
       },
       {
         heading: "Eligibility",
-        content: `You must be at least 18 years of age to create an account, place orders, or use our services. By using Vika Vasthra, you represent and warrant that you are 18 years or older and have the legal capacity to enter into a binding agreement. If you are accessing the platform on behalf of a business or organisation, you confirm that you have the authority to bind that entity to these terms.`,
+        content: `You must be at least 18 years of age to create an account, place orders, or use our services. By using Vika Vastra, you represent and warrant that you are 18 years or older and have the legal capacity to enter into a binding agreement. If you are accessing the platform on behalf of a business or organisation, you confirm that you have the authority to bind that entity to these terms.`,
       },
       {
         heading: "Account Registration",
-        content: `To access personalised features such as order history, wishlist, and returns, you must create an account. You are responsible for maintaining the confidentiality of your account credentials and for all activities that occur under your account. You must provide accurate and up-to-date information during registration. Vika Vasthra reserves the right to suspend or terminate accounts that provide false information or violate these terms. Please notify us immediately at supportVika Vasthra2020@gmail.com if you suspect any unauthorised access to your account.`,
+        content: `To access personalised features such as order history, wishlist, and returns, you must create an account. You are responsible for maintaining the confidentiality of your account credentials and for all activities that occur under your account. You must provide accurate and up-to-date information during registration. Vika Vastra reserves the right to suspend or terminate accounts that provide false information or violate these terms. Please notify us immediately at supportVika Vastra2020@gmail.com if you suspect any unauthorised access to your account.`,
       },
       {
         heading: "Product Descriptions & Accuracy",
@@ -163,43 +163,43 @@ const policies = {
       },
       {
         heading: "Pricing & Taxes",
-        content: `All prices on Vika Vasthra are displayed in Indian Rupees (RS) and will applicable GST (Goods and Services Tax) as per Indian tax laws. The prices displayed at the time of checkout are the final prices. We reserve the right to change product prices at any time without prior notice. Price changes will not affect orders that have already been placed and confirmed. In the event of a pricing error, we will contact you before processing your order.`,
+        content: `All prices on Vika Vastra are displayed in Indian Rupees (RS) and will applicable GST (Goods and Services Tax) as per Indian tax laws. The prices displayed at the time of checkout are the final prices. We reserve the right to change product prices at any time without prior notice. Price changes will not affect orders that have already been placed and confirmed. In the event of a pricing error, we will contact you before processing your order.`,
       },
       {
         heading: "Payment Terms",
-        content: `Full payment must be completed at the time of placing the order through one of our accepted payment methods — credit/debit cards, UPI, net banking, wallets, or Cash on Delivery (where available). All online payments are processed through secure, encrypted payment gateways. Vika Vasthra does not store your complete card or payment details. If a payment is declined, your order will not be confirmed and you will be notified to retry.`,
+        content: `Full payment must be completed at the time of placing the order through one of our accepted payment methods — credit/debit cards, UPI, net banking, wallets, or Cash on Delivery (where available). All online payments are processed through secure, encrypted payment gateways. Vika Vastra does not store your complete card or payment details. If a payment is declined, your order will not be confirmed and you will be notified to retry.`,
       },
       {
         heading: "Order Confirmation & Acceptance",
-        content: `Placing an order on Vika Vasthra constitutes an offer to purchase. Your order is confirmed only after you receive an official order confirmation email from us with a unique order ID. We reserve the right to cancel or refuse any order at our discretion — including cases of pricing errors, product unavailability, suspected fraud, or delivery constraints. In such cases, a full refund will be processed immediately.`,
+        content: `Placing an order on Vika Vastra constitutes an offer to purchase. Your order is confirmed only after you receive an official order confirmation email from us with a unique order ID. We reserve the right to cancel or refuse any order at our discretion — including cases of pricing errors, product unavailability, suspected fraud, or delivery constraints. In such cases, a full refund will be processed immediately.`,
       },
       {
         heading: "Intellectual Property",
-        content: `All content on the Vika Vasthra platform — including but not limited to product photographs, saree descriptions, brand name, logo, website design, graphics, text, and UI elements — is the exclusive intellectual property of Vika Vasthra or its licensors and is protected under Indian and international copyright, trademark, and intellectual property laws. You may not reproduce, distribute, modify, sell, or use any content from this platform for commercial or non-commercial purposes without prior written permission from Vika Vasthra.`,
+        content: `All content on the Vika Vastra platform — including but not limited to product photographs, saree descriptions, brand name, logo, website design, graphics, text, and UI elements — is the exclusive intellectual property of Vika Vastra or its licensors and is protected under Indian and international copyright, trademark, and intellectual property laws. You may not reproduce, distribute, modify, sell, or use any content from this platform for commercial or non-commercial purposes without prior written permission from Vika Vastra.`,
       },
       {
         heading: "User Conduct",
-        content: `By using Vika Vasthra, you agree not to: (1) Use the platform for any unlawful, fraudulent, or abusive purpose. (2) Submit false, misleading, or defamatory product reviews. (3) Attempt to gain unauthorised access to our systems, servers, or databases. (4) Interfere with or disrupt the normal operation of the website. (5) Use automated bots, scrapers, or similar tools to extract data from our platform. (6) Impersonate another user, customer, or Vika Vasthra representative. Violation of these conduct rules may result in immediate account suspension and legal action.`,
+        content: `By using Vika Vastra, you agree not to: (1) Use the platform for any unlawful, fraudulent, or abusive purpose. (2) Submit false, misleading, or defamatory product reviews. (3) Attempt to gain unauthorised access to our systems, servers, or databases. (4) Interfere with or disrupt the normal operation of the website. (5) Use automated bots, scrapers, or similar tools to extract data from our platform. (6) Impersonate another user, customer, or Vika Vastra representative. Violation of these conduct rules may result in immediate account suspension and legal action.`,
       },
       {
         heading: "Reviews & User-Generated Content",
-        content: `By submitting a product review, comment, or any other content on Vika Vasthra, you grant us a non-exclusive, royalty-free, perpetual licence to use, display, and reproduce that content on our platform and marketing materials. You confirm that your review is honest, based on your genuine experience, and does not contain offensive, defamatory, or copyrighted content. We reserve the right to moderate, edit, or remove any content that violates our community guidelines.`,
+        content: `By submitting a product review, comment, or any other content on Vika Vastra, you grant us a non-exclusive, royalty-free, perpetual licence to use, display, and reproduce that content on our platform and marketing materials. You confirm that your review is honest, based on your genuine experience, and does not contain offensive, defamatory, or copyrighted content. We reserve the right to moderate, edit, or remove any content that violates our community guidelines.`,
       },
       {
         heading: "Limitation of Liability",
-        content: `To the fullest extent permitted by applicable law, Vika Vasthra shall not be liable for any indirect, incidental, consequential, special, or punitive damages arising from your use of our products or platform, including but not limited to loss of profit, loss of data, or business interruption. Our total liability to you for any claim arising out of or related to a purchase shall not exceed the total amount paid by you for that specific order. We are not liable for delays or failures caused by circumstances beyond our reasonable control including natural disasters, strikes, or courier failures.`,
+        content: `To the fullest extent permitted by applicable law, Vika Vastra shall not be liable for any indirect, incidental, consequential, special, or punitive damages arising from your use of our products or platform, including but not limited to loss of profit, loss of data, or business interruption. Our total liability to you for any claim arising out of or related to a purchase shall not exceed the total amount paid by you for that specific order. We are not liable for delays or failures caused by circumstances beyond our reasonable control including natural disasters, strikes, or courier failures.`,
       },
       {
         heading: "Governing Law & Jurisdiction",
-        content: `These Terms and Conditions are governed by and construed in accordance with the laws of India. Any disputes, claims, or controversies arising in connection with these terms or your use of Vika Vasthra shall be subject to the exclusive jurisdiction of the competent courts located in Chennai, Tamil Nadu, India. Before initiating any legal proceedings, we encourage you to contact us to resolve disputes amicably through our customer support team.`,
+        content: `These Terms and Conditions are governed by and construed in accordance with the laws of India. Any disputes, claims, or controversies arising in connection with these terms or your use of Vika Vastra shall be subject to the exclusive jurisdiction of the competent courts located in Chennai, Tamil Nadu, India. Before initiating any legal proceedings, we encourage you to contact us to resolve disputes amicably through our customer support team.`,
       },
       {
         heading: "Modifications to Terms",
-        content: `Vika Vasthra reserves the right to update, modify, or replace these Terms and Conditions at any time. Material changes will be communicated via email or a notice on our website. Your continued use of the platform after changes are posted constitutes your acceptance of the revised terms. We recommend reviewing these terms periodically.`,
+        content: `Vika Vastra reserves the right to update, modify, or replace these Terms and Conditions at any time. Material changes will be communicated via email or a notice on our website. Your continued use of the platform after changes are posted constitutes your acceptance of the revised terms. We recommend reviewing these terms periodically.`,
       },
       {
         heading: "Contact Information",
-        content: `For any questions, concerns, or clarifications regarding these Terms and Conditions, please contact us at: Email: vikram.25feb@gmail.com | Phone: +91 9482944552 | Address: Vika Vasthra, Vikraman.k, Murari Enclave, Maragondanahalli, Electronic City phase 1, Bangalore - 560100, Karnataka. We aim to respond to all queries within 24–48 business hours.`,
+        content: `For any questions, concerns, or clarifications regarding these Terms and Conditions, please contact us at: Email: vikram.25feb@gmail.com | Phone: +91 9482944552 | Address: Vika Vastra, Vikraman.k, Electronic City phase 1, Bangalore - 560100, Karnataka. We aim to respond to all queries within 24–48 business hours.`,
       },
     ],
   },
@@ -211,9 +211,9 @@ const PolicyPage = ({ shop }) => {
   const policy = policies[slug];
 
   const allPolicies = [
-    { label: "Shipping Policy",    to: "/shipping-policy" },
-    { label: "Return Policy",      to: "/return-policy" },
-    { label: "Privacy Policy",     to: "/privacy-policy" },
+    { label: "Shipping Policy", to: "/shipping-policy" },
+    { label: "Return Policy", to: "/return-policy" },
+    { label: "Privacy Policy", to: "/privacy-policy" },
     { label: "Terms & Conditions", to: "/terms" },
   ];
 
@@ -345,7 +345,7 @@ const PolicyPage = ({ shop }) => {
           {/* Policy Sections */}
           <div style={{ flex: 1, minWidth: 0 }}>
 
-           
+
 
             {policy.sections.map((section, i) => (
               <div
@@ -425,7 +425,7 @@ const PolicyPage = ({ shop }) => {
                 </p>
                 {/* ✅ FIX 2: restored missing opening <a tag */}
                 <a
-                  href="mailto:supportVika Vasthra2020@gmail.com"
+                  href="mailto:supportVika Vastra2020@gmail.com"
                   style={{
                     display: "inline-block",
                     padding: "10px 24px",
@@ -438,7 +438,7 @@ const PolicyPage = ({ shop }) => {
                     letterSpacing: "0.05em",
                   }}
                 >
-                  supportVika Vasthra2020@gmail.com
+                  supportVika Vastra2020@gmail.com
                 </a>
               </div>
             </div>

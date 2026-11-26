@@ -597,8 +597,8 @@ export const ProductCard = ({ product, cartItems = [], wishlistItems = [], addTo
             <h3
               style={{
                 margin: "0 0 8px",
-                fontFamily: "'Fraunces', 'Cormorant Garamond', Georgia, serif",
-                fontWeight: 600,
+                fontFamily: "'Poppins', sans-serif",
+                fontWeight: 500,
                 fontSize: 20,
                 color: "#2a1a1c",
                 lineHeight: 1.35,
@@ -621,11 +621,11 @@ export const ProductCard = ({ product, cartItems = [], wishlistItems = [], addTo
             )}
 
             <div style={{ display: "flex", alignItems: "baseline", gap: 10, margin: "10px 0 14px" }}>
-              <span style={{ fontSize: 20, fontWeight: 700, color: "#720E1E" }}>
+              <span style={{ fontFamily: "'Poppins', sans-serif", fontSize: 20, fontWeight: 600, color: "#720E1E" }}>
                 Rs. {currentPrice.toLocaleString("en-IN")}
               </span>
               {currentDiscount > 0 && (
-                <span style={{ fontSize: 14, color: "#8a7a78", textDecoration: "line-through" }}>
+                <span style={{ fontFamily: "'Poppins', sans-serif", fontSize: 14, fontWeight: 500, color: "#8a7a78", textDecoration: "line-through" }}>
                   Rs. {currentMrp.toLocaleString("en-IN")}
                 </span>
               )}
@@ -640,7 +640,7 @@ export const ProductCard = ({ product, cartItems = [], wishlistItems = [], addTo
               disabled={outOfStock}
               style={{
                 padding: "11px 26px",
-                font: "700 13px 'Figtree', 'Jost', sans-serif",
+                font: "600 13px 'Poppins', sans-serif",
                 color: outOfStock ? "#8a7a78" : "#fff",
                 background: outOfStock ? "#eee7e4" : (addedAnim || inCart) ? "#2E7D32" : "linear-gradient(135deg, #5a0b53 0%, #3f063e 60%, #34052f 100%)",
                 border: `1px solid ${outOfStock ? "#eee7e4" : (addedAnim || inCart) ? "#2E7D32" : "rgba(63, 6, 62, 0.4)"}`,
@@ -1014,8 +1014,8 @@ export const ProductCard = ({ product, cartItems = [], wishlistItems = [], addTo
           title={productName}
           style={{
             margin: 0,
-            fontFamily: "'Fraunces', 'Cormorant Garamond', Georgia, serif",
-            fontWeight: 600,
+            fontFamily: "'Poppins', sans-serif",
+            fontWeight: 500,
             fontSize: 16.5,
             lineHeight: 1.35,
             color: "#2a1a1c",
@@ -1036,11 +1036,11 @@ export const ProductCard = ({ product, cartItems = [], wishlistItems = [], addTo
         )}
 
         <div style={{ display: "flex", alignItems: "baseline", gap: 8, flexWrap: "wrap", marginTop: 2, marginBottom: 8 }}>
-          <span style={{ fontSize: 16.5, fontWeight: 700, color: "#720E1E" }}>
+          <span style={{ fontFamily: "'Poppins', sans-serif", fontSize: 16.5, fontWeight: 600, color: "#720E1E" }}>
             Rs. {currentPrice.toLocaleString("en-IN")}
           </span>
           {currentDiscount > 0 && (
-            <span style={{ fontSize: 13, color: "#8a7a78", textDecoration: "line-through" }}>
+            <span style={{ fontFamily: "'Poppins', sans-serif", fontSize: 13, fontWeight: 500, color: "#8a7a78", textDecoration: "line-through" }}>
               Rs. {currentMrp.toLocaleString("en-IN")}
             </span>
           )}

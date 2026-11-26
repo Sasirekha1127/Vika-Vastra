@@ -42,7 +42,7 @@ export default function Coupons({ showToast }) {
       expires_at: c.expires_at ? c.expires_at.split('T')[0] : '',
       is_active: c.is_active,
       show_in_checkout: c.show_in_checkout !== false && c.show_in_checkout !== 0,
-      description: c.description || `Use coupon ${c.code} at checkout and save on your next Vika Vasthra order.`,
+      description: c.description || `Use coupon ${c.code} at checkout and save on your next Vika Vastra order.`,
     });
     setShowForm(true);
     window.scrollTo({ top: 0, behavior: 'smooth' });

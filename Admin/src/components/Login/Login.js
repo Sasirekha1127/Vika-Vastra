@@ -117,7 +117,7 @@ const Login = ({ onLoginSuccess }) => {
                     </button>
                 </form>
 
-                <p className="km-footer-note">© 2026 Vika Vasthra. All rights reserved.</p>
+                <p className="km-footer-note">© 2026 Vika Vastra. All rights reserved.</p>
             </div>
         </div>
     );

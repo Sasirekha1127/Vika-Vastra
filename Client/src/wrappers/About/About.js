@@ -450,12 +450,12 @@ const CoreValuesPro = () => {
 
         <div className="cvp-media">
           <div className="cvp-frame">
-            <img src={craftBanner} alt="Rooted in tradition, woven for you - Vika Vasthra commitments" />
+            <img src={craftBanner} alt="Rooted in tradition, woven for you - Vika Vastra commitments" />
           </div>
-         
+
         </div>
 
-       
+
       </div>
     </section>
   );
@@ -468,11 +468,11 @@ const MILESTONES = [
     label: "2020 · The Beginning",
     title: "The Humble Loom",
     subtitle: "40 Looms · 200 Founding Drapes",
-    desc: "Vika Vasthra was born with a curated Best collection of 40 handloom sarees sourced directly from Kanchipuram master weavers. Our first 200 orders shipped within the founding month — a dream turned into living heritage.",
+    desc: "Vika Vastra was born with a curated Best collection of 40 handloom sarees sourced directly from Kanchipuram master weavers. Our first 200 orders shipped within the founding month — a dream turned into living heritage.",
     stat1: "40 Looms Curated",
     stat2: "200 Founding Drapes",
     img: saree1,
-    imgAlt: "Vika Vasthra first saree delivery keepsake packaging — 2020",
+    imgAlt: "Vika Vastra first saree delivery keepsake packaging — 2020",
     badge: "Founding Year",
   },
   {
@@ -484,7 +484,7 @@ const MILESTONES = [
     stat1: "100+ Artisan Families",
     stat2: "3,000 Orders Crossed",
     img: saree2,
-    imgAlt: "Emerald green handloom silk saree craftsmanship — Vika Vasthra 2021",
+    imgAlt: "Emerald green handloom silk saree craftsmanship — Vika Vastra 2021",
     badge: "Regional Expansion",
   },
   {
@@ -496,7 +496,7 @@ const MILESTONES = [
     stat1: "8,000 Orders Delivered",
     stat2: "Digital Boutique Launch",
     img: saree6,
-    imgAlt: "Royal purple Kanchipuram silk saree — Vika Vasthra 2022",
+    imgAlt: "Royal purple Kanchipuram silk saree — Vika Vastra 2022",
     badge: "Digital Platform",
   },
   {
@@ -504,11 +504,11 @@ const MILESTONES = [
     label: "2023 · Bridal Editions",
     title: "Heirloom Bridal Best collections",
     subtitle: "15,000 Orders · Sold Out in 72 Hrs",
-    desc: "Introduced our bridal and festive exclusive handloom Best collections featuring real tested zari. Our wedding season Best collections sold out within 72 hours, cementing Vika Vasthra in Indian bridal trousseaus.",
+    desc: "Introduced our bridal and festive exclusive handloom Best collections featuring real tested zari. Our wedding season Best collections sold out within 72 hours, cementing Vika Vastra in Indian bridal trousseaus.",
     stat1: "15,000 Orders Delivered",
     stat2: "Sold Out in 72 Hours",
     img: saree7,
-    imgAlt: "Heirloom crimson red bridal silk saree — Vika Vasthra 2023",
+    imgAlt: "Heirloom crimson red bridal silk saree — Vika Vastra 2023",
     badge: "Bridal Prestige",
   },
   {
@@ -516,11 +516,11 @@ const MILESTONES = [
     label: "2024 · National Reach",
     title: "Pan-India Recognition",
     subtitle: "19,000 Orders · All Pin Codes",
-    desc: "Vika Vasthra expanded delivery to every pin code across India and international NRI destinations. Exclusive collaborative designer series with master weavers brought rare heritage motifs back to life.",
+    desc: "Vika Vastra expanded delivery to every pin code across India and international NRI destinations. Exclusive collaborative designer series with master weavers brought rare heritage motifs back to life.",
     stat1: "19,000 Orders Delivered",
     stat2: "Pan-India Express Delivery",
     img: saree8,
-    imgAlt: "Royal teal and gold brocade silk saree — Vika Vasthra 2024",
+    imgAlt: "Royal teal and gold brocade silk saree — Vika Vastra 2024",
     badge: "Pan-India Reach",
   },
   {
@@ -532,7 +532,7 @@ const MILESTONES = [
     stat1: "21,900 Orders Delivered",
     stat2: "500+ Artisan Families",
     img: saree9,
-    imgAlt: "Shimmering magenta tissue pure zari Kanchipuram saree — Vika Vasthra 2025 milestone",
+    imgAlt: "Shimmering magenta tissue pure zari Kanchipuram saree — Vika Vastra 2025 milestone",
     milestone: true,
     badge: "★ Landmark Milestone",
   },
@@ -541,11 +541,11 @@ const MILESTONES = [
     label: "2026 · Present & Beyond",
     title: "Still Weaving, Still Cherished",
     subtitle: "Six Years of Pure Handloom Legacy",
-    desc: "Six years of untamed excellence. Vika Vasthra continues to champion authentic Indian craftsmanship — deepening weaver bonds, reviving ancient motifs, and dressing generations of women in pure elegance.",
+    desc: "Six years of untamed excellence. Vika Vastra continues to champion authentic Indian craftsmanship — deepening weaver bonds, reviving ancient motifs, and dressing generations of women in pure elegance.",
     stat1: "6+ Years of Excellence",
     stat2: "98% Customer Happiness",
     img: saree10,
-    imgAlt: "Traditional wooden handloom with pure silk sarees stack and weaving shuttle — Vika Vasthra 2026 present legacy",
+    imgAlt: "Traditional wooden handloom with pure silk sarees stack and weaving shuttle — Vika Vastra 2026 present legacy",
     badge: "Present & Future",
   },
 ];
@@ -843,7 +843,7 @@ const AboutPage = ({ shop }) => {  /* ← FIX: accept shop prop */
               transform: heroIn ? "translateY(0)" : "translateY(20px)",
               transition: "opacity 0.8s ease 0.2s, transform 0.8s ease 0.2s",
             }}>
-              Vika Vasthra is an authentic luxury saree house founded on reverence for India's master weavers.
+              Vika Vastra is an authentic luxury saree house founded on reverence for India's master weavers.
               From the sacred temple looms of Kanchipuram to hand-spun pure Banarasi zaris, every drape is a celebration
               of royal grace, heirloom purity, and timeless elegance.
             </p>
@@ -972,7 +972,7 @@ const AboutPage = ({ shop }) => {  /* ← FIX: accept shop prop */
             >
               <img
                 src={heroBannerImg}
-                alt="Vika Vasthra royal golden silk saree editorial photoshoot in South Indian temple courtyard"
+                alt="Vika Vastra royal golden silk saree editorial photoshoot in South Indian temple courtyard"
                 style={{
                   width: "100%",
                   height: 520,
@@ -1168,7 +1168,7 @@ const AboutPage = ({ shop }) => {  /* ← FIX: accept shop prop */
               maxWidth: 740,
               margin: "0 auto",
             }}>
-              Vika Vasthra was born in 2020 with a single, passionate mission — to revive the romance of authentic Indian handlooms.
+              Vika Vastra was born in 2020 with a single, passionate mission — to revive the romance of authentic Indian handlooms.
               Founded during a transformative era, our atelier stands as a living celebration of master weavers,
               bringing ancestral Kanchipuram and Banarasi silk treasures directly from authentic looms to discerning women worldwide.
             </p>
@@ -1199,7 +1199,7 @@ const AboutPage = ({ shop }) => {  /* ← FIX: accept shop prop */
                 }}>
                   <img
                     src={saree3}
-                    alt="Royal Red Zari Handloom Saree — Vika Vasthra"
+                    alt="Royal Red Zari Handloom Saree — Vika Vastra"
                     style={{
                       width: "100%",
                       height: "100%",
@@ -1310,7 +1310,7 @@ const AboutPage = ({ shop }) => {  /* ← FIX: accept shop prop */
                         letterSpacing: "0.14em",
                         color: "#720E1E",
                         textTransform: "uppercase",
-                      }}>— Founders, Vika Vasthra</div>
+                      }}>— Founders, Vika Vastra</div>
                       <div style={{
                         fontFamily: "'Jost', sans-serif",
                         fontSize: 11,

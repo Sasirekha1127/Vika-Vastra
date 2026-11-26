@@ -282,8 +282,8 @@ export default function BestSellers({ shop }) {
         .bs-head__title { display: flex; align-items: center; gap: 10px; }
         .bs-head h2 {
           margin: 0;
-          font-family: 'Playfair Display', 'Fraunces', serif;
-          font-weight: 700; font-size: 32px; line-height: 1.1;
+          font-family: 'Playfair Display', serif;
+          font-weight: 600; font-size: 32px; line-height: 1.1;
           color: #1c0f14; letter-spacing: 0.005em;
         }
 
@@ -361,21 +361,21 @@ export default function BestSellers({ shop }) {
         }
         .bs-name {
           margin: 0;
-          font-family: 'Fraunces', serif; font-weight: 500;
+          font-family: 'Poppins', sans-serif; font-weight: 500;
           font-size: 15px; line-height: 1.3;
           color: ${INK};
           display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
         }
         .bs-price { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
-        .bs-price__now { font-size: 22px; font-weight: 700; color: #1a0f13; letter-spacing: -0.01em; }
-        .bs-price__old { font-size: 17px; font-weight: 500; color: #8f8586; text-decoration: line-through; }
+        .bs-price__now { font-family: 'Poppins', sans-serif; font-size: 22px; font-weight: 600; color: #1a0f13; letter-spacing: -0.01em; }
+        .bs-price__old { font-family: 'Poppins', sans-serif; font-size: 17px; font-weight: 500; color: #8f8586; text-decoration: line-through; }
 
         /* ── plum pill button ── */
         .bs-cart {
           margin-top: auto;
           width: 100%;
           padding: 10px 12px;
-          font: 500 15px 'Figtree', sans-serif;
+          font: 600 15px 'Poppins', sans-serif;
           letter-spacing: 0.01em;
           color: #fff;
           background: linear-gradient(180deg, ${PLUM_MID} 0%, ${PLUM} 55%, ${PLUM_DARK} 100%);

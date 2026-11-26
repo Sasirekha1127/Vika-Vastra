@@ -317,9 +317,9 @@ const css = `
   .shc-label-text {
     position: relative;
     display: inline-block;
-    font-family: 'Hanken Grotesk', sans-serif;
-    font-weight: 600;
-    font-size: 17px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
     letter-spacing: 0.2px;
     color: var(--shc-plum);
     transition: color .2s;
@@ -340,7 +340,7 @@ const css = `
   .shc-heading__title {
     margin: 0;
     font-family: 'Playfair Display', serif;
-    font-weight: 700;
+    font-weight: 600;
     font-size: 26px;
     line-height: 1.1;
     letter-spacing: 0.005em;

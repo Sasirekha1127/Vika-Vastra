@@ -5,56 +5,55 @@ import * as XLSX from 'xlsx';
 const HSN_CODE = '5407'; // Standard textile/apparel HSN code
 
 const STORE = {
-  name:      'VIKA VASTHRA',
+  name: 'Vika Vastra',
   contactPerson: 'Vikraman.k',
-  phone:     '+91 9482944552',
-  email:     'vikram.25feb@gmail.com',
-  website:   'www.vikavasthra.com',
-  address1:  'Murari Enclave, Maragondanahalli',
-  address2:  'Electronic City phase 1',
-  city:      'Bangalore',
-  state:     'Karnataka',
+  phone: '+91 9482944552',
+  email: 'vikram.25feb@gmail.com',
+  website: 'www.vikavasthra.com',
+  address2: 'Electronic City phase 1',
+  city: 'Bangalore',
+  state: 'Karnataka',
   stateCode: '29',
-  pincode:   '560100',
-  gstin:     '33GRIPS1487L1Z3',
-  pan:       'GRIPS1487L',
+  pincode: '560100',
+  gstin: '33GRIPS1487L1Z3',
+  pan: 'GRIPS1487L',
 };
 
 const STATE_CODES = {
   'jammu and kashmir': '01',
-  'himachal pradesh':  '02',
-  'punjab':            '03',
-  'chandigarh':        '04',
-  'uttarakhand':       '05',
-  'haryana':           '06',
-  'delhi':             '07',
-  'rajasthan':         '08',
-  'uttar pradesh':     '09',
-  'bihar':             '10',
-  'sikkim':            '11',
+  'himachal pradesh': '02',
+  'punjab': '03',
+  'chandigarh': '04',
+  'uttarakhand': '05',
+  'haryana': '06',
+  'delhi': '07',
+  'rajasthan': '08',
+  'uttar pradesh': '09',
+  'bihar': '10',
+  'sikkim': '11',
   'arunachal pradesh': '12',
-  'nagaland':          '13',
-  'manipur':           '14',
-  'mizoram':           '15',
-  'tripura':           '16',
-  'meghalaya':         '17',
-  'assam':             '18',
-  'west bengal':       '19',
-  'jharkhand':         '20',
-  'odisha':            '21',
-  'chhattisgarh':      '22',
-  'madhya pradesh':    '23',
-  'madhyapradesh':     '23',
-  'gujarat':           '24',
-  'maharashtra':       '27',
-  'andhra pradesh':    '28',
-  'karnataka':         '29',
-  'goa':               '30',
-  'kerala':            '32',
-  'tamil nadu':        '33',
-  'tamilnadu':         '33',
-  'puducherry':        '34',
-  'telangana':         '36',
+  'nagaland': '13',
+  'manipur': '14',
+  'mizoram': '15',
+  'tripura': '16',
+  'meghalaya': '17',
+  'assam': '18',
+  'west bengal': '19',
+  'jharkhand': '20',
+  'odisha': '21',
+  'chhattisgarh': '22',
+  'madhya pradesh': '23',
+  'madhyapradesh': '23',
+  'gujarat': '24',
+  'maharashtra': '27',
+  'andhra pradesh': '28',
+  'karnataka': '29',
+  'goa': '30',
+  'kerala': '32',
+  'tamil nadu': '33',
+  'tamilnadu': '33',
+  'puducherry': '34',
+  'telangana': '36',
 };
 
 const getStateCode = (stateName) => {
@@ -317,10 +316,10 @@ export default function Invoice({ order, displayOrderId }) {
   const [open, setOpen] = useState(false);
   const [invoiceNo, setInvoiceNo] = useState(() => `INV-${String(displayOrderId || '').replace(/^#/, '')}`);
 
-  const billing      = parseAddr(order.billing_address);
-  const shipping     = parseAddr(order.shipping_address);
+  const billing = parseAddr(order.billing_address);
+  const shipping = parseAddr(order.shipping_address);
   const shippingAddr = shipping || billing;
-  const billingAddr  = billing  || shipping;
+  const billingAddr = billing || shipping;
   const buyerGst = billingAddr?.gstBillingDetails || (
     billingAddr?.gstin ? {
       businessName: billingAddr.company,
@@ -335,13 +334,13 @@ export default function Invoice({ order, displayOrderId }) {
 
   const stateOfSupply = shippingAddr?.state || billingAddr?.state || deliveryState || STORE.state;
   const destStateCode = getStateCode(stateOfSupply);
-  const isIntraState  = destStateCode === STORE.stateCode; // Within Tamil Nadu
+  const isIntraState = destStateCode === STORE.stateCode; // Within Tamil Nadu
 
-  const subtotal       = Number(order.subtotal        || 0);
-  const totalTax       = Number(order.tax             || 0);
+  const subtotal = Number(order.subtotal || 0);
+  const totalTax = Number(order.tax || 0);
   const deliveryCharge = Number(order.delivery_charge || 0);
-  const discount       = Number(order.discount        || 0);
-  const total          = Number(order.total           || 0);
+  const discount = Number(order.discount || 0);
+  const total = Number(order.total || 0);
 
   // Split each saved GST amount by place of supply.
   const cgstAmount = isIntraState ? (totalTax / 2) : 0;
@@ -367,17 +366,17 @@ export default function Invoice({ order, displayOrderId }) {
     if (!finalInvoiceNo) return;
     const itemsRowsHtml = (order.OrderItems && order.OrderItems.length > 0)
       ? order.OrderItems.map((item, idx) => {
-          const itemQty = Math.max(1, parseInt(item.quantity, 10) || 1);
-          const itemPrice = Number(item.price || 0);
-          const itemTotal = itemPrice * itemQty;
-          const hsnCode = HSN_CODE;
+        const itemQty = Math.max(1, parseInt(item.quantity, 10) || 1);
+        const itemPrice = Number(item.price || 0);
+        const itemTotal = itemPrice * itemQty;
+        const hsnCode = HSN_CODE;
 
-          if (isIntraState) {
-            const itemTax = Number(item.taxAmount ?? (itemTotal * Number(item.gstRate || 0) / 100));
-            const itemTaxable = Number(item.taxableAmount ?? itemTotal);
-            const itemCgst = itemTax / 2;
-            const itemSgst = itemTax / 2;
-            return `
+        if (isIntraState) {
+          const itemTax = Number(item.taxAmount ?? (itemTotal * Number(item.gstRate || 0) / 100));
+          const itemTaxable = Number(item.taxableAmount ?? itemTotal);
+          const itemCgst = itemTax / 2;
+          const itemSgst = itemTax / 2;
+          return `
               <tr>
                 <td class="text-center font-bold">${idx + 1}</td>
                 <td>
@@ -393,10 +392,10 @@ export default function Invoice({ order, displayOrderId }) {
                 <td class="text-right font-bold">₹${(itemTaxable + itemTax).toFixed(2)}</td>
               </tr>
             `;
-          } else {
-            const itemIgst = Number(item.taxAmount ?? (itemTotal * Number(item.gstRate || 0) / 100));
-            const itemTaxable = Number(item.taxableAmount ?? itemTotal);
-            return `
+        } else {
+          const itemIgst = Number(item.taxAmount ?? (itemTotal * Number(item.gstRate || 0) / 100));
+          const itemTaxable = Number(item.taxableAmount ?? itemTotal);
+          return `
               <tr>
                 <td class="text-center font-bold">${idx + 1}</td>
                 <td>
@@ -411,8 +410,8 @@ export default function Invoice({ order, displayOrderId }) {
                 <td class="text-right font-bold">₹${(itemTaxable + itemIgst).toFixed(2)}</td>
               </tr>
             `;
-          }
-        }).join('')
+        }
+      }).join('')
       : `<tr><td colspan="${isIntraState ? 9 : 8}" class="text-center">No items found</td></tr>`;
 
     const html = `<!DOCTYPE html>
@@ -699,7 +698,7 @@ export default function Invoice({ order, displayOrderId }) {
 
             {/* Invoice Card Container */}
             <div style={{ border: '1.5px solid #222', background: '#fff', fontSize: 12, lineHeight: 1.4 }}>
-              
+
               {/* Header */}
               <div style={{ display: 'flex', borderBottom: '1.5px solid #222', padding: '14px 16px', background: '#fafafa' }}>
                 <div style={{ flex: 1.3, paddingRight: 15, borderRight: '1px solid #ccc' }}>
@@ -801,11 +800,11 @@ export default function Invoice({ order, displayOrderId }) {
                           <td style={{ padding: '6px', textAlign: 'right', fontWeight: 600 }}>₹{itemTaxable.toFixed(2)}</td>
                           {isIntraState ? (
                             <>
-                              <td style={{ padding: '6px', textAlign: 'right' }}>{Number(item.gstRate || 0) / 2}%<br/>₹{(itemTax / 2).toFixed(2)}</td>
-                              <td style={{ padding: '6px', textAlign: 'right' }}>{Number(item.gstRate || 0) / 2}%<br/>₹{(itemTax / 2).toFixed(2)}</td>
+                              <td style={{ padding: '6px', textAlign: 'right' }}>{Number(item.gstRate || 0) / 2}%<br />₹{(itemTax / 2).toFixed(2)}</td>
+                              <td style={{ padding: '6px', textAlign: 'right' }}>{Number(item.gstRate || 0) / 2}%<br />₹{(itemTax / 2).toFixed(2)}</td>
                             </>
                           ) : (
-                            <td style={{ padding: '6px', textAlign: 'right' }}>{Number(item.gstRate || 0)}%<br/>₹{itemTax.toFixed(2)}</td>
+                            <td style={{ padding: '6px', textAlign: 'right' }}>{Number(item.gstRate || 0)}%<br />₹{itemTax.toFixed(2)}</td>
                           )}
                           <td style={{ padding: '6px', textAlign: 'right', fontWeight: 700 }}>₹{(itemTaxable + itemTax).toFixed(2)}</td>
                         </tr>

@@ -1265,9 +1265,9 @@ const ProductView = ({ shop }) => {
 
             <div style={{ flex: 1, minWidth: 280 }}>
               {product.brand && (
-                <p style={{ fontSize: 11, fontWeight: 700, color: "#aaa", letterSpacing: 2, textTransform: "uppercase", marginBottom: 10 }}>{product.brand}</p>
+                <p style={{ fontFamily: "'Poppins', sans-serif", fontSize: 11, fontWeight: 600, color: "#aaa", letterSpacing: 2, textTransform: "uppercase", marginBottom: 10 }}>{product.brand}</p>
               )}
-              <h1 style={{ fontSize: 24, fontWeight: 700, color: DARK, lineHeight: 1.35, margin: "0 0 12px" }}>{product.name}</h1>
+              <h1 style={{ fontFamily: "'Poppins', sans-serif", fontSize: 24, fontWeight: 500, color: DARK, lineHeight: 1.35, margin: "0 0 12px" }}>{product.name}</h1>
               {product.sku && <div style={{ display: 'inline-flex', alignItems: 'center', gap: 7, marginBottom: 16, padding: '6px 11px', borderRadius: 999, border: '1px solid #E7E1D5', background: '#F8F6F2', color: DARK, fontSize: 11, fontWeight: 700, letterSpacing: '.04em', maxWidth: '100%' }}><span style={{ color: '#9A835D', fontSize: 10 }}>PRODUCT CODE</span><span style={{ overflowWrap: 'anywhere' }}>{product.sku}</span></div>}
               <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 18 }}>
                 {reviewSummary?.productId === product.id && reviewSummary.count > 0 && <>
@@ -1279,12 +1279,12 @@ const ProductView = ({ shop }) => {
               <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginBottom: 22, flexWrap: "wrap" }}>
                 {finalSales ? (
                   <>
-                    <span style={{ fontSize: 26, fontWeight: 800, color: PLUM_PRIMARY }}>{CUR.symbol}{finalSales}</span>
-                    <span style={{ fontSize: 16, color: "#bbb", textDecoration: "line-through" }}>{CUR.symbol}{finalMrp}</span>
-                    <span style={{ fontSize: 12, background: "#fdf0f8", color: PLUM_PRIMARY, padding: "3px 10px", borderRadius: 20, fontWeight: 700 }}>Save {displayedDiscount}%</span>
+                    <span style={{ fontFamily: "'Poppins', sans-serif", fontSize: 26, fontWeight: 600, color: PLUM_PRIMARY }}>{CUR.symbol}{finalSales}</span>
+                    <span style={{ fontFamily: "'Poppins', sans-serif", fontSize: 16, fontWeight: 500, color: "#bbb", textDecoration: "line-through" }}>{CUR.symbol}{finalMrp}</span>
+                    <span style={{ fontFamily: "'Poppins', sans-serif", fontSize: 12, background: "#fdf0f8", color: PLUM_PRIMARY, padding: "3px 10px", borderRadius: 20, fontWeight: 600 }}>Save {displayedDiscount}%</span>
                   </>
                 ) : (
-                  <span style={{ fontSize: 26, fontWeight: 800, color: PLUM_PRIMARY }}>{CUR.symbol}{finalMrp}</span>
+                  <span style={{ fontFamily: "'Poppins', sans-serif", fontSize: 26, fontWeight: 600, color: PLUM_PRIMARY }}>{CUR.symbol}{finalMrp}</span>
                 )}
               </div>
 
@@ -1308,7 +1308,7 @@ const ProductView = ({ shop }) => {
               <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 16 }}>
                 <button
                   onClick={handleEnquireNow}
-                  style={{ flex: 1, minWidth: 150, padding: "14px 20px", fontSize: 13, fontWeight: 700, letterSpacing: "0.5px", background: "#25D366", color: "#fff", border: "none", borderRadius: 999, cursor: "pointer", transition: "background 0.2s" }}
+                  style={{ fontFamily: "'Poppins', sans-serif", flex: 1, minWidth: 150, padding: "14px 20px", fontSize: 13, fontWeight: 600, letterSpacing: "0.5px", background: "#25D366", color: "#fff", border: "none", borderRadius: 999, cursor: "pointer", transition: "background 0.2s" }}
                 >
                   <i className="fa fa-whatsapp" aria-hidden="true" style={{ marginRight: 8 }} />
                   Enquire now
@@ -1318,7 +1318,7 @@ const ProductView = ({ shop }) => {
                   onMouseEnter={() => setCartBtnHovered(true)}
                   onMouseLeave={() => setCartBtnHovered(false)}
                   disabled={outOfStock || variantNeedsSelection}
-                  style={{ flex: 1, minWidth: 150, padding: "14px 20px", fontSize: 13, fontWeight: 700, letterSpacing: "0.5px", background: outOfStock ? "#ddd" : cartBg, color: outOfStock ? "#888" : "#fff", border: "none", borderRadius: 999, cursor: outOfStock ? "not-allowed" : "pointer", transition: "all 0.25s ease", boxShadow: outOfStock ? "none" : "0 4px 14px rgba(63, 6, 62, 0.35)", textShadow: "none" }}
+                  style={{ fontFamily: "'Poppins', sans-serif", flex: 1, minWidth: 150, padding: "14px 20px", fontSize: 13, fontWeight: 600, letterSpacing: "0.5px", background: outOfStock ? "#ddd" : cartBg, color: outOfStock ? "#888" : "#fff", border: "none", borderRadius: 999, cursor: outOfStock ? "not-allowed" : "pointer", transition: "all 0.25s ease", boxShadow: outOfStock ? "none" : "0 4px 14px rgba(63, 6, 62, 0.35)", textShadow: "none" }}
                 >
                   {outOfStock ? "Out of Stock" : (inCart || addedFeedback) ? "✓ Added to Cart" : "Add to Cart"}
                 </button>
@@ -1328,7 +1328,7 @@ const ProductView = ({ shop }) => {
                   onMouseEnter={() => setBuyNowHovered(true)}
                   onMouseLeave={() => setBuyNowHovered(false)}
                   disabled={outOfStock || variantNeedsSelection}
-                  style={{ flex: 1, minWidth: 150, padding: "14px 20px", fontSize: 13, fontWeight: 700, letterSpacing: "0.5px", background: outOfStock ? "#ddd" : buyNowBg, color: outOfStock ? "#888" : "#380710", border: "none", borderRadius: 999, cursor: outOfStock ? "not-allowed" : "pointer", transition: "all 0.25s ease", boxShadow: outOfStock ? "none" : "0 4px 14px rgba(197, 155, 39, 0.35)", textShadow: outOfStock ? "none" : "0 1px 0 rgba(255, 255, 255, 0.35)" }}
+                  style={{ fontFamily: "'Poppins', sans-serif", flex: 1, minWidth: 150, padding: "14px 20px", fontSize: 13, fontWeight: 600, letterSpacing: "0.5px", background: outOfStock ? "#ddd" : buyNowBg, color: outOfStock ? "#888" : "#380710", border: "none", borderRadius: 999, cursor: outOfStock ? "not-allowed" : "pointer", transition: "all 0.25s ease", boxShadow: outOfStock ? "none" : "0 4px 14px rgba(197, 155, 39, 0.35)", textShadow: outOfStock ? "none" : "0 1px 0 rgba(255, 255, 255, 0.35)" }}
                 >
                   ⚡ Buy Now
                 </button>
@@ -1399,8 +1399,8 @@ const ProductView = ({ shop }) => {
             <section aria-label="Recommended products in the same category" style={{ borderTop: "1px solid #eee", marginTop: 44, paddingTop: 32 }}>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, marginBottom: 20 }}>
                 <div>
-                  <h2 style={{ color: DARK, fontSize: 24, margin: 0, fontFamily: "Georgia, serif" }}>Recommended Products</h2>
-                  <p style={{ color: "#888", fontSize: 13, margin: "7px 0 0" }}>More from {product.category}</p>
+                  <h2 style={{ color: DARK, fontSize: 24, margin: 0, fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 600 }}>Recommended Products</h2>
+                  <p style={{ color: "#888", fontSize: 13, margin: "7px 0 0", fontFamily: "'Poppins', sans-serif" }}>More from {product.category}</p>
                 </div>
                 <div style={{ display: "flex", gap: 8 }}>
                   {[-1, 1].map((direction) => (

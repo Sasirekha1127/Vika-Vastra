@@ -6,7 +6,7 @@
 
 ## 🏛️ Project Overview
 
-**Vika Vastra** is a full-stack, enterprise-grade e-commerce web application specializing in authentic luxury Indian handloom sarees, including Soft Silk, Kanchipuram Pure Silk, Banarasi, Cotton, Organza, and Bridal Collections.
+**Vika Vastra** is a full-stack, enterprise-grade e-commerce web application specializing in authentic luxury Indian handloom sarees, including Soft Silk, Kanchipuram Pure Silk, Banarasi, Cotton, Organza, and Bridal Best collections.
 
 The project is structured as a modular mono-repo with three dedicated applications:
 

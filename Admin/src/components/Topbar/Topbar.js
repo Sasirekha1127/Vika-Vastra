@@ -8,13 +8,13 @@ const STORAGE_KEY = 'kalpana_low_stock_threshold';
 export default function Topbar({ title, addBtn, addLabel, onAdd, onNotifClick }) {
   const savedThreshold = parseInt(localStorage.getItem(STORAGE_KEY)) || 10;
 
-  const [alerts, setAlerts]       = useState({ lowStock: [], outOfStock: [], summary: { lowStockCount: 0, outOfStockCount: 0, totalAlerts: 0 } });
+  const [alerts, setAlerts] = useState({ lowStock: [], outOfStock: [], summary: { lowStockCount: 0, outOfStockCount: 0, totalAlerts: 0 } });
   const [threshold, setThreshold] = useState(savedThreshold);
-  const [inputVal, setInputVal]   = useState(String(savedThreshold));
-  const [dropOpen, setDropOpen]   = useState(false);
+  const [inputVal, setInputVal] = useState(String(savedThreshold));
+  const [dropOpen, setDropOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('low');
-  const [loading, setLoading]     = useState(false);
-  const dropRef                   = useRef(null);
+  const [loading, setLoading] = useState(false);
+  const dropRef = useRef(null);
 
   const fetchAlerts = useCallback((t) => {
     setLoading(true);
@@ -52,7 +52,7 @@ export default function Topbar({ title, addBtn, addLabel, onAdd, onNotifClick })
   }
 
   const totalAlerts = alerts.summary?.totalAlerts || 0;
-  const hasOut      = alerts.summary?.outOfStockCount > 0;
+  const hasOut = alerts.summary?.outOfStockCount > 0;
 
   return (
     <div className="topbar">
@@ -68,10 +68,10 @@ export default function Topbar({ title, addBtn, addLabel, onAdd, onNotifClick })
         )}
 
         <div className="adminProfile">
-          <img src={logo} alt="Vika Vasthra" className="adminLogo" />
+          <img src={logo} alt="Vika Vastra" className="adminLogo" />
           <div className="adminInfo">
             <span className="adminName">Admin</span>
-            <span className="adminRole">Vika Vasthra</span>
+            <span className="adminRole">Vika Vastra</span>
           </div>
         </div>
 
@@ -199,14 +199,14 @@ export default function Topbar({ title, addBtn, addLabel, onAdd, onNotifClick })
                   alerts.outOfStock?.length === 0
                     ? <EmptyMsg text="✅ No out-of-stock products!" />
                     : alerts.outOfStock.map((item, i) => (
-                        <AlertRow key={`out-${item.id}`} item={item} isLast={i === alerts.outOfStock.length - 1} type="out" />
-                      ))
+                      <AlertRow key={`out-${item.id}`} item={item} isLast={i === alerts.outOfStock.length - 1} type="out" />
+                    ))
                 ) : (
                   alerts.lowStock?.length === 0
                     ? <EmptyMsg text={`✅ No products with stock ≤ ${threshold}!`} />
                     : alerts.lowStock.map((item, i) => (
-                        <AlertRow key={`low-${item.id}`} item={item} isLast={i === alerts.lowStock.length - 1} type="low" />
-                      ))
+                      <AlertRow key={`low-${item.id}`} item={item} isLast={i === alerts.lowStock.length - 1} type="low" />
+                    ))
                 )}
               </div>
 
@@ -230,8 +230,8 @@ function EmptyMsg({ text }) {
 }
 
 function AlertRow({ item, isLast, type }) {
-  const isOut   = type === 'out';
-  const color   = isOut ? '#dc2626' : '#ea580c';
+  const isOut = type === 'out';
+  const color = isOut ? '#dc2626' : '#ea580c';
   const bgColor = isOut ? '#fef2f2' : '#fff7ed';
 
   return (

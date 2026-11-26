@@ -7,7 +7,7 @@
  */
 
 @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap');
-;
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400;1,600;1,700&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600;1,700&display=swap');
 @import "../css/icons.min.css";
 @import url("https://fonts.googleapis.com/css?family=Cormorant+Garamond:300,400,500,600,700|Poppins:300,400,500,600,700,800,900|Josefin+Sans:wght@300;400;500;600;700|Abril+Fatface|Great+Vibe|Lobster&display=swap");
 
@@ -36035,6 +36035,157 @@ a.btn-primary:hover,
 .btn-hover a::after,
 .btn-hover button::after {
   background: rgb(197, 155, 39) !important;
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   TYPOGRAPHY DESIGN SYSTEM
+   - Main Hero Heading: Playfair Display, Bold (700)
+   - Section Headings: Playfair Display, SemiBold (600)
+   - Decorative Subtitles: Playfair Display, SemiBold (600)
+   - Navigation: Poppins, Medium (500)
+   - Product Names: Poppins, Medium (500)
+   - Product Prices: Poppins, SemiBold (600)
+   - Buttons: Poppins, SemiBold (600)
+   - Footer: Poppins, Regular (400)
+   ════════════════════════════════════════════════════════════════════════ */
+
+/* 1. Main Hero Heading: Playfair Display Bold (700) */
+.hero-slider-title,
+.hero-slider-content h1,
+.main-hero-heading,
+.breadcrumb-content h2,
+.hero-content h1 {
+  font-family: 'Playfair Display', Georgia, serif !important;
+  font-weight: 700 !important;
+}
+
+/* 2. Section Headings: Playfair Display SemiBold (600) */
+.section-title h2,
+.section-title-2 h2,
+.section-title-3 h2,
+.section-title-4 h2,
+.section-title-5 h2,
+.section-title-6 h2,
+.section-title-7 h2,
+.section-title-8 h2,
+.section-title-9 h2,
+.section-title-10 h2,
+.na-head h2,
+.bs-head h2,
+.shc-heading__title,
+.saree-carousel-area h2,
+.section-heading,
+.related-product-active h2 {
+  font-family: 'Playfair Display', Georgia, serif !important;
+  font-weight: 600 !important;
+}
+
+/* 3. Decorative Subtitles: Playfair Display SemiBold (600) */
+.hero-slider-subtitle,
+.section-title p,
+.section-title-2 p,
+.section-title-3 p,
+.decorative-subtitle,
+.sub-title,
+.saree-carousel-area .subText,
+.shc-subtext {
+  font-family: 'Playfair Display', Georgia, serif !important;
+  font-weight: 600 !important;
+}
+
+/* 4. Navigation: Poppins Medium (500) */
+.emb-nav-link,
+.emb-mobile-nav-item,
+.main-menu nav > ul > li > a,
+.mobile-menu-active nav > ul > li > a,
+.same-style > a,
+.same-style-2 > a,
+.header-right-wrap .same-style a,
+.nav-link,
+.header-nav a {
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 500 !important;
+}
+
+/* 5. Product Names: Poppins Medium (500) */
+.na-name,
+.bs-name,
+.product-content h3,
+.product-content h3 a,
+.product-content-2 h3,
+.product-content-2 h3 a,
+.product-content-3 h3,
+.product-content-3 h3 a,
+.product-content-4 h3,
+.product-content-4 h3 a,
+.product-wrap h3,
+.product-wrap h3 a,
+.product-title,
+.single-product-title,
+.product-details-content h1,
+.product-name,
+.product-name a {
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 500 !important;
+}
+
+/* 6. Product Prices: Poppins SemiBold (600) */
+.na-price,
+.na-price__now,
+.bs-price,
+.bs-price__now,
+.product-price span,
+.product-price,
+.pro-details-price span,
+.single-product-price,
+.product-price-now,
+.price {
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 600 !important;
+}
+
+/* 7. Buttons: Poppins SemiBold (600) */
+button,
+.btn,
+.btn-primary,
+.na-cart,
+.bs-cart,
+.add-to-cart,
+.add-to-cart-btn,
+.hero-slider-button,
+.km-btn-orange,
+.pro-details-cart button,
+.pro-details-buy-now button,
+.cart-btn,
+.cart-shiping-update > a,
+.cart-shiping-update > button,
+.cart-clear > button,
+.cart-clear > a,
+.discount-code form button {
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 600 !important;
+}
+
+/* 8. Footer: Poppins Regular (400) */
+.footer-area,
+.footer-area *,
+.footer-link,
+.footer-contact-link,
+.footer-bottom,
+.footer-bottom p,
+.footer-title,
+.footer-area p,
+.footer-area a,
+.footer-area span,
+.footer-area li {
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 400 !important;
+}
+.footer-area h3,
+.footer-area h4,
+.footer-title h4,
+.footer-heading {
+  font-weight: 500 !important;
 }
 
 /*# sourceMappingURL=style.css.map */

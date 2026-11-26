@@ -16,7 +16,7 @@ const {
 } = require('../services/emailService');
 
 // ─────────────────────────────────────────
-// 🔢 GENERATE ORDER NUMBER  →  VV-001 (Vika Vasthra)
+// 🔢 GENERATE ORDER NUMBER  →  VV-001 (Vika Vastra)
 // ─────────────────────────────────────────
 const generateOrderNumber = async () => {
     try {

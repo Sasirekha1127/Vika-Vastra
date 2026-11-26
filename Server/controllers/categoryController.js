@@ -10,7 +10,7 @@ const sendCategoryDiscountEmail = async (category, emailData = {}) => {
             title: `${category.name} discount`,
             discountType: category.discountType,
             discountValue: category.discountValue,
-            emailSubject: emailData.emailSubject || `${category.name} discount - Vika Vasthra`,
+            emailSubject: emailData.emailSubject || `${category.name} discount - Vika Vastra`,
             emailContent: emailData.emailContent || `Save on products in the ${category.name} category. This discount applies to products belonging to this category.`,
             discountLabel: category.discountType === 'percentage' ? `${category.discountValue}% off` : `₹${category.discountValue} off`,
             shopUrl: process.env.STORE_URL,
@@ -48,7 +48,7 @@ exports.createCategory = async (req, res) => {
     try {
         const { name } = req.body;
         const discount = parseDiscount(req.body);
-        
+
         const image = req.file
             ? req.file.path.replace(/\\/g, '/')
             : null;

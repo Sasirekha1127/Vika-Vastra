@@ -8,12 +8,16 @@ const pillClass = { Active: 'pill-active', Inactive: 'pill-inactive' };
 const EMPTY_FORM = {
   title: '',
   subtitle: '',
-  content: 'Shop Now →',
-  link: '/shop',
-  shopUrl: '/shop',
-  status: 'Active',
+  content: '',
+  discountLabel: '',
+  brandTag: '',
+  shopUrl: '',
+  link: '',
   startDate: '',
   endDate: '',
+  status: 'Active',
+  titleColor: '#ffffff',
+  discountColor: '#f5d78e',
 };
 
 export default function OfferBanners({ showToast }) {
@@ -23,7 +27,6 @@ export default function OfferBanners({ showToast }) {
   const [editingId, setEditingId] = useState(null);
   const [formData, setFormData]   = useState(EMPTY_FORM);
   const [imageFile, setImageFile] = useState(null);
-  const [previewUrl, setPreviewUrl] = useState(null);
 
   useEffect(() => { fetchOfferBanners(); }, []);
 
@@ -43,56 +46,36 @@ export default function OfferBanners({ showToast }) {
     setEditingId(null);
     setFormData(EMPTY_FORM);
     setImageFile(null);
-    setPreviewUrl(null);
   };
 
   const handleEditClick = (offer) => {
     setEditingId(offer.id);
     setFormData({
-      title:     offer.title     || '',
-      subtitle:  offer.subtitle  || '',
-      content:   offer.content   || 'Shop Now →',
-      link:      offer.link || offer.shopUrl || '/shop',
-      shopUrl:   offer.shopUrl || offer.link || '/shop',
-      status:    offer.status    || 'Active',
-      startDate: offer.startDate ? offer.startDate.slice(0, 10) : '',
-      endDate:   offer.endDate   ? offer.endDate.slice(0, 10)   : '',
+      title:         offer.title         || '',
+      subtitle:      offer.subtitle      || '',
+      content:       offer.content       || '',
+      discountLabel: offer.discountLabel || '',
+      brandTag:      offer.brandTag      || '',
+      shopUrl:       offer.shopUrl       || '',
+      link:          offer.link          || '',
+      startDate:     offer.startDate ? offer.startDate.slice(0, 10) : '',
+      endDate:       offer.endDate   ? offer.endDate.slice(0, 10)   : '',
+      status:        offer.status        || 'Active',
+      titleColor:    offer.titleColor    || '#ffffff',
+      discountColor: offer.discountColor || '#f5d78e',
     });
     setImageFile(null);
-    setPreviewUrl(offer.image ? `${API}/${offer.image.replace(/^\//, '')}` : null);
     setShowForm(true);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const set = (key) => (e) => setFormData(f => ({ ...f, [key]: e.target.value }));
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setImageFile(file);
-      setPreviewUrl(URL.createObjectURL(file));
-    }
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.title.trim()) {
-      return showToast('Title Required', 'Please enter a title for the offer banner.');
-    }
-    if (!editingId && !imageFile) {
-      return showToast('Image Required', 'Please upload a banner image.');
-    }
-
     const data = new FormData();
-    data.append('title',     formData.title);
-    data.append('subtitle',  formData.subtitle);
-    data.append('content',   formData.content);
-    data.append('link',      formData.link || '/shop');
-    data.append('shopUrl',   formData.link || '/shop');
-    data.append('status',    formData.status);
-    if (formData.startDate) data.append('startDate', formData.startDate);
-    if (formData.endDate)   data.append('endDate',   formData.endDate);
-    if (imageFile)          data.append('image',     imageFile);
+    Object.entries(formData).forEach(([k, v]) => data.append(k, typeof v === 'boolean' ? String(v) : v));
+    if (imageFile) data.append('image', imageFile);
 
     const method = editingId ? 'PUT' : 'POST';
     const url    = editingId
@@ -139,15 +122,12 @@ export default function OfferBanners({ showToast }) {
     }
   };
 
+  const isExpired = (endDate) => endDate && new Date(endDate) < new Date();
+
   return (
     <div>
       <div className="section-header">
-        <div>
-          <div className="section-title">Offer Banners (Middle Section)</div>
-          <div style={{ fontSize: 13, color: '#666', marginTop: 4 }}>
-            Manage the promo banner positioned between Categories and New Arrivals.
-          </div>
-        </div>
+        <div className="section-title">Offer Banners</div>
         <button
           className="action-btn btn-edit"
           onClick={() => (showForm ? closeForm() : setShowForm(true))}
@@ -164,7 +144,7 @@ export default function OfferBanners({ showToast }) {
               <div className="km-form-header-title">
                 {editingId ? 'Edit Offer Banner' : 'Add New Offer Banner'}
               </div>
-              <div className="km-form-header-sub">Upload your middle section promo banner graphic</div>
+              <div className="km-form-header-sub">Fill in the details below</div>
             </div>
           </div>
 
@@ -173,32 +153,151 @@ export default function OfferBanners({ showToast }) {
 
               {/* Title */}
               <div className="km-field">
-                <label className="km-label">Banner Title *</label>
+                <label className="km-label">Offer Title *</label>
                 <input
                   className="km-input" type="text" required
-                  placeholder="e.g. Top Deals"
+                  placeholder="e.g. Flash Sale "
                   value={formData.title} onChange={set('title')}
                 />
               </div>
 
+              {/* Title Color */}
+              <div className="km-field">
+                <label className="km-label">Title Color *</label>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                  <input
+                    type="color"
+                    value={formData.titleColor}
+                    onChange={set('titleColor')}
+                    style={{ width: 44, height: 36, padding: 2, borderRadius: 4, border: '1px solid #ccc', cursor: 'pointer' }}
+                  />
+                  <input
+                    className="km-input" type="text" required
+                    placeholder="#ffffff"
+                    value={formData.titleColor} onChange={set('titleColor')}
+                    style={{ flex: 1 }}
+                  />
+                  <span style={{
+                    fontWeight: 700, fontSize: 15,
+                    color: formData.titleColor,
+                    background: '#222', padding: '4px 10px',
+                    borderRadius: 4, whiteSpace: 'nowrap', border: '1px solid #444',
+                  }}>
+                    Preview
+                  </span>
+                </div>
+              </div>
+
               {/* Subtitle */}
               <div className="km-field">
-                <label className="km-label">Subtitle (Optional)</label>
+                <label className="km-label">Subtitle *</label>
                 <input
-                  className="km-input" type="text"
-                  placeholder="e.g. Shop Smart, Save More"
+                  className="km-input" type="text" required
+                  placeholder="e.g. Limited time only"
                   value={formData.subtitle} onChange={set('subtitle')}
                 />
               </div>
 
-              {/* Link / URL */}
-              <div className="km-field">
-                <label className="km-label">Link / Shop URL</label>
+              {/* CTA Button Label */}
+              <div className="km-field km-field-full">
+                <label className="km-label">CTA Button Label *</label>
                 <input
-                  className="km-input" type="text"
-                  placeholder="e.g. /shop or https://..."
-                  value={formData.link} onChange={set('link')}
+                  className="km-input" type="text" required
+                  placeholder="e.g. Shop Now "
+                  value={formData.content} onChange={set('content')}
                 />
+              </div>
+
+              {/* Brand Tag */}
+              <div className="km-field">
+                <label className="km-label">Brand Tag *</label>
+                <input
+                  className="km-input" type="text" required
+                  placeholder="e.g. Nike, Apple, Exclusive"
+                  value={formData.brandTag} onChange={set('brandTag')}
+                />
+              </div>
+
+              {/* Discount Label */}
+              <div className="km-field">
+                <label className="km-label">Discount Label *</label>
+                <input
+                  className="km-input" type="text" required
+                  placeholder="e.g. Upto 50% OFF"
+                  value={formData.discountLabel} onChange={set('discountLabel')}
+                />
+              </div>
+
+              {/* Discount Color */}
+              <div className="km-field">
+                <label className="km-label">Discount Color *</label>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                  <input
+                    type="color"
+                    value={formData.discountColor}
+                    onChange={set('discountColor')}
+                    style={{ width: 44, height: 36, padding: 2, borderRadius: 4, border: '1px solid #ccc', cursor: 'pointer' }}
+                  />
+                  <input
+                    className="km-input" type="text" required
+                    placeholder="#f5d78e"
+                    value={formData.discountColor} onChange={set('discountColor')}
+                    style={{ flex: 1 }}
+                  />
+                  <span style={{
+                    fontWeight: 900, fontSize: 22,
+                    color: formData.discountColor,
+                    background: '#222', padding: '2px 10px',
+                    borderRadius: 4, whiteSpace: 'nowrap', border: '1px solid #444',
+                  }}>
+                    50%
+                  </span>
+                </div>
+              </div>
+
+              {/* Shop URL */}
+              <div className="km-field km-field-full">
+                <label className="km-label">
+                  Shop Button URL *
+                  <span style={{ fontWeight: 400, color: '#888', marginLeft: 6, fontSize: 11 }}>
+                    (used by the CTA button — overrides Link URL)
+                  </span>
+                </label>
+                <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                  <input
+                    className="km-input" type="text" required
+                    placeholder="e.g. /shop"
+                    value={formData.shopUrl} onChange={set('shopUrl')}
+                    style={{ flex: 1 }}
+                  />
+                  {formData.shopUrl && (
+                    <a
+                      href={formData.shopUrl} target="_blank" rel="noreferrer"
+                      style={{
+                        display: 'inline-flex', alignItems: 'center', gap: 4,
+                        background: '#0d6efd', color: '#fff',
+                        padding: '6px 12px', borderRadius: 4,
+                        fontSize: 12, fontWeight: 600,
+                        textDecoration: 'none', whiteSpace: 'nowrap',
+                        border: '1px solid #0a58ca',
+                      }}
+                    >
+                      ↗ Open URL
+                    </a>
+                  )}
+                </div>
+              </div>
+
+              {/* Start Date */}
+              <div className="km-field">
+                <label className="km-label">Start Date *</label>
+                <input className="km-input" type="date" required value={formData.startDate} onChange={set('startDate')} />
+              </div>
+
+              {/* End Date */}
+              <div className="km-field">
+                <label className="km-label">End Date *</label>
+                <input className="km-input" type="date" required value={formData.endDate} onChange={set('endDate')} />
               </div>
 
               {/* Status */}
@@ -210,38 +309,19 @@ export default function OfferBanners({ showToast }) {
                 </select>
               </div>
 
-              {/* Image Upload */}
+              {/* Image */}
               <div className="km-field km-field-full">
-                <label className="km-label">Banner Image {editingId ? '(Leave empty to keep existing)' : '*'}</label>
+                <label className="km-label">Banner Image {editingId ? '' : '*'}</label>
                 <div className="km-file-zone">
                   <div className="km-file-icon">↑</div>
-                  {imageFile ? (
-                    <p className="km-file-selected">✓ {imageFile.name}</p>
-                  ) : (
-                    <p className="km-file-label">Click to upload banner image (e.g. 980x222 or 1024x275 or 1200x300)</p>
-                  )}
+                  {imageFile
+                    ? <p className="km-file-selected">✓ {imageFile.name}</p>
+                    : <p className="km-file-label">Click to upload image</p>}
                   <input
-                    type="file" accept="image/*" required={!editingId && !previewUrl}
-                    onChange={handleFileChange}
+                    type="file" accept="image/*" required={!editingId}
+                    onChange={e => setImageFile(e.target.files[0])}
                   />
                 </div>
-                {previewUrl && (
-                  <div style={{ marginTop: 12, display: 'flex', alignItems: 'center', gap: 12 }}>
-                    <img
-                      src={previewUrl}
-                      alt="Preview"
-                      style={{
-                        maxWidth: 320,
-                        maxHeight: 90,
-                        borderRadius: 12,
-                        objectFit: 'cover',
-                        border: '1px solid #e0e0e0',
-                        boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-                      }}
-                    />
-                    <span style={{ fontSize: 12, color: '#666' }}>Banner Preview</span>
-                  </div>
-                )}
               </div>
 
               <button type="submit" className="km-btn-submit">
@@ -257,7 +337,8 @@ export default function OfferBanners({ showToast }) {
       ) : (
         <DataTable
           columns={[
-            'ID', 'Banner Image', 'Title', 'Subtitle', 'Link URL', 'Status', 'Actions',
+            'ID', 'Image', 'Title', 'Title Color', 'Discount Color', 'Subtitle', 'CTA Label',
+            'Brand Tag', 'Shop URL', 'Discount', 'Start Date', 'End Date', 'Status', 'Actions',
           ]}
           initialRows={rows}
           renderRow={(row, i) => (
@@ -267,37 +348,95 @@ export default function OfferBanners({ showToast }) {
               {/* Image */}
               <td>
                 <div className="img-thumb">
-                  {row.image ? (
-                    <img
-                      src={`${API}/${row.image.replace(/^\//, '')}`}
-                      alt={row.title}
-                      width="120"
-                      height="36"
-                      style={{ objectFit: 'cover', borderRadius: 6, border: '1px solid #e8e8e8' }}
-                    />
-                  ) : (
-                    '🏷️'
-                  )}
+                  {row.image
+                    ? <img src={`${API}/${row.image}`} alt={row.title} width="60" height="36"
+                        style={{ objectFit: 'cover', borderRadius: 4 }} />
+                    : '🏷️'}
                 </div>
               </td>
 
-              <td style={{ fontWeight: 600 }}>{row.title}</td>
+              <td>{row.title}</td>
+
+              {/* Title Color */}
+              <td>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <span style={{
+                    display: 'inline-block', width: 18, height: 18, borderRadius: 3,
+                    background: row.titleColor || '#ffffff', border: '1px solid #ccc', flexShrink: 0,
+                  }} />
+                  <span style={{ fontSize: 12, color: '#555' }}>{row.titleColor || '#ffffff'}</span>
+                </div>
+              </td>
+
+              {/* Discount Color */}
+              <td>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <span style={{
+                    display: 'inline-block', width: 18, height: 18, borderRadius: 3,
+                    background: row.discountColor || '#f5d78e', border: '1px solid #ccc', flexShrink: 0,
+                  }} />
+                  <span style={{ fontSize: 12, color: '#555' }}>{row.discountColor || '#f5d78e'}</span>
+                </div>
+              </td>
 
               <td>{row.subtitle || '—'}</td>
 
-              {/* Link */}
+              {/* CTA Label */}
+              <td style={{ maxWidth: 140, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                {row.content || '—'}
+              </td>
+
+              {/* Brand Tag */}
               <td>
-                <span style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  background: '#f4f4f4',
-                  padding: '3px 8px',
-                  borderRadius: 4,
-                  fontSize: 12,
-                  fontFamily: 'monospace',
-                }}>
-                  {row.link || row.shopUrl || '/shop'}
-                </span>
+                {row.brandTag ? (
+                  <span style={{
+                    background: '#e8f4fd', color: '#0d6efd',
+                    padding: '2px 8px', borderRadius: 4,
+                    fontWeight: 600, fontSize: 12, border: '1px solid #b6d4fe',
+                  }}>
+                    🏷️ {row.brandTag}
+                  </span>
+                ) : '—'}
+              </td>
+
+              {/* Shop URL */}
+              <td>
+                {row.shopUrl ? (
+                  <a href={row.shopUrl} target="_blank" rel="noreferrer" title={row.shopUrl}
+                    style={{
+                      display: 'inline-flex', alignItems: 'center', gap: 4,
+                      background: '#0d6efd', color: '#fff',
+                      padding: '3px 10px', borderRadius: 4,
+                      fontWeight: 600, fontSize: 12,
+                      border: '1px solid #0a58ca', textDecoration: 'none',
+                    }}
+                  >
+                    🔗 Shop
+                  </a>
+                ) : '—'}
+              </td>
+
+              {/* Discount */}
+              <td>
+                {row.discountLabel ? (
+                  <span style={{
+                    background: '#fff3cd', color: '#856404',
+                    padding: '2px 8px', borderRadius: 4, fontWeight: 600, fontSize: 12,
+                  }}>
+                    {row.discountLabel}
+                  </span>
+                ) : '—'}
+              </td>
+
+              <td>{row.startDate ? row.startDate.slice(0, 10) : '—'}</td>
+
+              {/* End Date */}
+              <td>
+                {row.endDate ? (
+                  <span style={{ color: isExpired(row.endDate) ? '#dc3545' : 'inherit' }}>
+                    {row.endDate.slice(0, 10)}{isExpired(row.endDate) && ' ⚠️'}
+                  </span>
+                ) : '—'}
               </td>
 
               {/* Status */}

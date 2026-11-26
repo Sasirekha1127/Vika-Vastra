@@ -5,20 +5,20 @@ const API = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
 const templateDefaults = {
   category: {
     title: 'A category offer for you',
-    emailSubject: 'A special category offer - Vika Vasthra',
-    emailContent: 'Enjoy special savings on selected products. Browse the collection and find something you love.',
+    emailSubject: 'A special category offer - Vika Vastra',
+    emailContent: 'Enjoy special savings on selected products. Browse the Best collection and find something you love.',
     discountLabel: 'Special category savings',
   },
   coupon: {
     title: 'A coupon for your next order',
-    emailSubject: 'Your Vika Vasthra coupon is here',
+    emailSubject: 'Your Vika Vastra coupon is here',
     emailContent: 'Use this coupon at checkout and enjoy savings on your next order.',
     discountLabel: 'Use your coupon at checkout',
   },
   offer: {
-    title: 'A special offer from Vika Vasthra',
-    emailSubject: 'A special offer from Vika Vasthra',
-    emailContent: 'Explore our latest collection and enjoy this special offer.',
+    title: 'A special offer from Vika Vastra',
+    emailSubject: 'A special offer from Vika Vastra',
+    emailContent: 'Explore our latest Best collection and enjoy this special offer.',
     discountLabel: 'Special offer',
   },
 };

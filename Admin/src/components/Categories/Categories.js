@@ -43,7 +43,7 @@ export default function Categories({ showToast }) {
     setEditingId(cat.id); setCategoryName(cat.name);
     setDiscountType(cat.discountType || 'none');
     setDiscountValue(cat.discountValue && Number(cat.discountValue) > 0 ? String(cat.discountValue) : '');
-    setEmailSubject(`${cat.name} discount - Vika Vasthra`);
+    setEmailSubject(`${cat.name} discount - Vika Vastra`);
     setEmailContent(`Save on products in the ${cat.name} category. This discount applies to products belonging to this category.`);
     setImageFile(null); setShowForm(true);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -241,14 +241,14 @@ export default function Categories({ showToast }) {
                     <label className="km-label">Discount Email Subject</label>
                     <input className="km-input" type="text" value={emailSubject}
                       onChange={e => setEmailSubject(e.target.value)}
-                      placeholder={`${categoryName || 'Category'} discount - Vika Vasthra`} />
+                      placeholder={`${categoryName || 'Category'} discount - Vika Vastra`} />
                   </div>
                   <div className="km-field km-field-full">
                     <label className="km-label">Discount Email Message</label>
                     <textarea className="km-input" rows="3" value={emailContent}
                       onChange={e => setEmailContent(e.target.value)}
                       placeholder="Write the message customers will receive with this category offer." />
-                    <small className="td-muted">Sent in the branded Vika Vasthra offer email when this discount is applied.</small>
+                    <small className="td-muted">Sent in the branded Vika Vastra offer email when this discount is applied.</small>
                   </div>
                 </>
               )}
@@ -362,8 +362,8 @@ export default function Categories({ showToast }) {
                           background: isDragging
                             ? 'var(--km-orange-light)'
                             : isDragOver
-                            ? 'var(--km-green-light)'
-                            : undefined,
+                              ? 'var(--km-green-light)'
+                              : undefined,
                           borderTop: isDragOver && draggedIdx > i ? '2px solid var(--km-orange)' : undefined,
                           borderBottom: isDragOver && draggedIdx < i ? '2px solid var(--km-orange)' : undefined,
                           transition: 'background 0.15s, opacity 0.15s',
@@ -438,7 +438,7 @@ export default function Categories({ showToast }) {
                           <div className="img-thumb">
                             {row.image
                               ? <img src={getImageUrl(row.image)} alt={row.name} width="40" height="40"
-                                  onError={e => { e.target.src = 'https://via.placeholder.com/40?text=No+Img'; }} />
+                                onError={e => { e.target.src = 'https://via.placeholder.com/40?text=No+Img'; }} />
                               : '🗂️'}
                           </div>
                         </td>

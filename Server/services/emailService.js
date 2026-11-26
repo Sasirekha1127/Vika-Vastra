@@ -48,13 +48,13 @@ const escapeHtml = (value = '') => String(value)
 const money = value => `₹${Number(value || 0).toFixed(2)}`;
 const orderNumber = order => String(order.order_number || order.orderId || order.id || '—').replace(/^EMT-/, 'VV-');
 
-const emailLayout = ({ preheader = '', title, greeting, content, footer = 'Thank you for shopping with Vika Vasthra.' }) => `
+const emailLayout = ({ preheader = '', title, greeting, content, footer = 'Thank you for shopping with Vika Vastra.' }) => `
   <div style="display:none;max-height:0;overflow:hidden;opacity:0;color:transparent">${escapeHtml(preheader)}</div>
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:${B.ivory};margin:0;padding:24px 10px;font-family:Arial,Helvetica,sans-serif;color:${B.text}">
     <tr><td align="center">
       <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="width:100%;max-width:600px;background:${B.white};border:1px solid ${B.border};border-radius:12px;overflow:hidden">
         <tr><td style="background:${B.navy};padding:24px 30px;text-align:left">
-          <div style="font-size:22px;line-height:1.2;font-weight:700;letter-spacing:1px;color:${B.white}">VIKA VASTHRA</div>
+          <div style="font-size:22px;line-height:1.2;font-weight:700;letter-spacing:1px;color:${B.white}">Vika Vastra</div>
           <div style="margin-top:5px;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#E8D8B8">Where tradition meets elegance</div>
         </td></tr>
         <tr><td style="height:4px;background:${B.gold};font-size:0;line-height:0">&nbsp;</td></tr>
@@ -64,7 +64,7 @@ const emailLayout = ({ preheader = '', title, greeting, content, footer = 'Thank
           ${content}
         </td></tr>
         <tr><td style="background:${B.ivory};border-top:1px solid ${B.border};padding:18px 30px;text-align:center;color:${B.muted};font-size:12px;line-height:1.6">
-          ${footer}<br><span style="color:${B.navy};font-weight:700">Vika Vasthra</span>
+          ${footer}<br><span style="color:${B.navy};font-weight:700">Vika Vastra</span>
         </td></tr>
       </table>
     </td></tr>
@@ -99,8 +99,8 @@ exports.sendOfferEmail = async (offer, recipients = [], { batchSize = 100 } = {}
   for (let index = 0; index < emails.length; index += 1) {
     try {
       await deliverEmail({
-        from: `"Vika Vasthra" <${process.env.EMAIL_USER}>`, to: emails[index],
-        subject: offer.emailSubject || `${title} - Vika Vasthra`, html,
+        from: `"Vika Vastra" <${process.env.EMAIL_USER}>`, to: emails[index],
+        subject: offer.emailSubject || `${title} - Vika Vastra`, html,
       });
       sent += 1;
     } catch (error) {
@@ -129,8 +129,8 @@ exports.sendAdminOrderNotification = async (order, items = []) => {
     ['Items', String(items.length)], ['Order total', money(order.total), true],
   ])}`;
   await deliverEmail({
-    from: `"Vika Vasthra" <${process.env.EMAIL_USER}>`, to,
-    subject: `New Order #${orderNumber(order)} - Vika Vasthra`,
+    from: `"Vika Vastra" <${process.env.EMAIL_USER}>`, to,
+    subject: `New Order #${orderNumber(order)} - Vika Vastra`,
     text: `New order from ${order.customer_name}. Total: Rs. ${order.total}. Items: ${items.length}`,
     html: emailLayout({ preheader: `New order ${number}`, title: 'New order received', content }),
   });
@@ -179,10 +179,10 @@ exports.sendOrderConfirmationEmail = async (data) => {
     ${addressLines ? `${sectionTitle('BILLING ADDRESS')}<div style="padding:11px;background:${B.ivory};border:1px solid ${B.border};border-radius:7px;font-size:10px;line-height:1.55;color:${B.text}">${addressLines}${data.phone ? `<div style="margin-top:5px">☎ ${escapeHtml(data.phone)}</div>` : ''}${data.phone2 ? `<div>☎ ${escapeHtml(data.phone2)} <span style="color:${B.gold}">(Alt)</span></div>` : ''}<div><a href="mailto:${customerEmail}" style="color:${B.navy}">${customerEmail}</a></div></div>` : ''}
     <p style="margin:18px 0 0;text-align:center;font-size:10px;color:${B.muted}">Questions? Contact us at <a href="mailto:${escapeHtml(process.env.EMAIL_USER || 'vikram.25feb@gmail.com')}" style="color:${B.gold}">${escapeHtml(process.env.EMAIL_USER || 'vikram.25feb@gmail.com')}</a></p>`;
   await deliverEmail({
-    from: `"Vika Vasthra" <${process.env.EMAIL_USER}>`, to: data.email,
-    subject: `We Received Your Order - Vika Vasthra`,
+    from: `"Vika Vastra" <${process.env.EMAIL_USER}>`, to: data.email,
+    subject: `We Received Your Order - Vika Vastra`,
     text: `Hi ${data.name || 'Customer'}, we received your order ${orderNumber(data)}. Total: Rs. ${data.total}.`,
-    html: `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:${B.ivory};padding:20px 12px;font-family:Arial,Helvetica,sans-serif"><tr><td align="center"><table role="presentation" width="375" cellpadding="0" cellspacing="0" border="0" style="width:100%;max-width:640px;background:${B.white};border:1px solid ${B.border};border-radius:12px;overflow:hidden"><tr><td style="background:${B.navy};padding:28px 32px;text-align:center"><div style="margin:0 auto 9px;width:23px;height:23px;line-height:23px;border-radius:7px;background:${B.gold};color:${B.white};font-weight:700;font-size:12px">V</div><div style="color:${B.white};font-size:12px;font-weight:700">Vika Vasthra</div><h1 style="margin:15px 0 6px;color:${B.white};font-size:17px">Order Confirmed! 🎉</h1><div style="font-size:14px;line-height:1.6;color:#E9E4F3">Thank you, ${escapeHtml(data.name || 'Customer')}! Your payment was successful and your order is being processed.<br>A confirmation copy has been sent to <a href="mailto:${customerEmail}" style="color:#D9B86C">${customerEmail}</a>.</div></td></tr><tr><td style="padding:4px 32px 28px">${content}</td></tr><tr><td style="background:${B.navy};padding:13px 15px;text-align:center;color:#E9E4F3;font-size:12px;line-height:1.7"><strong style="color:${B.white}">V&nbsp; Vika Vasthra</strong><br>© ${new Date().getFullYear()} Vika Vasthra. All rights reserved.<br>Thank you for shopping with us!</td></tr></table></td></tr></table>`,
+    html: `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:${B.ivory};padding:20px 12px;font-family:Arial,Helvetica,sans-serif"><tr><td align="center"><table role="presentation" width="375" cellpadding="0" cellspacing="0" border="0" style="width:100%;max-width:640px;background:${B.white};border:1px solid ${B.border};border-radius:12px;overflow:hidden"><tr><td style="background:${B.navy};padding:28px 32px;text-align:center"><div style="margin:0 auto 9px;width:23px;height:23px;line-height:23px;border-radius:7px;background:${B.gold};color:${B.white};font-weight:700;font-size:12px">V</div><div style="color:${B.white};font-size:12px;font-weight:700">Vika Vastra</div><h1 style="margin:15px 0 6px;color:${B.white};font-size:17px">Order Confirmed! 🎉</h1><div style="font-size:14px;line-height:1.6;color:#E9E4F3">Thank you, ${escapeHtml(data.name || 'Customer')}! Your payment was successful and your order is being processed.<br>A confirmation copy has been sent to <a href="mailto:${customerEmail}" style="color:#D9B86C">${customerEmail}</a>.</div></td></tr><tr><td style="padding:4px 32px 28px">${content}</td></tr><tr><td style="background:${B.navy};padding:13px 15px;text-align:center;color:#E9E4F3;font-size:12px;line-height:1.7"><strong style="color:${B.white}">V&nbsp; Vika Vastra</strong><br>© ${new Date().getFullYear()} Vika Vastra. All rights reserved.<br>Thank you for shopping with us!</td></tr></table></td></tr></table>`,
   });
 };
 
@@ -207,8 +207,8 @@ exports.sendOrderStatusEmail = async (order, status) => {
   const number = escapeHtml(orderNumber(order));
   const content = `<p style="margin:0 0 18px;font-size:14px;line-height:1.7">${escapeHtml(message[1])}</p>${detailsTable([['Order number', number], ['Order total', money(order.total), true]])}`;
   await deliverEmail({
-    from: `"Vika Vasthra" <${process.env.EMAIL_USER}>`, to: order.customer_email,
-    subject: `${message[0]} - Vika Vasthra`,
+    from: `"Vika Vastra" <${process.env.EMAIL_USER}>`, to: order.customer_email,
+    subject: `${message[0]} - Vika Vastra`,
     text: `Hi ${order.customer_name || 'Customer'}, ${message[1]} Order: ${orderNumber(order)}.`,
     html: emailLayout({ preheader: `${message[1]} Order ${number}`, title: message[0], greeting: escapeHtml(order.customer_name || 'Customer'), content }),
   });
@@ -238,8 +238,8 @@ exports.sendShipmentTrackingEmail = async (order, courierName, trackingNumber) =
     <p style="font-size:13px;line-height:1.7;color:${B.muted}">Enter the tracking ID shown above in the courier's tracking form. The order number is not a courier tracking ID. If the carrier page shows an error or is blocked, try again later or open the courier's official website and choose Track Shipment.</p>`;
 
   await deliverEmail({
-    from: `"Vika Vasthra" <${process.env.EMAIL_USER}>`, to: order.customer_email,
-    subject: `Your order ${number} has shipped - Vika Vasthra`,
+    from: `"Vika Vastra" <${process.env.EMAIL_USER}>`, to: order.customer_email,
+    subject: `Your order ${number} has shipped - Vika Vastra`,
     text: `Hi ${order.customer_name || 'Customer'},\n\nYour order ${number} has been shipped with ${tracker.name}.\nTracking ID: ${trackingNumber}\nTrack your shipment: ${trackingUrl}\n\nIf the tracking page does not fill the number automatically, enter the tracking ID above on the courier's official tracking page.`,
     html: emailLayout({ preheader: `Your order ${number} is on its way. Tracking ID: ${trackingNumber}`, title: 'Your order is on its way', greeting: escapeHtml(order.customer_name || 'Customer'), content }),
   });

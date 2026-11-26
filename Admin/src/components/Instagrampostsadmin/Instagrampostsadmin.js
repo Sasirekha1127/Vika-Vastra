@@ -13,7 +13,7 @@ export default function InstagramPosts({ showToast }) {
   const [formData, setFormData] = useState({
     label: '',
     tag: '',
-   
+
     postUrl: '',
     sortOrder: 1,
     status: 'Active',
@@ -42,12 +42,12 @@ export default function InstagramPosts({ showToast }) {
   const handleEditClick = (post) => {
     setEditingId(post.id);
     setFormData({
-      label:     post.label     || '',
-      tag:       post.tag       || '',
-   
-      postUrl:   post.postUrl   || '',
+      label: post.label || '',
+      tag: post.tag || '',
+
+      postUrl: post.postUrl || '',
       sortOrder: post.sortOrder || 1,
-      status:    post.status    || 'Active',
+      status: post.status || 'Active',
     });
     setImageFile(null);
     setPreviewUrl(post.image ? `${API}/${post.image}` : null);
@@ -88,12 +88,12 @@ export default function InstagramPosts({ showToast }) {
     }
 
     const data = new FormData();
-    data.append('label',     formData.label);
-    data.append('tag',       formData.tag);
+    data.append('label', formData.label);
+    data.append('tag', formData.tag);
 
-    data.append('postUrl',   formData.postUrl);
+    data.append('postUrl', formData.postUrl);
     data.append('sortOrder', formData.sortOrder);
-    data.append('status',    formData.status);
+    data.append('status', formData.status);
     if (imageFile) data.append('image', imageFile);
 
     const method = editingId ? 'PUT' : 'POST';
@@ -173,7 +173,7 @@ export default function InstagramPosts({ showToast }) {
                 <input
                   className="km-input"
                   type="text"
-                  placeholder="e.g. Summer Collection"
+                  placeholder="e.g. Summer Best collection"
                   required
                   value={formData.label}
                   onChange={e => setFormData({ ...formData, label: e.target.value })}
@@ -192,7 +192,7 @@ export default function InstagramPosts({ showToast }) {
                 />
               </div>
 
-            
+
 
               <div className="km-field">
                 <label className="km-label">Sort Order <span style={{ color: '#ef4444' }}>*</span></label>
@@ -274,7 +274,7 @@ export default function InstagramPosts({ showToast }) {
         <p className="km-loading">Loading Instagram posts...</p>
       ) : (
         <DataTable
-          columns={['ID', 'Image', 'Label', 'Tag',  'Sort', 'Status', 'Actions']}
+          columns={['ID', 'Image', 'Label', 'Tag', 'Sort', 'Status', 'Actions']}
           initialRows={rows}
           renderRow={(row, i) => (
             <tr key={row.id}>
@@ -283,12 +283,12 @@ export default function InstagramPosts({ showToast }) {
                 <div className="img-thumb">
                   {row.image
                     ? <img
-                        src={`${API}/${row.image}`}
-                        alt={row.label}
-                        width="48"
-                        height="48"
-                        style={{ objectFit: 'cover', borderRadius: 4 }}
-                      />
+                      src={`${API}/${row.image}`}
+                      alt={row.label}
+                      width="48"
+                      height="48"
+                      style={{ objectFit: 'cover', borderRadius: 4 }}
+                    />
                     : '📷'}
                 </div>
               </td>
@@ -298,7 +298,7 @@ export default function InstagramPosts({ showToast }) {
                   ? <span style={{ background: '#f0f0ff', color: '#5c5cf5', padding: '2px 8px', borderRadius: 4, fontSize: 12 }}>{row.tag}</span>
                   : '—'}
               </td>
-             
+
               <td>{row.sortOrder ?? '—'}</td>
               <td>
                 <span className={`status-pill ${pillClass[row.status] || 'pill-active'}`}>
