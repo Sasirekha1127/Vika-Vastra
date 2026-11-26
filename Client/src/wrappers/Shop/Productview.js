@@ -11,14 +11,15 @@ import ProductImageViewer from "./ProductImageViewer";
 import { ProductCard } from "./ShopGridStandard";
 
 // ── BRAND COLORS ──────────────────────────────────────────────────────────────
-const CART_BG       = "linear-gradient(135deg, #C59B27 0%, #E5C365 55%, #CFA23A 100%)";
-const CART_BG_HOVER = "linear-gradient(135deg, #B88E20 0%, #DFBA58 52%, #C49727 100%)";
+const PLUM_PRIMARY = "#3f063e";
+const CART_BG = "linear-gradient(135deg, #5a0b53 0%, #3f063e 60%, #34052f 100%)";
+const CART_BG_HOVER = "linear-gradient(135deg, #6c1264 0%, #4e094c 60%, #3f063e 100%)";
 const CART_BG_ADDED = "#2E7D32";
-const DARK          = "#720E1E";
-const GOLD          = "#C59B27";
-const BUY_NOW_BG    = "linear-gradient(135deg, #C59B27 0%, #E5C365 55%, #CFA23A 100%)";
+const DARK = "#720E1E";
+const GOLD = "#C59B27";
+const BUY_NOW_BG = "linear-gradient(135deg, #C59B27 0%, #E5C365 55%, #CFA23A 100%)";
 const BUY_NOW_HOVER = "linear-gradient(135deg, #B88E20 0%, #DFBA58 52%, #C49727 100%)";
-const CUR           = { symbol: "Rs. ", rate: 1 };
+const CUR = { symbol: "Rs. ", rate: 1 };
 
 const getLoggedInUser = () => {
   try {
@@ -46,37 +47,37 @@ const normalize = (p) => {
   };
 
   return {
-    id:               String(p.id),
-    name:             p.productName,
-    sku:              p.sku || '',
-    price:            parseFloat(p.mrp || 0),
-    salesPrice:       parseFloat(p.salesPrice ?? 0),
+    id: String(p.id),
+    name: p.productName,
+    sku: p.sku || '',
+    price: parseFloat(p.mrp || 0),
+    salesPrice: parseFloat(p.salesPrice ?? 0),
     discount:
       p.mrp && p.salesPrice && parseFloat(p.mrp) > parseFloat(p.salesPrice)
         ? Math.round(((parseFloat(p.mrp) - parseFloat(p.salesPrice)) / parseFloat(p.mrp)) * 100)
         : 0,
-    rating:    Number(p.rating) || 0,
-    stock:     Number(p.stock || 0),
-    image:     p.image ? getImageUrl(p.image) : null,
-    images:    p.Images?.map((img) => getImageUrl(img.url || img)) || [],
+    rating: Number(p.rating) || 0,
+    stock: Number(p.stock || 0),
+    image: p.image ? getImageUrl(p.image) : null,
+    images: p.Images?.map((img) => getImageUrl(img.url || img)) || [],
     shortDescription: p.shortDescription || "",
-    longDescription:  p.longDescription  || "",
-    brand:       p.Brand?.brandName     || p.brand       || "",
-    category:    p.Category?.name       || p.category    || "",
-    categoryId:  p.Category?.id         || p.categoryId  || null,
-    subCategory: p.SubCategory?.name    || p.subCategory || "",
-    subCategoryId:p.SubCategory?.id     || p.subCategoryId || null,
+    longDescription: p.longDescription || "",
+    brand: p.Brand?.brandName || p.brand || "",
+    category: p.Category?.name || p.category || "",
+    categoryId: p.Category?.id || p.categoryId || null,
+    subCategory: p.SubCategory?.name || p.subCategory || "",
+    subCategoryId: p.SubCategory?.id || p.subCategoryId || null,
     isNewArrival: p.isNewArrival,
-    isHotDeal:    p.isHotDeal,
-    colors:       parseJsonFallback(p.colors),
-    sizes:        parseJsonFallback(p.sizes),
-    fabrics:      parseJsonFallback(p.fabrics),
-    weights:      parseJsonFallback(p.weights),
-    volumes:      parseJsonFallback(p.volumes),
-    nos:          parseJsonFallback(p.nos),
-    ages:         parseJsonFallback(p.ages),
-    metres:       parseJsonFallback(p.metres),
-    variants:      Array.isArray(p.Variants) ? p.Variants.filter(variant => variant.isActive !== false).sort((a, b) => a.id - b.id).map(variant => ({ ...variant, image: variant.image ? getImageUrl(variant.image) : null })) : [],
+    isHotDeal: p.isHotDeal,
+    colors: parseJsonFallback(p.colors),
+    sizes: parseJsonFallback(p.sizes),
+    fabrics: parseJsonFallback(p.fabrics),
+    weights: parseJsonFallback(p.weights),
+    volumes: parseJsonFallback(p.volumes),
+    nos: parseJsonFallback(p.nos),
+    ages: parseJsonFallback(p.ages),
+    metres: parseJsonFallback(p.metres),
+    variants: Array.isArray(p.Variants) ? p.Variants.filter(variant => variant.isActive !== false).sort((a, b) => a.id - b.id).map(variant => ({ ...variant, image: variant.image ? getImageUrl(variant.image) : null })) : [],
     hasVariantRecords: Array.isArray(p.Variants) && p.Variants.length > 0,
     variantOptions: (() => {
       const activeVariants = Array.isArray(p.Variants) ? p.Variants.filter(variant => variant.isActive !== false) : [];
@@ -90,7 +91,7 @@ const normalize = (p) => {
         if (!group.values.some(item => String(item).toLowerCase() === String(value).toLowerCase())) group.values.push(String(value));
       };
       activeVariants.forEach(variant => Object.entries(variant.attributes || {}).forEach(([name, value]) => addValue(name, value)));
-      [[ 'Color', p.colors ], [ 'Size', p.sizes ], [ 'Age', p.ages ], [ 'Metre', p.metres ], [ 'Fabric', p.fabrics ], [ 'Weight', p.weights ], [ 'Volume', p.volumes ], [ 'Number of Pieces', p.nos ]].forEach(([name, values]) => parseJsonFallback(values).forEach(value => addValue(name, value)));
+      [['Color', p.colors], ['Size', p.sizes], ['Age', p.ages], ['Metre', p.metres], ['Fabric', p.fabrics], ['Weight', p.weights], ['Volume', p.volumes], ['Number of Pieces', p.nos]].forEach(([name, values]) => parseJsonFallback(values).forEach(value => addValue(name, value)));
       return [...groups.values()];
     })(),
   };
@@ -99,8 +100,8 @@ const normalize = (p) => {
 const Breadcrumb = ({ category, name }) => {
   const navigate = useNavigate();
   const crumbs = [
-    { label: "Home",  path: "/" },
-    { label: "Shop",  path: "/shop" },
+    { label: "Home", path: "/" },
+    { label: "Shop", path: "/shop" },
     category ? { label: category, path: `/shop?category=${encodeURIComponent(category)}` } : null,
     { label: name, path: null },
   ].filter(Boolean);
@@ -142,7 +143,7 @@ const ImageSelector = ({ gallery, originalImage, activeImage, onSelect }) => {
     >
       {gallery.map((src, i) => {
         const isOriginal = src === originalImage;
-        const isActive   = src === activeImage;
+        const isActive = src === activeImage;
         return (
           <div
             key={i}
@@ -183,7 +184,7 @@ const ImageSelector = ({ gallery, originalImage, activeImage, onSelect }) => {
                 boxShadow: "0 1px 4px rgba(0,0,0,0.25)",
               }}>
                 <svg width="9" height="7" viewBox="0 0 10 8" fill="none">
-                  <path d="M1 4L3.8 7L9 1" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M1 4L3.8 7L9 1" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </div>
             )}
@@ -254,8 +255,8 @@ const AttributesSelector = ({ product, selections, onSelect, isDisabled }) => {
         <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
           {list.map((val) => {
             const isSelected = selections[attrName] === String(val);
-            const disabled   = isDisabled(attrName, val);
-            const isHovered  = hoveredVal === `${attrName}_${val}`;
+            const disabled = isDisabled(attrName, val);
+            const isHovered = hoveredVal === `${attrName}_${val}`;
 
             return (
               <button
@@ -281,29 +282,29 @@ const AttributesSelector = ({ product, selections, onSelect, isDisabled }) => {
                   border: isSelected
                     ? `1.5px solid ${DARK}`
                     : disabled
-                    ? "1.5px dashed #e2dad5"
-                    : isHovered
-                    ? `1.5px solid ${GOLD}`
-                    : "1.5px solid #E7DFD2",
+                      ? "1.5px dashed #e2dad5"
+                      : isHovered
+                        ? `1.5px solid ${GOLD}`
+                        : "1.5px solid #E7DFD2",
                   background: isSelected
                     ? `linear-gradient(135deg, ${DARK} 0%, #8E1628 100%)`
                     : disabled
-                    ? "#FAF8F5"
-                    : isHovered
-                    ? "#FFFDF9"
-                    : "#FFFFFF",
+                      ? "#FAF8F5"
+                      : isHovered
+                        ? "#FFFDF9"
+                        : "#FFFFFF",
                   color: isSelected ? "#FFFFFF" : disabled ? "#bbb" : "#380710",
                   opacity: disabled ? 0.55 : 1,
                   boxShadow: isSelected
                     ? "0 4px 14px rgba(114, 14, 30, 0.28)"
                     : isHovered
-                    ? "0 3px 10px rgba(197, 155, 39, 0.2)"
-                    : "0 1px 3px rgba(0, 0, 0, 0.04)",
+                      ? "0 3px 10px rgba(197, 155, 39, 0.2)"
+                      : "0 1px 3px rgba(0, 0, 0, 0.04)",
                   transform: isSelected
                     ? "translateY(-1px) scale(1.02)"
                     : isHovered
-                    ? "translateY(-1px)"
-                    : "none",
+                      ? "translateY(-1px)"
+                      : "none",
                   transition: "all 0.22s cubic-bezier(0.4, 0, 0.2, 1)",
                   outline: "none",
                 }}
@@ -341,17 +342,17 @@ const StarPicker = ({ value, onChange }) => (
 );
 
 const DescriptionAndReviews = ({ product, onReviewSummary }) => {
-  const [tab,      setTab]      = useState("description");
-  const [reviews,  setReviews]  = useState([]);
+  const [tab, setTab] = useState("description");
+  const [reviews, setReviews] = useState([]);
   const [loadingR, setLoadingR] = useState(true);
-  const [submitting,  setSubmitting]  = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
   const [submitSuccess, setSubmitSuccess] = useState(false);
-  const [name,    setName]    = useState("");
-  const [email,   setEmail]   = useState("");
-  const [rating,  setRating]  = useState(5);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [rating, setRating] = useState(5);
   const [comment, setComment] = useState("");
-  const [canReviewState,           setCanReviewState]           = useState(false);
+  const [canReviewState, setCanReviewState] = useState(false);
   const [reviewEligibilityMessage, setReviewEligibilityMessage] = useState("");
   const [reviewEligibilityLoading, setReviewEligibilityLoading] = useState(true);
   const [alreadyReviewed, setAlreadyReviewed] = useState(false);
@@ -435,12 +436,12 @@ const DescriptionAndReviews = ({ product, onReviewSummary }) => {
     try {
       await addReview({
         customerId: user.id,
-        productId:  Number(product.id),
+        productId: Number(product.id),
         rating,
-        feedback:   comment.trim(),
-        comment:    comment.trim(),
-        name:       name.trim(),
-        email:      email.trim(),
+        feedback: comment.trim(),
+        comment: comment.trim(),
+        name: name.trim(),
+        email: email.trim(),
       });
       setSubmitSuccess(true);
       setCanReviewState(false);
@@ -518,8 +519,8 @@ const DescriptionAndReviews = ({ product, onReviewSummary }) => {
       onClick={() => setTab(key)}
       style={{
         padding: "10px 24px", fontSize: 14, fontWeight: 600, border: "none",
-        borderBottom: tab === key ? `2px solid ${CART_BG}` : "2px solid transparent",
-        background: "none", color: tab === key ? CART_BG : "#888",
+        borderBottom: tab === key ? `2px solid ${PLUM_PRIMARY}` : "2px solid transparent",
+        background: "none", color: tab === key ? PLUM_PRIMARY : "#888",
         cursor: "pointer", marginBottom: -1, transition: "color .2s",
       }}
     >
@@ -683,32 +684,32 @@ const DescriptionAndReviews = ({ product, onReviewSummary }) => {
 };
 
 const ProductView = ({ shop }) => {
-  const { id }   = useParams();
+  const { id } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
 
   const [reviewSummary, setReviewSummary] = useState(null);
-  const [product,        setProduct]        = useState(null);
+  const [product, setProduct] = useState(null);
   const [relatedProducts, setRelatedProducts] = useState([]);
-  const [loading,        setLoading]        = useState(true);
-  const [error,          setError]          = useState(false);
-  const [activeImage,    setActiveImage]    = useState(null);
-  const [originalImage,  setOriginalImage]  = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+  const [activeImage, setActiveImage] = useState(null);
+  const [originalImage, setOriginalImage] = useState(null);
   const [isMainImageHovered, setIsMainImageHovered] = useState(false);
-  const [isZoomOpen,     setIsZoomOpen]     = useState(false);
-  const [qty,            setQty]            = useState(1);
+  const [isZoomOpen, setIsZoomOpen] = useState(false);
+  const [qty, setQty] = useState(1);
   const [cartBtnHovered, setCartBtnHovered] = useState(false);
-  const [buyNowHovered,  setBuyNowHovered]  = useState(false);
-  const [addedFeedback,  setAddedFeedback]  = useState(false);
+  const [buyNowHovered, setBuyNowHovered] = useState(false);
+  const [addedFeedback, setAddedFeedback] = useState(false);
 
-  const [selectedColor,  setSelectedColor]  = useState("");
-  const [selectedSize,   setSelectedSize]   = useState("");
+  const [selectedColor, setSelectedColor] = useState("");
+  const [selectedSize, setSelectedSize] = useState("");
   const [selectedFabric, setSelectedFabric] = useState("");
   const [selectedWeight, setSelectedWeight] = useState("");
   const [selectedVolume, setSelectedVolume] = useState("");
-  const [selectedNos,    setSelectedNos]    = useState("");
-  const [selectedAge,    setSelectedAge]    = useState("");
-  const [selectedMetre,  setSelectedMetre]  = useState("");
+  const [selectedNos, setSelectedNos] = useState("");
+  const [selectedAge, setSelectedAge] = useState("");
+  const [selectedMetre, setSelectedMetre] = useState("");
   const [selectedVariant, setSelectedVariant] = useState(null);
   const [selectedCustomOptions, setSelectedCustomOptions] = useState({});
 
@@ -728,8 +729,8 @@ const ProductView = ({ shop }) => {
     const load = async () => {
       setLoading(true); setError(false);
       try {
-        const res  = await getProductById(id);
-        const raw  = res.data;
+        const res = await getProductById(id);
+        const raw = res.data;
         if (!raw) { setError(true); setLoading(false); return; }
         const normalized = normalize(raw);
         setProduct(normalized);
@@ -769,7 +770,7 @@ const ProductView = ({ shop }) => {
           }
         }
         const galleryList = Array.from(new Set([normalized.image, ...(normalized.images || [])].filter(Boolean)));
-        const firstImage  = normalized.variants[0]?.image || galleryList[0] || null;
+        const firstImage = normalized.variants[0]?.image || galleryList[0] || null;
         setActiveImage(firstImage);
         setOriginalImage(firstImage);
       } catch (err) {
@@ -840,7 +841,7 @@ const ProductView = ({ shop }) => {
     return (
       <LayoutOne shop={shop} headerTop="visible">
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", minHeight: "60vh", color: "#bbb" }}>
-          <div style={{ width: 48, height: 48, border: `4px solid #f0e0f0`, borderTop: `4px solid ${CART_BG}`, borderRadius: "50%", animation: "spin 0.8s linear infinite", marginBottom: 16 }} />
+          <div style={{ width: 48, height: 48, border: `4px solid #f0e0f0`, borderTop: `4px solid ${PLUM_PRIMARY}`, borderRadius: "50%", animation: "spin 0.8s linear infinite", marginBottom: 16 }} />
           <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
           <p style={{ fontSize: 14 }}>Loading product…</p>
         </div>
@@ -868,7 +869,7 @@ const ProductView = ({ shop }) => {
   };
 
   const variantOptions = product.variantOptions || [];
-  const normalizeOptionValue = value => String(value ?? '' ).trim().toLowerCase();
+  const normalizeOptionValue = value => String(value ?? '').trim().toLowerCase();
   const selectedVariantRecord = product.variants.find(variant => Object.entries(variant.attributes || {}).filter(([name]) => name.toLowerCase() !== 'default').every(([name, value]) => normalizeOptionValue(currentSelection[name.toLowerCase()]) === normalizeOptionValue(value))) || null;
   const effectiveVariant = selectedVariantRecord || selectedVariant;
   const variantNeedsSelection = product.hasVariantRecords && variantOptions.some(group => group.values.length > 1 && !currentSelection[group.key]);
@@ -889,14 +890,14 @@ const ProductView = ({ shop }) => {
       if (match) applyVariant(match);
       return;
     }
-    if (attrName === "color")  setSelectedColor(val);
-    if (attrName === "size")   setSelectedSize(val);
+    if (attrName === "color") setSelectedColor(val);
+    if (attrName === "size") setSelectedSize(val);
     if (attrName === "fabric") setSelectedFabric(val);
     if (attrName === "weight") setSelectedWeight(val);
     if (attrName === "volume") setSelectedVolume(val);
-    if (attrName === "nos")    setSelectedNos(val);
-    if (attrName === "age")    setSelectedAge(val);
-    if (attrName === "metre")  setSelectedMetre(val);
+    if (attrName === "nos") setSelectedNos(val);
+    if (attrName === "age") setSelectedAge(val);
+    if (attrName === "metre") setSelectedMetre(val);
     if (!['color', 'size', 'fabric', 'weight', 'volume', 'nos', 'age', 'metre'].includes(attrName)) {
       setSelectedCustomOptions(current => ({ ...current, [attrName]: val }));
     }
@@ -915,13 +916,15 @@ const ProductView = ({ shop }) => {
     if (variantNeedsSelection || (product.hasVariantRecords && !effectiveVariant)) return;
     if (outOfStock) return;
     if (!isLoggedIn()) { onNotLoggedIn?.("cart", { ...product, selectedVariant: effectiveVariant, quantity: qty }); return; }
-    const item = normalizeCartProduct({ ...product, ...(effectiveVariant ? {
-      selectedVariant: effectiveVariant,
-      image: effectiveVariant.image || product.image,
-      salesPrice: effectiveVariant.salesPrice ?? product.salesPrice,
-      stock: effectiveVariant.stock,
-      weight: Object.entries(effectiveVariant.attributes || {}).map(([key, value]) => `${key}: ${value}`).join(', '),
-    } : {}), quantity: qty });
+    const item = normalizeCartProduct({
+      ...product, ...(effectiveVariant ? {
+        selectedVariant: effectiveVariant,
+        image: effectiveVariant.image || product.image,
+        salesPrice: effectiveVariant.salesPrice ?? product.salesPrice,
+        stock: effectiveVariant.stock,
+        weight: Object.entries(effectiveVariant.attributes || {}).map(([key, value]) => `${key}: ${value}`).join(', '),
+      } : {}), quantity: qty
+    });
     navigate("/checkout", { state: { buyNowItem: item } });
   };
 
@@ -938,7 +941,7 @@ const ProductView = ({ shop }) => {
   const handleWhatsAppShare = () => {
     const productCode = effectiveVariant?.sku || product.sku;
     const shareText = [
-      `Check out this ${product.name} on Vika Vasthra.`,
+      `Check out this ${product.name} on Vika Vastra.`,
       `Product code (SKU): ${productCode || "Not available"}`,
       `Product link: ${window.location.href}`,
     ].filter(Boolean).join("\n");
@@ -960,18 +963,18 @@ const ProductView = ({ shop }) => {
     if (imageUrl) window.open(imageUrl, "_blank", "noopener,noreferrer");
   };
 
-  const productMrp      = parseFloat(product.price || product.mrp || 0);
-  const productSales    = parseFloat(product.salesPrice || product.price || product.mrp || 0);
+  const productMrp = parseFloat(product.price || product.mrp || 0);
+  const productSales = parseFloat(product.salesPrice || product.price || product.mrp || 0);
   const currentStock = effectiveVariant ? Number(effectiveVariant.stock || 0) : product.stock;
   const displayedMrp = effectiveVariant?.mrp != null ? Number(effectiveVariant.mrp) : productMrp;
   const displayedSales = effectiveVariant?.salesPrice != null ? Number(effectiveVariant.salesPrice) : productSales;
   const displayedDiscount = displayedMrp > displayedSales ? Math.round(((displayedMrp - displayedSales) / displayedMrp) * 100) : 0;
   const finalMrp = (displayedMrp * CUR.rate).toFixed(2);
   const finalSales = displayedDiscount > 0 ? (displayedSales * CUR.rate).toFixed(2) : null;
-  const outOfStock   = currentStock === 0 || (product.hasVariantRecords && product.variants.length === 0);
-  const inCart     = cartItems.some((c) => String(c.productId ?? c.id) === product.id && String(c.variantId || '') === String(effectiveVariant?.id || ''));
+  const outOfStock = currentStock === 0 || (product.hasVariantRecords && product.variants.length === 0);
+  const inCart = cartItems.some((c) => String(c.productId ?? c.id) === product.id && String(c.variantId || '') === String(effectiveVariant?.id || ''));
   const inWishlist = wishlistItems.some((w) => String(w.productId ?? w.id) === String(product.id) && String(w.variantId || '') === String(effectiveVariant?.id || ''));
-  const cartBg   = (inCart || addedFeedback) ? CART_BG_ADDED : cartBtnHovered ? CART_BG_HOVER : CART_BG;
+  const cartBg = (inCart || addedFeedback) ? CART_BG_ADDED : cartBtnHovered ? CART_BG_HOVER : CART_BG;
   const buyNowBg = buyNowHovered ? BUY_NOW_HOVER : BUY_NOW_BG;
 
   return (
@@ -990,249 +993,249 @@ const ProductView = ({ shop }) => {
 
               <div style={{ width: 420, maxWidth: "100%", flexShrink: 0 }}>
                 {/* Signature Arch Card Frame */}
-              <div
-                onMouseEnter={() => setIsMainImageHovered(true)}
-                onMouseLeave={() => setIsMainImageHovered(false)}
-                style={{
-                  padding: 6,
-                  border: `1.5px solid ${isMainImageHovered ? DARK : GOLD}`,
-                  borderRadius: "999px 999px 0 0",
-                  transition: "border-color .25s ease, box-shadow .25s ease",
-                  boxShadow: isMainImageHovered ? "0 10px 32px rgba(114, 14, 30, 0.14)" : "0 6px 28px rgba(0,0,0,0.08)",
-                  background: "#fff",
-                }}
-              >
-                {/* Arch Inner Container */}
                 <div
-                  onClick={() => setIsZoomOpen(true)}
+                  onMouseEnter={() => setIsMainImageHovered(true)}
+                  onMouseLeave={() => setIsMainImageHovered(false)}
                   style={{
-                    background: "#efe6e2",
+                    padding: 6,
+                    border: `1.5px solid ${isMainImageHovered ? DARK : GOLD}`,
                     borderRadius: "999px 999px 0 0",
-                    overflow: "hidden",
-                    position: "relative",
-                    aspectRatio: "3/4",
-                    width: "100%",
-                    cursor: "zoom-in",
+                    transition: "border-color .25s ease, box-shadow .25s ease",
+                    boxShadow: isMainImageHovered ? "0 10px 32px rgba(114, 14, 30, 0.14)" : "0 6px 28px rgba(0,0,0,0.08)",
+                    background: "#fff",
                   }}
                 >
-                  {activeImage ? (
-                    <img
-                      key={activeImage}
-                      src={activeImage}
-                      alt={product.name}
-                      style={{
-                        position: "absolute",
-                        inset: 0,
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover",
-                        display: "block",
-                        transform: isMainImageHovered ? "scale(1.05)" : "scale(1)",
-                        transition: "transform 0.5s ease",
-                        animation: "fadeInImage 0.4s ease-in-out"
-                      }}
-                    />
-                  ) : (
-                    <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", color: "#ddd", fontSize: 56 }}>🖼️</div>
-                  )}
-
-                  {/* Expand / Zoom Icon Button */}
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setIsZoomOpen(true);
-                    }}
-                    title="View larger image"
-                    aria-label="View larger image"
+                  {/* Arch Inner Container */}
+                  <div
+                    onClick={() => setIsZoomOpen(true)}
                     style={{
-                      position: "absolute",
-                      top: "14%",
-                      right: "7%",
-                      width: 38,
-                      height: 38,
-                      borderRadius: "50%",
-                      background: "rgba(255, 255, 255, 0.94)",
-                      backdropFilter: "blur(6px)",
-                      WebkitBackdropFilter: "blur(6px)",
-                      border: `1.5px solid ${GOLD}`,
-                      boxShadow: "0 2px 10px rgba(0, 0, 0, 0.14)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      cursor: "pointer",
-                      zIndex: 4,
-                      color: DARK,
-                      transition: "all 0.2s ease"
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.background = "#ffffff";
-                      e.currentTarget.style.transform = "scale(1.08)";
-                      e.currentTarget.style.borderColor = DARK;
-                      e.currentTarget.style.boxShadow = "0 4px 14px rgba(0,0,0,0.2)";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.background = "rgba(255, 255, 255, 0.94)";
-                      e.currentTarget.style.transform = "scale(1)";
-                      e.currentTarget.style.borderColor = GOLD;
-                      e.currentTarget.style.boxShadow = "0 2px 10px rgba(0, 0, 0, 0.14)";
+                      background: "#efe6e2",
+                      borderRadius: "999px 999px 0 0",
+                      overflow: "hidden",
+                      position: "relative",
+                      aspectRatio: "3/4",
+                      width: "100%",
+                      cursor: "zoom-in",
                     }}
                   >
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                      <polyline points="15 3 21 3 21 9" />
-                      <polyline points="9 21 3 21 3 15" />
-                      <line x1="21" y1="3" x2="14" y2="10" />
-                      <line x1="3" y1="21" x2="10" y2="14" />
-                    </svg>
-                  </button>
+                    {activeImage ? (
+                      <img
+                        key={activeImage}
+                        src={activeImage}
+                        alt={product.name}
+                        style={{
+                          position: "absolute",
+                          inset: 0,
+                          width: "100%",
+                          height: "100%",
+                          objectFit: "cover",
+                          display: "block",
+                          transform: isMainImageHovered ? "scale(1.05)" : "scale(1)",
+                          transition: "transform 0.5s ease",
+                          animation: "fadeInImage 0.4s ease-in-out"
+                        }}
+                      />
+                    ) : (
+                      <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", color: "#ddd", fontSize: 56 }}>🖼️</div>
+                    )}
 
-                  {/* Ribbon Badges (bottom left) */}
-                  <div style={{ position: "absolute", left: 0, bottom: 14, display: "flex", flexDirection: "column", gap: 6, zIndex: 2 }}>
-                    {displayedDiscount > 0 && (
-                      <span
-                        style={{
-                          background: DARK,
-                          color: "#fff",
-                          fontSize: 12,
-                          fontWeight: 700,
-                          padding: "5px 14px 5px 10px",
-                          borderRadius: "0 999px 999px 0",
-                          boxShadow: "0 2px 8px rgba(0,0,0,0.18)",
-                          letterSpacing: "0.02em",
-                        }}
-                      >
-                        {displayedDiscount}% OFF
-                      </span>
-                    )}
-                    {product.isHotDeal && (
-                      <span
-                        style={{
-                          background: "#e74c3c",
-                          color: "#fff",
-                          fontSize: 11,
-                          fontWeight: 700,
-                          padding: "4px 12px 4px 10px",
-                          borderRadius: "0 999px 999px 0",
-                          boxShadow: "0 2px 8px rgba(0,0,0,0.18)",
-                        }}
-                      >
-                        🔥 HOT
-                      </span>
-                    )}
-                    {outOfStock && (
-                      <span
-                        style={{
-                          background: "#555",
-                          color: "#fff",
-                          fontSize: 11,
-                          fontWeight: 700,
-                          padding: "4px 12px 4px 10px",
-                          borderRadius: "0 999px 999px 0",
-                          boxShadow: "0 2px 8px rgba(0,0,0,0.18)",
-                        }}
-                      >
-                        OUT OF STOCK
-                      </span>
+                    {/* Expand / Zoom Icon Button */}
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setIsZoomOpen(true);
+                      }}
+                      title="View larger image"
+                      aria-label="View larger image"
+                      style={{
+                        position: "absolute",
+                        top: "14%",
+                        right: "7%",
+                        width: 38,
+                        height: 38,
+                        borderRadius: "50%",
+                        background: "rgba(255, 255, 255, 0.94)",
+                        backdropFilter: "blur(6px)",
+                        WebkitBackdropFilter: "blur(6px)",
+                        border: `1.5px solid ${GOLD}`,
+                        boxShadow: "0 2px 10px rgba(0, 0, 0, 0.14)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        cursor: "pointer",
+                        zIndex: 4,
+                        color: DARK,
+                        transition: "all 0.2s ease"
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.background = "#ffffff";
+                        e.currentTarget.style.transform = "scale(1.08)";
+                        e.currentTarget.style.borderColor = DARK;
+                        e.currentTarget.style.boxShadow = "0 4px 14px rgba(0,0,0,0.2)";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.background = "rgba(255, 255, 255, 0.94)";
+                        e.currentTarget.style.transform = "scale(1)";
+                        e.currentTarget.style.borderColor = GOLD;
+                        e.currentTarget.style.boxShadow = "0 2px 10px rgba(0, 0, 0, 0.14)";
+                      }}
+                    >
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="15 3 21 3 21 9" />
+                        <polyline points="9 21 3 21 3 15" />
+                        <line x1="21" y1="3" x2="14" y2="10" />
+                        <line x1="3" y1="21" x2="10" y2="14" />
+                      </svg>
+                    </button>
+
+                    {/* Ribbon Badges (bottom left) */}
+                    <div style={{ position: "absolute", left: 0, bottom: 14, display: "flex", flexDirection: "column", gap: 6, zIndex: 2 }}>
+                      {displayedDiscount > 0 && (
+                        <span
+                          style={{
+                            background: DARK,
+                            color: "#fff",
+                            fontSize: 12,
+                            fontWeight: 700,
+                            padding: "5px 14px 5px 10px",
+                            borderRadius: "0 999px 999px 0",
+                            boxShadow: "0 2px 8px rgba(0,0,0,0.18)",
+                            letterSpacing: "0.02em",
+                          }}
+                        >
+                          {displayedDiscount}% OFF
+                        </span>
+                      )}
+                      {product.isHotDeal && (
+                        <span
+                          style={{
+                            background: "#e74c3c",
+                            color: "#fff",
+                            fontSize: 11,
+                            fontWeight: 700,
+                            padding: "4px 12px 4px 10px",
+                            borderRadius: "0 999px 999px 0",
+                            boxShadow: "0 2px 8px rgba(0,0,0,0.18)",
+                          }}
+                        >
+                          🔥 HOT
+                        </span>
+                      )}
+                      {outOfStock && (
+                        <span
+                          style={{
+                            background: "#555",
+                            color: "#fff",
+                            fontSize: 11,
+                            fontWeight: 700,
+                            padding: "4px 12px 4px 10px",
+                            borderRadius: "0 999px 999px 0",
+                            boxShadow: "0 2px 8px rgba(0,0,0,0.18)",
+                          }}
+                        >
+                          OUT OF STOCK
+                        </span>
+                      )}
+                    </div>
+
+                    {gallery.length > 1 && (
+                      <>
+                        <button
+                          onClick={handlePrevImage}
+                          aria-label="Previous image"
+                          style={{
+                            position: "absolute",
+                            top: "52%",
+                            left: 10,
+                            transform: "translateY(-50%)",
+                            width: 36,
+                            height: 36,
+                            borderRadius: "50%",
+                            background: "rgba(255, 255, 255, 0.9)",
+                            border: "1px solid rgba(197, 155, 39, 0.35)",
+                            color: DARK,
+                            fontSize: 20,
+                            fontWeight: "bold",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            cursor: "pointer",
+                            boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
+                            opacity: isMainImageHovered ? 1 : 0,
+                            transition: "opacity 0.25s ease, background 0.2s ease, transform 0.2s ease",
+                            zIndex: 3,
+                          }}
+                          onMouseEnter={(e) => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.transform = "translateY(-50%) scale(1.1)"; }}
+                          onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(255, 255, 255, 0.9)"; e.currentTarget.style.transform = "translateY(-50%) scale(1)"; }}
+                        >
+                          ‹
+                        </button>
+                        <button
+                          onClick={handleNextImage}
+                          aria-label="Next image"
+                          style={{
+                            position: "absolute",
+                            top: "52%",
+                            right: 10,
+                            transform: "translateY(-50%)",
+                            width: 36,
+                            height: 36,
+                            borderRadius: "50%",
+                            background: "rgba(255, 255, 255, 0.9)",
+                            border: "1px solid rgba(197, 155, 39, 0.35)",
+                            color: DARK,
+                            fontSize: 20,
+                            fontWeight: "bold",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            cursor: "pointer",
+                            boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
+                            opacity: isMainImageHovered ? 1 : 0,
+                            transition: "opacity 0.25s ease, background 0.2s ease, transform 0.2s ease",
+                            zIndex: 3,
+                          }}
+                          onMouseEnter={(e) => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.transform = "translateY(-50%) scale(1.1)"; }}
+                          onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(255, 255, 255, 0.9)"; e.currentTarget.style.transform = "translateY(-50%) scale(1)"; }}
+                        >
+                          ›
+                        </button>
+
+                        <div style={{
+                          position: "absolute",
+                          bottom: 14,
+                          left: "50%",
+                          transform: "translateX(-50%)",
+                          display: "flex",
+                          gap: 6,
+                          background: "rgba(0, 0, 0, 0.38)",
+                          backdropFilter: "blur(4px)",
+                          WebkitBackdropFilter: "blur(4px)",
+                          padding: "5px 10px",
+                          borderRadius: 12,
+                          zIndex: 3
+                        }}>
+                          {gallery.map((img, idx) => (
+                            <div
+                              key={idx}
+                              onClick={(e) => { e.stopPropagation(); setActiveImage(img); }}
+                              style={{
+                                width: img === activeImage ? 16 : 6,
+                                height: 6,
+                                borderRadius: 3,
+                                background: img === activeImage ? "#fff" : "rgba(255, 255, 255, 0.5)",
+                                cursor: "pointer",
+                                transition: "all 0.3s ease"
+                              }}
+                            />
+                          ))}
+                        </div>
+                      </>
                     )}
                   </div>
-
-                  {gallery.length > 1 && (
-                    <>
-                      <button
-                        onClick={handlePrevImage}
-                        aria-label="Previous image"
-                        style={{
-                          position: "absolute",
-                          top: "52%",
-                          left: 10,
-                          transform: "translateY(-50%)",
-                          width: 36,
-                          height: 36,
-                          borderRadius: "50%",
-                          background: "rgba(255, 255, 255, 0.9)",
-                          border: "1px solid rgba(197, 155, 39, 0.35)",
-                          color: DARK,
-                          fontSize: 20,
-                          fontWeight: "bold",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          cursor: "pointer",
-                          boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
-                          opacity: isMainImageHovered ? 1 : 0,
-                          transition: "opacity 0.25s ease, background 0.2s ease, transform 0.2s ease",
-                          zIndex: 3,
-                        }}
-                        onMouseEnter={(e) => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.transform = "translateY(-50%) scale(1.1)"; }}
-                        onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(255, 255, 255, 0.9)"; e.currentTarget.style.transform = "translateY(-50%) scale(1)"; }}
-                      >
-                        ‹
-                      </button>
-                      <button
-                        onClick={handleNextImage}
-                        aria-label="Next image"
-                        style={{
-                          position: "absolute",
-                          top: "52%",
-                          right: 10,
-                          transform: "translateY(-50%)",
-                          width: 36,
-                          height: 36,
-                          borderRadius: "50%",
-                          background: "rgba(255, 255, 255, 0.9)",
-                          border: "1px solid rgba(197, 155, 39, 0.35)",
-                          color: DARK,
-                          fontSize: 20,
-                          fontWeight: "bold",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          cursor: "pointer",
-                          boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
-                          opacity: isMainImageHovered ? 1 : 0,
-                          transition: "opacity 0.25s ease, background 0.2s ease, transform 0.2s ease",
-                          zIndex: 3,
-                        }}
-                        onMouseEnter={(e) => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.transform = "translateY(-50%) scale(1.1)"; }}
-                        onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(255, 255, 255, 0.9)"; e.currentTarget.style.transform = "translateY(-50%) scale(1)"; }}
-                      >
-                        ›
-                      </button>
-
-                      <div style={{
-                        position: "absolute",
-                        bottom: 14,
-                        left: "50%",
-                        transform: "translateX(-50%)",
-                        display: "flex",
-                        gap: 6,
-                        background: "rgba(0, 0, 0, 0.38)",
-                        backdropFilter: "blur(4px)",
-                        WebkitBackdropFilter: "blur(4px)",
-                        padding: "5px 10px",
-                        borderRadius: 12,
-                        zIndex: 3
-                      }}>
-                        {gallery.map((img, idx) => (
-                          <div
-                            key={idx}
-                            onClick={(e) => { e.stopPropagation(); setActiveImage(img); }}
-                            style={{
-                              width: img === activeImage ? 16 : 6,
-                              height: 6,
-                              borderRadius: 3,
-                              background: img === activeImage ? "#fff" : "rgba(255, 255, 255, 0.5)",
-                              cursor: "pointer",
-                              transition: "all 0.3s ease"
-                            }}
-                          />
-                        ))}
-                      </div>
-                    </>
-                  )}
                 </div>
-              </div>
-              <style>{`
+                <style>{`
                 @keyframes fadeInImage {
                   from { opacity: 0.7; }
                   to { opacity: 1; }
@@ -1257,7 +1260,7 @@ const ProductView = ({ shop }) => {
                   }
                 }
               `}</style>
-            </div>
+              </div>
             </div>
 
             <div style={{ flex: 1, minWidth: 280 }}>
@@ -1274,14 +1277,14 @@ const ProductView = ({ shop }) => {
               </div>
 
               <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginBottom: 22, flexWrap: "wrap" }}>
-        {finalSales ? (
+                {finalSales ? (
                   <>
-                    <span style={{ fontSize: 26, fontWeight: 800, color: CART_BG }}>{CUR.symbol}{finalSales}</span>
+                    <span style={{ fontSize: 26, fontWeight: 800, color: PLUM_PRIMARY }}>{CUR.symbol}{finalSales}</span>
                     <span style={{ fontSize: 16, color: "#bbb", textDecoration: "line-through" }}>{CUR.symbol}{finalMrp}</span>
-                    <span style={{ fontSize: 12, background: "#fdf0f8", color: CART_BG, padding: "3px 10px", borderRadius: 20, fontWeight: 700 }}>Save {displayedDiscount}%</span>
+                    <span style={{ fontSize: 12, background: "#fdf0f8", color: PLUM_PRIMARY, padding: "3px 10px", borderRadius: 20, fontWeight: 700 }}>Save {displayedDiscount}%</span>
                   </>
                 ) : (
-                  <span style={{ fontSize: 26, fontWeight: 800, color: CART_BG }}>{CUR.symbol}{finalMrp}</span>
+                  <span style={{ fontSize: 26, fontWeight: 800, color: PLUM_PRIMARY }}>{CUR.symbol}{finalMrp}</span>
                 )}
               </div>
 
@@ -1315,7 +1318,7 @@ const ProductView = ({ shop }) => {
                   onMouseEnter={() => setCartBtnHovered(true)}
                   onMouseLeave={() => setCartBtnHovered(false)}
                   disabled={outOfStock || variantNeedsSelection}
-                  style={{ flex: 1, minWidth: 150, padding: "14px 20px", fontSize: 13, fontWeight: 700, letterSpacing: "0.5px", background: outOfStock ? "#ddd" : cartBg, color: outOfStock ? "#888" : (inCart || addedFeedback) ? "#fff" : "#380710", border: "none", borderRadius: 999, cursor: outOfStock ? "not-allowed" : "pointer", transition: "all 0.25s ease", boxShadow: outOfStock ? "none" : "0 4px 14px rgba(197, 155, 39, 0.35)", textShadow: outOfStock || (inCart || addedFeedback) ? "none" : "0 1px 0 rgba(255, 255, 255, 0.35)" }}
+                  style={{ flex: 1, minWidth: 150, padding: "14px 20px", fontSize: 13, fontWeight: 700, letterSpacing: "0.5px", background: outOfStock ? "#ddd" : cartBg, color: outOfStock ? "#888" : "#fff", border: "none", borderRadius: 999, cursor: outOfStock ? "not-allowed" : "pointer", transition: "all 0.25s ease", boxShadow: outOfStock ? "none" : "0 4px 14px rgba(63, 6, 62, 0.35)", textShadow: "none" }}
                 >
                   {outOfStock ? "Out of Stock" : (inCart || addedFeedback) ? "✓ Added to Cart" : "Add to Cart"}
                 </button>

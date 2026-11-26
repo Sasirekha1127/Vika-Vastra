@@ -641,13 +641,13 @@ export const ProductCard = ({ product, cartItems = [], wishlistItems = [], addTo
               style={{
                 padding: "11px 26px",
                 font: "700 13px 'Figtree', 'Jost', sans-serif",
-                color: outOfStock ? "#8a7a78" : (addedAnim || inCart) ? "#fff" : "#380710",
-                background: outOfStock ? "#eee7e4" : (addedAnim || inCart) ? "#2E7D32" : "linear-gradient(135deg, #C59B27 0%, #E5C365 55%, #CFA23A 100%)",
-                border: `1px solid ${outOfStock ? "#eee7e4" : (addedAnim || inCart) ? "#2E7D32" : "rgba(197, 155, 39, 0.85)"}`,
+                color: outOfStock ? "#8a7a78" : "#fff",
+                background: outOfStock ? "#eee7e4" : (addedAnim || inCart) ? "#2E7D32" : "linear-gradient(135deg, #5a0b53 0%, #3f063e 60%, #34052f 100%)",
+                border: `1px solid ${outOfStock ? "#eee7e4" : (addedAnim || inCart) ? "#2E7D32" : "rgba(63, 6, 62, 0.4)"}`,
                 borderRadius: 999,
                 cursor: outOfStock ? "not-allowed" : "pointer",
-                boxShadow: outOfStock ? "none" : "0 4px 14px rgba(197, 155, 39, 0.32)",
-                textShadow: outOfStock || addedAnim || inCart ? "none" : "0 1px 0 rgba(255, 255, 255, 0.35)",
+                boxShadow: outOfStock ? "none" : "0 4px 14px rgba(63, 6, 62, 0.35)",
+                textShadow: "none",
                 transition: "all .25s ease",
               }}
             >
@@ -863,9 +863,9 @@ export const ProductCard = ({ product, cartItems = [], wishlistItems = [], addTo
                 width: 42,
                 height: 42,
                 borderRadius: "50%",
-                border: `1.5px solid ${addedAnim || inCart ? "#2E7D32" : "#C59B27"}`,
+                border: `1.5px solid ${addedAnim || inCart ? "#2E7D32" : "#3f063e"}`,
                 background: addedAnim || inCart ? "#2E7D32" : "#FFFFFF",
-                color: addedAnim || inCart ? "#FFFFFF" : "#720E1E",
+                color: addedAnim || inCart ? "#FFFFFF" : "#3f063e",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -875,17 +875,17 @@ export const ProductCard = ({ product, cartItems = [], wishlistItems = [], addTo
               }}
               onMouseEnter={(e) => {
                 if (!outOfStock && !addedAnim && !inCart) {
-                  e.currentTarget.style.background = "rgb(197, 155, 39)";
+                  e.currentTarget.style.background = "#3f063e";
                   e.currentTarget.style.color = "#FFFFFF";
-                  e.currentTarget.style.borderColor = "rgb(197, 155, 39)";
+                  e.currentTarget.style.borderColor = "#3f063e";
                   e.currentTarget.style.transform = "scale(1.12)";
                 }
               }}
               onMouseLeave={(e) => {
                 if (!outOfStock && !addedAnim && !inCart) {
                   e.currentTarget.style.background = "#FFFFFF";
-                  e.currentTarget.style.color = "#720E1E";
-                  e.currentTarget.style.borderColor = "#C59B27";
+                  e.currentTarget.style.color = "#3f063e";
+                  e.currentTarget.style.borderColor = "#3f063e";
                   e.currentTarget.style.transform = "scale(1)";
                 }
               }}

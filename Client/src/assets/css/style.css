@@ -26190,43 +26190,43 @@ only screen and (max-width: 767px) {
 }
 
 /* product home 8*/
-.collection-product .collection-img {
+.Best collection-product .Best collection-img {
   overflow: hidden;
 }
 
-.collection-product .collection-img a img {
+.Best collection-product .Best collection-img a img {
   width: 100%;
   transition: all 0.5s ease 0s;
   transform: scale(1);
 }
 
-.collection-product .collection-content {
+.Best collection-product .Best collection-content {
   margin: 23px 0 0;
 }
 
-.collection-product .collection-content span {
+.Best collection-product .Best collection-content span {
   font-weight: 500;
 }
 
-.collection-product .collection-content h4,
-.collection-product .collection-content .h4 {
+.Best collection-product .Best collection-content h4,
+.Best collection-product .Best collection-content .h4 {
   line-height: 1;
   margin: 4px 0 0;
 }
 
-.collection-product .collection-content h4 a,
-.collection-product .collection-content .h4 a {
+.Best collection-product .Best collection-content h4 a,
+.Best collection-product .Best collection-content .h4 a {
   font-size: 16px;
   font-weight: 500;
   color: #000000;
 }
 
-.collection-product .collection-content h4 a:hover,
-.collection-product .collection-content .h4 a:hover {
+.Best collection-product .Best collection-content h4 a:hover,
+.Best collection-product .Best collection-content .h4 a:hover {
   color: #720E1E;
 }
 
-.collection-product .collection-content .collection-btn {
+.Best collection-product .Best collection-content .Best collection-btn {
   font-size: 13px;
   font-weight: 400;
   line-height: 1;
@@ -26242,8 +26242,8 @@ only screen and (max-width: 767px) {
   background-color: transparent;
 }
 
-.collection-product .collection-content .collection-btn:before,
-.collection-product .collection-content .collection-btn:after {
+.Best collection-product .Best collection-content .Best collection-btn:before,
+.Best collection-product .Best collection-content .Best collection-btn:after {
   position: absolute;
   z-index: -1;
   right: 0;
@@ -26255,20 +26255,20 @@ only screen and (max-width: 767px) {
   transition: all 0.5s cubic-bezier(0.645, 0.045, 0.355, 1);
 }
 
-.collection-product .collection-content .collection-btn:hover {
+.Best collection-product .Best collection-content .Best collection-btn:hover {
   color: #ffffff;
   border-color: #720E1E;
   background-color: transparent;
 }
 
-.collection-product .collection-content .collection-btn:hover:after {
+.Best collection-product .Best collection-content .Best collection-btn:hover:after {
   right: auto;
   left: 0;
   width: 100%;
   background-color: #720E1E;
 }
 
-.collection-product:hover a img {
+.Best collection-product:hover a img {
   transform: scale(1.1);
 }
 
@@ -27284,40 +27284,40 @@ only screen and (max-width: 767px) {
 }
 
 /* product home 9*/
-.collection-wrap-2 {
+.Best collection-wrap-2 {
   margin-top: -175px;
 }
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
-  .collection-wrap-2 {
+  .Best collection-wrap-2 {
     margin-top: -97px;
   }
 }
 
 @media only screen and (max-width: 767px) {
-  .collection-wrap-2 {
+  .Best collection-wrap-2 {
     margin-top: -80px;
   }
 }
 
 @media only screen and (min-width: 576px) and (max-width: 767px) {
-  .collection-wrap-2 {
+  .Best collection-wrap-2 {
     margin-top: -70px;
   }
 }
 
-.collection-product-2 {
+.Best collection-product-2 {
   position: relative;
   overflow: hidden;
 }
 
-.collection-product-2 a img {
+.Best collection-product-2 a img {
   width: 100%;
   transition: all 0.5s ease 0s;
   transform: scale(1);
 }
 
-.collection-product-2 .collection-content-2 {
+.Best collection-product-2 .Best collection-content-2 {
   position: absolute;
   right: 0;
   bottom: 30px;
@@ -27325,20 +27325,20 @@ only screen and (max-width: 767px) {
   text-align: center;
 }
 
-.collection-product-2 .collection-content-2 span {
+.Best collection-product-2 .Best collection-content-2 span {
   font-size: 14px;
   font-weight: 500;
 }
 
-.collection-product-2 .collection-content-2 h4,
-.collection-product-2 .collection-content-2 .h4 {
+.Best collection-product-2 .Best collection-content-2 h4,
+.Best collection-product-2 .Best collection-content-2 .h4 {
   font-size: 16px;
   font-weight: 500;
   line-height: 21px;
   margin: 5px 0 0;
 }
 
-.collection-product-2:hover a img {
+.Best collection-product-2:hover a img {
   transform: scale(1.1);
 }
 
@@ -31916,7 +31916,7 @@ button.na-cart,
   padding: 16px 56px;
   color: #fff;
   border: 1px solid transparent;
-  background-color: #000;
+  background-color: #3f063e;
 }
 
 .funfact-content .funfact-btn a:hover,
@@ -31924,7 +31924,7 @@ button.na-cart,
 button.na-cart:hover,
 .add-to-cart:hover,
 .add-to-cart-btn:hover {
-  border: 1px solid #720E1E;
+  border: 1px solid #5a0b53;
 }
 
 .funfact-content .funfact-btn.btn-only-round a {

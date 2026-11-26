@@ -39,8 +39,9 @@ const S = {
     whiteSpace:     "nowrap",
     position:       "relative",
     width:          "100%",
-    background:     "#430B4D",
-    backgroundColor: "#430B4D",
+    background:     "#3f063e",
+    backgroundColor: "#3f063e",
+    backgroundImage: "linear-gradient(90deg, #34052f 0%, #5a0b53 50%, #34052f 100%)",
     color:          "#FFFFFF",
     borderBottom:   "none",
     boxShadow:      "none",
@@ -1266,8 +1267,9 @@ const HeaderOne = ({ shop }) => {
           display: flex;
           overflow: hidden;
           width: 100%;
-          background: #430B4D !important;
-          background-color: #430B4D !important;
+          background: #3f063e !important;
+          background-color: #3f063e !important;
+          background-image: linear-gradient(90deg, #34052f 0%, #5a0b53 50%, #34052f 100%) !important;
           border-bottom: none !important;
           box-shadow: none !important;
         }

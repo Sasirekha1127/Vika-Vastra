@@ -281,7 +281,7 @@ const SareeCarouselSection = ({
     if (cartState === "added") return "#16a34a";
     if (cartState === "error") return "#dc2626";
     if (cartState === "login") return "#d97706";
-    return "linear-gradient(135deg, #C59B27 0%, #E5C365 55%, #CFA23A 100%)";
+    return "linear-gradient(135deg, #5a0b53 0%, #3f063e 60%, #34052f 100%)";
   };
 
   if (loading || products.length === 0) return null;
@@ -447,11 +447,11 @@ const SareeCarouselSection = ({
               style={{
                 ...s.cartBtn,
                 background: hasProductLink(current) ? btnColor() : "#9ca3af",
-                color: hasProductLink(current) && !["added", "error"].includes(cartState) ? "#380710" : "#fff",
+                color: "#fff",
                 opacity: cartState === "loading" ? 0.7 : 1,
                 cursor: cartState === "loading" ? "not-allowed" : "pointer",
                 transition: "all 0.3s ease",
-                boxShadow: hasProductLink(current) ? "0 4px 14px rgba(197, 155, 39, 0.35)" : "none",
+                boxShadow: hasProductLink(current) ? "0 4px 14px rgba(63, 6, 62, 0.35)" : "none",
                 fontSize: isMobile ? 11 : 13,
                 padding: isMobile ? "10px 20px" : "13px 28px",
               }}

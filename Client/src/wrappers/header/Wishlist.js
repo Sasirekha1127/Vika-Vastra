@@ -87,7 +87,7 @@ const KM_BASE = `
   .km-btn-primary:hover { opacity: 0.88; }
   .km-btn-outline { display: inline-flex; align-items: center; gap: 8px; padding: 10px 22px; background: transparent; color: var(--km-gold); border: 1.5px solid var(--km-gold); border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; letter-spacing: 0.04em; font-family: var(--km-font); transition: all .2s; }
   .km-btn-outline:hover { background: var(--km-gold-lt); }
-  .km-btn-orange { display: inline-flex; align-items: center; gap: 6px; padding: 9px 18px; background: var(--km-gold-gr); color: var(--km-white); border: none; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; letter-spacing: 0.04em; font-family: var(--km-font); transition: opacity .2s; white-space: nowrap; }
+  .km-btn-orange { display: inline-flex; align-items: center; gap: 6px; padding: 9px 18px; background: linear-gradient(135deg, #5a0b53 0%, #3f063e 60%, #34052f 100%); color: var(--km-white); border: none; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; letter-spacing: 0.04em; font-family: var(--km-font); transition: opacity .2s; white-space: nowrap; }
   .km-btn-orange:hover  { opacity: 0.88; }
   .km-btn-orange.added  { background: linear-gradient(45deg, #16a34a, #4ade80); }
 

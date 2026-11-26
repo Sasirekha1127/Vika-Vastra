@@ -12,8 +12,9 @@ const GOLD = "#C59B27";
 const INK = "#2a1a1c";
 const MUTED = "#8a7a78";
 const PAPER = "#ffffff";
-const PLUM = "#4f0a4c";
-const PLUM_DARK = "#3a0638";
+const PLUM = "#3f063e";
+const PLUM_DARK = "#34052f";
+const PLUM_MID = "#5a0b53";
 const PEACH_TOP = "#f7e1cf";
 const PEACH_BOTTOM = "#ecc9ae";
 
@@ -365,20 +366,20 @@ export default function NewArrivals({ shop }) {
           padding: 11px 12px;
           font: 600 15px 'Figtree', sans-serif; letter-spacing: 0.01em;
           color: #fff;
-          background: linear-gradient(180deg, #5a0e56 0%, ${PLUM} 50%, ${PLUM_DARK} 100%);
+          background: linear-gradient(180deg, ${PLUM_MID} 0%, ${PLUM} 55%, ${PLUM_DARK} 100%);
           border: none; border-radius: 999px; cursor: pointer;
           box-shadow:
-            0 5px 12px rgba(79, 10, 76, 0.35),
-            0 1px 2px rgba(79, 10, 76, 0.30),
+            0 5px 12px rgba(63, 6, 62, 0.35),
+            0 1px 2px rgba(63, 6, 62, 0.30),
             inset 0 1px 0 rgba(255, 255, 255, 0.14);
           transition: transform .15s ease, box-shadow .2s ease, filter .2s ease;
         }
         .na-cart:hover {
           transform: translateY(-1px);
-          filter: brightness(1.12);
+          filter: brightness(1.15);
           box-shadow:
-            0 8px 16px rgba(79, 10, 76, 0.42),
-            0 2px 4px rgba(79, 10, 76, 0.30),
+            0 8px 16px rgba(63, 6, 62, 0.45),
+            0 2px 4px rgba(63, 6, 62, 0.30),
             inset 0 1px 0 rgba(255, 255, 255, 0.18);
         }
         .na-cart:active { transform: translateY(0); }

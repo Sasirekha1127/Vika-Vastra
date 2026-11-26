@@ -12,8 +12,9 @@ const GOLD        = "#C59B27";
 const INK         = "#2a1a1c";
 const MUTED       = "#8a7a78";
 const PAPER       = "#f8ebd7";
-const PLUM        = "#4f0a4b";
-const PLUM_DARK   = "#3d083a";
+const PLUM        = "#3f063e";
+const PLUM_DARK   = "#34052f";
+const PLUM_MID    = "#5a0b53";
 const PEACH_1     = "#f6dcc6";
 const PEACH_2     = "#ecc5a8";
 
@@ -377,20 +378,20 @@ export default function BestSellers({ shop }) {
           font: 500 15px 'Figtree', sans-serif;
           letter-spacing: 0.01em;
           color: #fff;
-          background: linear-gradient(180deg, #5a0e55 0%, ${PLUM} 55%, ${PLUM_DARK} 100%);
+          background: linear-gradient(180deg, ${PLUM_MID} 0%, ${PLUM} 55%, ${PLUM_DARK} 100%);
           border: none;
           border-radius: 999px;
           cursor: pointer;
           box-shadow:
-            0 3px 7px rgba(79, 10, 75, 0.30),
+            0 4px 10px rgba(63, 6, 62, 0.35),
             inset 0 1px 0 rgba(255, 255, 255, 0.14);
           transition: background .2s ease, transform .15s ease, box-shadow .2s ease;
         }
         .bs-cart:hover {
-          background: linear-gradient(180deg, ${PLUM} 0%, ${PLUM_DARK} 100%);
+          background: linear-gradient(180deg, #6c1264 0%, #4e094c 60%, ${PLUM} 100%);
           transform: translateY(-1px);
           box-shadow:
-            0 6px 14px rgba(79, 10, 75, 0.38),
+            0 7px 16px rgba(63, 6, 62, 0.45),
             inset 0 1px 0 rgba(255, 255, 255, 0.14);
         }
         .bs-cart.is-added {
