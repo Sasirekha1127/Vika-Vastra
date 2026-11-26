@@ -12,6 +12,10 @@ const GOLD = "#C59B27";
 const INK = "#2a1a1c";
 const MUTED = "#8a7a78";
 const PAPER = "#ffffff";
+const PLUM = "#4f0a4c";
+const PLUM_DARK = "#3a0638";
+const PEACH_TOP = "#f7e1cf";
+const PEACH_BOTTOM = "#ecc9ae";
 
 /* ── Helpers (unchanged logic) ───────────────────────── */
 const getCustomerId = () => {
@@ -46,6 +50,31 @@ const storePendingWishlistItem = (product) => {
   localStorage.setItem("pendingWishlistItem", JSON.stringify(pendingItem));
   localStorage.setItem("pendingAction", "wishlist");
 };
+
+/* ── Lotus icon ──────────────────────────────────────── */
+const LotusIcon = () => (
+  <svg width="34" height="26" viewBox="0 0 64 48" aria-hidden="true">
+    <defs>
+      <linearGradient id="naLotusA" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stopColor="#f6a04d" />
+        <stop offset="100%" stopColor="#e0457b" />
+      </linearGradient>
+      <linearGradient id="naLotusB" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stopColor="#f48fb1" />
+        <stop offset="100%" stopColor="#c2185b" />
+      </linearGradient>
+    </defs>
+    {/* outer petals */}
+    <path d="M32 44 C10 44 2 28 4 16 C16 18 26 28 32 44 Z" fill="url(#naLotusB)" />
+    <path d="M32 44 C54 44 62 28 60 16 C48 18 38 28 32 44 Z" fill="url(#naLotusB)" />
+    {/* mid petals */}
+    <path d="M32 44 C16 40 12 22 18 8 C28 14 32 28 32 44 Z" fill="url(#naLotusA)" />
+    <path d="M32 44 C48 40 52 22 46 8 C36 14 32 28 32 44 Z" fill="url(#naLotusA)" />
+    {/* centre petal */}
+    <path d="M32 44 C24 34 24 16 32 3 C40 16 40 34 32 44 Z" fill="#f9c27a" />
+    <path d="M32 44 C27 34 27 18 32 8 C37 18 37 34 32 44 Z" fill="#f6a04d" opacity=".75" />
+  </svg>
+);
 
 /* ── Toast ───────────────────────────────────────────── */
 function Toast({ toasts }) {
@@ -119,31 +148,29 @@ function ProductCard({ product, cartItems = [], wishlistItems = [], onAddToCart,
   };
 
   const btnState = outOfStock ? "is-out" : addedAnim || isInCart ? "is-added" : "";
-  const btnLabel = addedAnim ? "Added to cart" : isInCart ? "In your cart" : outOfStock ? "Sold out" : "Add to cart";
+  const btnLabel = addedAnim ? "Added to Cart" : isInCart ? "In your Cart" : outOfStock ? "Sold Out" : "Add to Cart";
 
   return (
     <article className="na-card" onClick={() => navigate(getProductUrl(product))}>
-      <div className="na-arch">
-        <div className="na-arch__inner">
-          <img src={imageUrl} alt={product.productName} loading="lazy" />
-          {discount > 0 && <span className="na-off">{discount}% off</span>}
-          <button
-            type="button"
-            className={`na-heart ${isWishlisted ? "is-on" : ""}`}
-            onClick={handleWishlist}
-            aria-label={isWishlisted ? "Remove from wishlist" : "Save to wishlist"}
-            aria-pressed={isWishlisted}
-          >
-            {isWishlisted ? "♥" : "♡"}
-          </button>
-        </div>
+      <div className="na-media">
+        <img src={imageUrl} alt={product.productName} loading="lazy" />
+        {discount > 0 && <span className="na-off">{discount}% off</span>}
+        <button
+          type="button"
+          className={`na-heart ${isWishlisted ? "is-on" : ""}`}
+          onClick={handleWishlist}
+          aria-label={isWishlisted ? "Remove from wishlist" : "Save to wishlist"}
+          aria-pressed={isWishlisted}
+        >
+          {isWishlisted ? "♥" : "♡"}
+        </button>
       </div>
 
       <div className="na-info">
         <h3 className="na-name" title={product.productName}>{product.productName}</h3>
         <div className="na-price">
-          <span className="na-price__now">Rs. {salePrice.toLocaleString()}</span>
-          {discount > 0 && <span className="na-price__old">Rs. {mrp.toLocaleString()}</span>}
+          <span className="na-price__now">₹{salePrice.toLocaleString()}</span>
+          {discount > 0 && <span className="na-price__old">₹{mrp.toLocaleString()}</span>}
         </div>
         <button
           type="button"
@@ -227,87 +254,141 @@ export default function NewArrivals({ shop }) {
   return (
     <section className="na-root">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Figtree:wght@400;500;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Figtree:wght@400;500;600;700&display=swap');
 
         .na-root, .na-root * { box-sizing: border-box; }
         .na-root { font-family: 'Figtree', sans-serif; color: ${INK}; background: ${PAPER}; }
-        .na-wrap { max-width: 1200px; margin: 0 auto; padding: 48px 24px 56px; }
+        .na-wrap { max-width: 1200px; margin: 0 auto; padding: 40px 24px 56px; }
 
-        .na-head { display: flex; flex-direction: column; align-items: center; text-align: center;
-          gap: 8px; margin-bottom: 36px; }
-        .na-head h2 { font-family: 'Fraunces', serif; font-weight: 600; font-size: 40px;
-          line-height: 1.1; margin: 0; color: ${MAROON}; letter-spacing: -0.01em; }
-        .na-head p { margin: 0; font-size: 14px; color: ${MUTED}; }
-        .na-head::after { content: ""; width: 56px; height: 2px; background: ${GOLD}; margin-top: 10px; }
+        /* ── heading: gold line · lotus · title · gold line ── */
+        .na-head {
+          display: flex; align-items: center; justify-content: center;
+          gap: 14px; margin-bottom: 34px;
+        }
+        .na-head__line {
+          flex: 0 1 90px; height: 2px; border-radius: 2px;
+        }
+        .na-head__line--l { background: linear-gradient(90deg, rgba(212,169,53,0) 0%, #d9b24a 100%); }
+        .na-head__line--r { background: linear-gradient(90deg, #d9b24a 0%, rgba(212,169,53,0) 100%); }
+        .na-head__title { display: flex; align-items: center; gap: 10px; }
+        .na-head h2 {
+          margin: 0;
+          font-family: 'Playfair Display', 'Fraunces', serif;
+          font-weight: 700; font-size: 32px; line-height: 1.1;
+          color: #1c0f14; letter-spacing: 0.005em;
+        }
 
-        .na-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-          gap: 36px 24px; animation: naFade .6s ease both; }
+        .na-grid {
+          display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+          gap: 28px 24px; animation: naFade .6s ease both;
+        }
         @keyframes naFade { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
 
-        .na-card { cursor: pointer; display: flex; flex-direction: column; }
+        /* ── card ── */
+        .na-card {
+          cursor: pointer;
+          display: flex; flex-direction: column;
+          background: #fff;
+          border-radius: 18px;
+          box-shadow:
+            0 10px 24px rgba(70, 35, 45, 0.16),
+            0 3px 8px rgba(70, 35, 45, 0.10),
+            0 0 0 1px rgba(70, 35, 45, 0.04);
+          transition: transform .25s ease, box-shadow .25s ease;
+        }
+        .na-card:hover {
+          transform: translateY(-4px);
+          box-shadow:
+            0 18px 34px rgba(70, 35, 45, 0.22),
+            0 5px 12px rgba(70, 35, 45, 0.12),
+            0 0 0 1px rgba(70, 35, 45, 0.05);
+        }
 
-        /* arch frame */
-        .na-arch { padding: 5px; border: 1.5px solid ${GOLD}; border-radius: 999px 999px 0 0;
-          transition: border-color .2s; }
-        .na-card:hover .na-arch { border-color: ${MAROON}; }
-        .na-arch__inner { position: relative; overflow: hidden; aspect-ratio: 3/4; background: #efe6e2;
-          border-radius: 999px 999px 0 0; }
-        .na-arch__inner img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
-          transition: transform .5s ease; }
-        .na-card:hover .na-arch__inner img { transform: scale(1.04); }
+        .na-media {
+          position: relative; overflow: hidden;
+          aspect-ratio: 1 / 1.15;
+          background: linear-gradient(180deg, ${PEACH_TOP} 0%, ${PEACH_BOTTOM} 100%);
+          border-radius: 18px 18px 0 0;
+        }
+        .na-media img {
+          position: absolute; inset: 0;
+          width: 100%; height: 100%;
+          object-fit: cover; object-position: center top;
+          transition: transform .5s ease;
+        }
+        .na-card:hover .na-media img { transform: scale(1.05); }
 
-        .na-off { position: absolute; left: 0; bottom: 12px; background: ${MAROON}; color: #fff;
-          font-size: 12px; font-weight: 600; padding: 5px 12px 5px 10px; border-radius: 0 999px 999px 0; }
+        .na-off {
+          position: absolute; left: 0; bottom: 10px;
+          background: ${MAROON}; color: #fff;
+          font-size: 12px; font-weight: 600;
+          padding: 5px 12px 5px 10px;
+          border-radius: 0 999px 999px 0;
+        }
 
-        .na-heart { position: absolute; top: 16%; right: 8%; width: 36px; height: 36px; border-radius: 50%;
-          border: none; cursor: pointer; display: grid; place-items: center; font-size: 18px; line-height: 1;
-          background: rgba(255,255,255,.94); color: ${MAROON}; transition: background .2s, color .2s, transform .15s; }
+        .na-heart {
+          position: absolute; top: 12px; right: 12px;
+          width: 44px; height: 44px; border-radius: 50%;
+          border: none; cursor: pointer;
+          display: grid; place-items: center;
+          font-size: 22px; line-height: 1;
+          background: #fff; color: #1c0f14;
+          box-shadow: 0 3px 10px rgba(0, 0, 0, 0.18);
+          transition: background .2s, color .2s, transform .15s;
+        }
         .na-heart:hover { transform: scale(1.08); }
         .na-heart.is-on { background: ${MAROON}; color: #fff; }
 
-        /* info */
-        .na-info { padding: 14px 2px 0; display: flex; flex-direction: column; gap: 6px; flex: 1; }
-        .na-name { margin: 0; font-family: 'Fraunces', serif; font-weight: 500; font-size: 17px; line-height: 1.3;
-          color: ${INK}; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-        .na-price { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
-        .na-price__now { font-size: 16px; font-weight: 600; color: ${MAROON}; }
-        .na-price__old { font-size: 13px; color: ${MUTED}; text-decoration: line-through; }
+        /* ── info panel ── */
+        .na-info {
+          padding: 16px 16px 16px;
+          display: flex; flex-direction: column; gap: 6px; flex: 1;
+          background: #fff;
+          border-radius: 0 0 18px 18px;
+        }
+        .na-name {
+          margin: 0;
+          font-family: 'Fraunces', serif; font-weight: 500;
+          font-size: 15px; line-height: 1.3; color: ${INK};
+          display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+        }
+        .na-price { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+        .na-price__now { font-size: 22px; font-weight: 700; color: #1a0f14; letter-spacing: -0.01em; }
+        .na-price__old {
+          font-size: 17px; font-weight: 500; color: #8f8789;
+          text-decoration: line-through; text-decoration-thickness: 1.5px;
+        }
 
+        /* ── plum pill button ── */
         .na-cart {
-          margin-top: auto;
-          width: 100%;
+          margin-top: auto; width: 100%;
           padding: 11px 12px;
-          font: 700 13px 'Figtree', sans-serif;
-          letter-spacing: 0.02em;
-          color: #380710;
-          background: linear-gradient(135deg, #C59B27 0%, #E5C365 55%, #CFA23A 100%);
-          border: 1px solid rgba(197, 155, 39, 0.85);
-          border-radius: 999px;
-          cursor: pointer;
-          transition: all .25s ease;
-          box-shadow: 0 4px 14px rgba(197, 155, 39, 0.32), inset 0 1px 1px rgba(255, 255, 255, 0.45);
-          text-shadow: 0 1px 0 rgba(255, 255, 255, 0.35);
+          font: 600 15px 'Figtree', sans-serif; letter-spacing: 0.01em;
+          color: #fff;
+          background: linear-gradient(180deg, #5a0e56 0%, ${PLUM} 50%, ${PLUM_DARK} 100%);
+          border: none; border-radius: 999px; cursor: pointer;
+          box-shadow:
+            0 5px 12px rgba(79, 10, 76, 0.35),
+            0 1px 2px rgba(79, 10, 76, 0.30),
+            inset 0 1px 0 rgba(255, 255, 255, 0.14);
+          transition: transform .15s ease, box-shadow .2s ease, filter .2s ease;
         }
         .na-cart:hover {
-          background: linear-gradient(135deg, #B88E20 0%, #DFBA58 52%, #C49727 100%);
-          color: #380710;
-          box-shadow: 0 6px 18px rgba(197, 155, 39, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.55);
           transform: translateY(-1px);
+          filter: brightness(1.12);
+          box-shadow:
+            0 8px 16px rgba(79, 10, 76, 0.42),
+            0 2px 4px rgba(79, 10, 76, 0.30),
+            inset 0 1px 0 rgba(255, 255, 255, 0.18);
         }
+        .na-cart:active { transform: translateY(0); }
         .na-cart.is-added {
-          background: #2E7D32;
-          border-color: #2E7D32;
-          color: #fff;
-          text-shadow: none;
-          box-shadow: 0 4px 12px rgba(46, 125, 50, 0.3);
+          background: linear-gradient(180deg, #388e3c 0%, #2E7D32 100%);
+          box-shadow: 0 5px 12px rgba(46, 125, 50, 0.32), inset 0 1px 0 rgba(255,255,255,.15);
         }
         .na-cart.is-out {
-          background: #eee7e4;
-          border-color: #eee7e4;
-          color: ${MUTED};
-          cursor: not-allowed;
-          box-shadow: none;
-          text-shadow: none;
+          background: #eee7e4; color: ${MUTED};
+          cursor: not-allowed; box-shadow: none; transform: none; filter: none;
         }
 
         .na-root button:focus-visible { outline: 2px solid ${GOLD}; outline-offset: 2px; }
@@ -324,29 +405,44 @@ export default function NewArrivals({ shop }) {
 
         .na-loading { text-align: center; padding: 60px 0; font: 14px 'Figtree', sans-serif; color: ${MUTED}; }
 
+        @media (min-width: 1024px) {
+          .na-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+        }
+
         @media (max-width: 767px) {
           .na-wrap { padding: 28px 12px 36px; }
-          .na-head { margin-bottom: 24px; }
-          .na-head h2 { font-size: 30px; }
-          .na-head p { font-size: 13px; }
-          .na-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 12px; }
-          .na-name { font-size: 15px; }
-          .na-price__now { font-size: 15px; }
-          .na-cart { padding: 9px 6px; font-size: 12px; }
+          .na-head { gap: 8px; margin-bottom: 22px; }
+          .na-head__line { flex-basis: 40px; }
+          .na-head h2 { font-size: 24px; }
+          .na-head svg { width: 26px; height: 20px; }
+          .na-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 12px; }
+          .na-card { border-radius: 14px; }
+          .na-media { border-radius: 14px 14px 0 0; }
+          .na-info { padding: 10px 10px 12px; border-radius: 0 0 14px 14px; }
+          .na-name { font-size: 13px; }
+          .na-price { gap: 6px; margin-bottom: 6px; }
+          .na-price__now { font-size: 17px; }
+          .na-price__old { font-size: 13px; }
+          .na-heart { width: 34px; height: 34px; font-size: 17px; top: 8px; right: 8px; }
+          .na-cart { padding: 9px 6px; font-size: 13px; }
           .na-toasts { left: 12px; right: 12px; bottom: 16px; align-items: stretch; }
           .na-toast { max-width: none; }
         }
 
         @media (prefers-reduced-motion: reduce) {
           .na-grid, .na-toast { animation: none; }
-          .na-arch__inner img, .na-heart, .na-cart { transition: none; }
+          .na-card, .na-media img, .na-heart, .na-cart { transition: none; }
         }
       `}</style>
 
       <div className="na-wrap">
         <header className="na-head">
-          <h2>New Arrivals</h2>
-          <p>Fresh sarees, just added to the Best collection.</p>
+          <span className="na-head__line na-head__line--l" aria-hidden="true" />
+          <div className="na-head__title">
+            <LotusIcon />
+            <h2>New Arrivals</h2>
+          </div>
+          <span className="na-head__line na-head__line--r" aria-hidden="true" />
         </header>
 
         <div className="na-grid">

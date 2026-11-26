@@ -12,6 +12,10 @@ const GOLD        = "#C59B27";
 const INK         = "#2a1a1c";
 const MUTED       = "#8a7a78";
 const PAPER       = "#f8ebd7";
+const PLUM        = "#4f0a4b";
+const PLUM_DARK   = "#3d083a";
+const PEACH_1     = "#f6dcc6";
+const PEACH_2     = "#ecc5a8";
 
 /* ── Helpers (unchanged logic) ───────────────────────── */
 const getCustomerId = () => {
@@ -46,6 +50,41 @@ const storePendingWishlistItem = (product) => {
   localStorage.setItem("pendingWishlistItem", JSON.stringify(pendingItem));
   localStorage.setItem("pendingAction", "wishlist");
 };
+
+/* ── Lotus icon ──────────────────────────────────────── */
+const LotusIcon = () => (
+  <svg width="34" height="26" viewBox="0 0 64 48" aria-hidden="true">
+    <defs>
+      <linearGradient id="bsLotusA" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stopColor="#f6a04d" />
+        <stop offset="100%" stopColor="#e0457b" />
+      </linearGradient>
+      <linearGradient id="bsLotusB" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stopColor="#f48fb1" />
+        <stop offset="100%" stopColor="#c2185b" />
+      </linearGradient>
+    </defs>
+    {/* outer petals */}
+    <path d="M32 44 C10 44 2 28 4 16 C16 18 26 28 32 44 Z" fill="url(#bsLotusB)" />
+    <path d="M32 44 C54 44 62 28 60 16 C48 18 38 28 32 44 Z" fill="url(#bsLotusB)" />
+    {/* mid petals */}
+    <path d="M32 44 C16 40 12 22 18 8 C28 14 32 28 32 44 Z" fill="url(#bsLotusA)" />
+    <path d="M32 44 C48 40 52 22 46 8 C36 14 32 28 32 44 Z" fill="url(#bsLotusA)" />
+    {/* centre petal */}
+    <path d="M32 44 C24 34 24 16 32 3 C40 16 40 34 32 44 Z" fill="#f9c27a" />
+    <path d="M32 44 C27 34 27 18 32 8 C37 18 37 34 32 44 Z" fill="#f6a04d" opacity=".75" />
+  </svg>
+);
+
+/* ── Heart icon (thin outline like the design) ───────── */
+const HeartIcon = ({ filled }) => (
+  <svg width="20" height="20" viewBox="0 0 24 24"
+    fill={filled ? "currentColor" : "none"}
+    stroke="currentColor" strokeWidth="1.8"
+    strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d="M12 20.5s-7.5-4.6-9.4-9.3C1.2 7.8 3.2 4.5 6.6 4.5c2 0 3.7 1.1 5.4 3.1 1.7-2 3.4-3.1 5.4-3.1 3.4 0 5.4 3.3 4 6.7-1.9 4.7-9.4 9.3-9.4 9.3z" />
+  </svg>
+);
 
 /* ── Toast ───────────────────────────────────────────── */
 function Toast({ toasts }) {
@@ -119,31 +158,29 @@ function ProductCard({ product, cartItems = [], wishlistItems = [], onAddToCart,
   };
 
   const btnState = outOfStock ? "is-out" : addedAnim || isInCart ? "is-added" : "";
-  const btnLabel = addedAnim ? "Added to cart" : isInCart ? "In your cart" : outOfStock ? "Sold out" : "Add to cart";
+  const btnLabel = addedAnim ? "Added to cart" : isInCart ? "In your cart" : outOfStock ? "Sold out" : "Add to Cart";
 
   return (
     <article className="bs-card" onClick={() => navigate(getProductUrl(product))}>
-      <div className="bs-arch">
-        <div className="bs-arch__inner">
-          <img src={imageUrl} alt={product.productName} loading="lazy" />
-          {discount > 0 && <span className="bs-off">{discount}% off</span>}
-          <button
-            type="button"
-            className={`bs-heart ${isWishlisted ? "is-on" : ""}`}
-            onClick={handleWishlist}
-            aria-label={isWishlisted ? "Remove from wishlist" : "Save to wishlist"}
-            aria-pressed={isWishlisted}
-          >
-            {isWishlisted ? "♥" : "♡"}
-          </button>
-        </div>
+      <div className="bs-media">
+        <img src={imageUrl} alt={product.productName} loading="lazy" />
+        {discount > 0 && <span className="bs-off">{discount}% off</span>}
+        <button
+          type="button"
+          className={`bs-heart ${isWishlisted ? "is-on" : ""}`}
+          onClick={handleWishlist}
+          aria-label={isWishlisted ? "Remove from wishlist" : "Save to wishlist"}
+          aria-pressed={isWishlisted}
+        >
+          <HeartIcon filled={isWishlisted} />
+        </button>
       </div>
 
       <div className="bs-info">
         <h3 className="bs-name" title={product.productName}>{product.productName}</h3>
         <div className="bs-price">
-          <span className="bs-price__now">Rs. {salePrice.toLocaleString()}</span>
-          {discount > 0 && <span className="bs-price__old">Rs. {mrp.toLocaleString()}</span>}
+          <span className="bs-price__now">₹{salePrice.toLocaleString("en-IN")}</span>
+          {discount > 0 && <span className="bs-price__old">₹{mrp.toLocaleString("en-IN")}</span>}
         </div>
         <button
           type="button"
@@ -227,87 +264,145 @@ export default function BestSellers({ shop }) {
   return (
     <section className="bs-root">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Figtree:wght@400;500;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Figtree:wght@400;500;600;700&display=swap');
 
         .bs-root, .bs-root * { box-sizing: border-box; }
         .bs-root { font-family: 'Figtree', sans-serif; color: ${INK}; background: ${PAPER}; }
-        .bs-wrap { max-width: 1200px; margin: 0 auto; padding: 48px 24px 56px; }
+        .bs-wrap { max-width: 1200px; margin: 0 auto; padding: 40px 24px 56px; }
 
-        .bs-head { display: flex; flex-direction: column; align-items: center; text-align: center;
-          gap: 8px; margin-bottom: 36px; }
-        .bs-head h2 { font-family: 'Fraunces', serif; font-weight: 600; font-size: 40px;
-          line-height: 1.1; margin: 0; color: ${MAROON}; letter-spacing: -0.01em; }
-        .bs-head p { margin: 0; font-size: 14px; color: ${MUTED}; }
-        .bs-head::after { content: ""; width: 56px; height: 2px; background: ${GOLD}; margin-top: 10px; }
+        /* ── heading: gold line · lotus · title · gold line ── */
+        .bs-head {
+          display: flex; align-items: center; justify-content: center;
+          gap: 14px; margin-bottom: 34px;
+        }
+        .bs-head__line { flex: 0 1 90px; height: 2px; border-radius: 2px; }
+        .bs-head__line--l { background: linear-gradient(90deg, rgba(212,169,53,0) 0%, #d9b24a 100%); }
+        .bs-head__line--r { background: linear-gradient(90deg, #d9b24a 0%, rgba(212,169,53,0) 100%); }
+        .bs-head__title { display: flex; align-items: center; gap: 10px; }
+        .bs-head h2 {
+          margin: 0;
+          font-family: 'Playfair Display', 'Fraunces', serif;
+          font-weight: 700; font-size: 32px; line-height: 1.1;
+          color: #1c0f14; letter-spacing: 0.005em;
+        }
 
         .bs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-          gap: 36px 24px; animation: bsFade .6s ease both; }
+          gap: 28px 24px; padding-bottom: 8px; animation: bsFade .6s ease both; }
         @keyframes bsFade { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
 
-        .bs-card { cursor: pointer; display: flex; flex-direction: column; }
+        /* ── card ── */
+        .bs-card {
+          cursor: pointer;
+          display: flex;
+          flex-direction: column;
+          background: #fff;
+          border-radius: 16px;
+          box-shadow:
+            0 10px 24px rgba(45, 25, 35, 0.16),
+            0 3px 8px rgba(45, 25, 35, 0.10),
+            0 0 0 1px rgba(45, 25, 35, 0.03);
+          transition: transform .25s ease, box-shadow .25s ease;
+        }
+        .bs-card:hover {
+          transform: translateY(-4px);
+          box-shadow:
+            0 18px 34px rgba(45, 25, 35, 0.20),
+            0 5px 12px rgba(45, 25, 35, 0.12),
+            0 0 0 1px rgba(45, 25, 35, 0.03);
+        }
 
-        /* arch frame */
-        .bs-arch { padding: 5px; border: 1.5px solid ${GOLD}; border-radius: 999px 999px 0 0;
-          transition: border-color .2s; }
-        .bs-card:hover .bs-arch { border-color: ${MAROON}; }
-        .bs-arch__inner { position: relative; overflow: hidden; aspect-ratio: 3/4; background: #efe6e2;
-          border-radius: 999px 999px 0 0; }
-        .bs-arch__inner img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
-          transition: transform .5s ease; }
-        .bs-card:hover .bs-arch__inner img { transform: scale(1.04); }
+        /* image area with peach backdrop */
+        .bs-media {
+          position: relative;
+          overflow: hidden;
+          aspect-ratio: 1 / 1.15;
+          background: linear-gradient(180deg, ${PEACH_1} 0%, ${PEACH_2} 100%);
+          border-radius: 16px 16px 0 0;
+        }
+        .bs-media img {
+          position: absolute; inset: 0;
+          width: 100%; height: 100%;
+          object-fit: cover;
+          object-position: center top;
+          transition: transform .5s ease;
+        }
+        .bs-card:hover .bs-media img { transform: scale(1.05); }
 
-        .bs-off { position: absolute; left: 0; bottom: 12px; background: ${MAROON}; color: #fff;
-          font-size: 12px; font-weight: 600; padding: 5px 12px 5px 10px; border-radius: 0 999px 999px 0; }
+        .bs-off {
+          position: absolute; left: 0; bottom: 10px;
+          background: ${MAROON}; color: #fff;
+          font-size: 12px; font-weight: 600;
+          padding: 5px 12px 5px 10px;
+          border-radius: 0 999px 999px 0;
+        }
 
-        .bs-heart { position: absolute; top: 16%; right: 8%; width: 36px; height: 36px; border-radius: 50%;
-          border: none; cursor: pointer; display: grid; place-items: center; font-size: 18px; line-height: 1;
-          background: rgba(255,255,255,.94); color: ${MAROON}; transition: background .2s, color .2s, transform .15s; }
+        /* heart */
+        .bs-heart {
+          position: absolute; top: 12px; right: 12px;
+          width: 40px; height: 40px;
+          border-radius: 50%;
+          border: none; cursor: pointer;
+          display: grid; place-items: center;
+          background: #fff; color: #1d1215;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.16);
+          transition: background .2s, color .2s, transform .15s;
+        }
         .bs-heart:hover { transform: scale(1.08); }
         .bs-heart.is-on { background: ${MAROON}; color: #fff; }
 
-        /* info */
-        .bs-info { padding: 14px 2px 0; display: flex; flex-direction: column; gap: 6px; flex: 1; }
-        .bs-name { margin: 0; font-family: 'Fraunces', serif; font-weight: 500; font-size: 17px; line-height: 1.3;
-          color: ${INK}; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-        .bs-price { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
-        .bs-price__now { font-size: 16px; font-weight: 600; color: ${MAROON}; }
-        .bs-price__old { font-size: 13px; color: ${MUTED}; text-decoration: line-through; }
+        /* ── info panel ── */
+        .bs-info {
+          padding: 14px 14px 16px;
+          display: flex; flex-direction: column; gap: 6px;
+          flex: 1;
+          background: #fff;
+          border-radius: 0 0 16px 16px;
+        }
+        .bs-name {
+          margin: 0;
+          font-family: 'Fraunces', serif; font-weight: 500;
+          font-size: 15px; line-height: 1.3;
+          color: ${INK};
+          display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+        }
+        .bs-price { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+        .bs-price__now { font-size: 22px; font-weight: 700; color: #1a0f13; letter-spacing: -0.01em; }
+        .bs-price__old { font-size: 17px; font-weight: 500; color: #8f8586; text-decoration: line-through; }
 
+        /* ── plum pill button ── */
         .bs-cart {
           margin-top: auto;
           width: 100%;
-          padding: 11px 12px;
-          font: 700 13px 'Figtree', sans-serif;
-          letter-spacing: 0.02em;
-          color: #380710;
-          background: linear-gradient(135deg, #C59B27 0%, #E5C365 55%, #CFA23A 100%);
-          border: 1px solid rgba(197, 155, 39, 0.85);
+          padding: 10px 12px;
+          font: 500 15px 'Figtree', sans-serif;
+          letter-spacing: 0.01em;
+          color: #fff;
+          background: linear-gradient(180deg, #5a0e55 0%, ${PLUM} 55%, ${PLUM_DARK} 100%);
+          border: none;
           border-radius: 999px;
           cursor: pointer;
-          transition: all .25s ease;
-          box-shadow: 0 4px 14px rgba(197, 155, 39, 0.32), inset 0 1px 1px rgba(255, 255, 255, 0.45);
-          text-shadow: 0 1px 0 rgba(255, 255, 255, 0.35);
+          box-shadow:
+            0 3px 7px rgba(79, 10, 75, 0.30),
+            inset 0 1px 0 rgba(255, 255, 255, 0.14);
+          transition: background .2s ease, transform .15s ease, box-shadow .2s ease;
         }
         .bs-cart:hover {
-          background: linear-gradient(135deg, #B88E20 0%, #DFBA58 52%, #C49727 100%);
-          color: #380710;
-          box-shadow: 0 6px 18px rgba(197, 155, 39, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.55);
+          background: linear-gradient(180deg, ${PLUM} 0%, ${PLUM_DARK} 100%);
           transform: translateY(-1px);
+          box-shadow:
+            0 6px 14px rgba(79, 10, 75, 0.38),
+            inset 0 1px 0 rgba(255, 255, 255, 0.14);
         }
         .bs-cart.is-added {
           background: #2E7D32;
-          border-color: #2E7D32;
-          color: #fff;
-          text-shadow: none;
-          box-shadow: 0 4px 12px rgba(46, 125, 50, 0.3);
+          box-shadow: 0 3px 8px rgba(46, 125, 50, 0.3);
         }
         .bs-cart.is-out {
           background: #eee7e4;
-          border-color: #eee7e4;
           color: ${MUTED};
           cursor: not-allowed;
           box-shadow: none;
-          text-shadow: none;
+          transform: none;
         }
 
         .bs-root button:focus-visible { outline: 2px solid ${GOLD}; outline-offset: 2px; }
@@ -324,29 +419,45 @@ export default function BestSellers({ shop }) {
 
         .bs-loading { text-align: center; padding: 60px 0; font: 14px 'Figtree', sans-serif; color: ${MUTED}; }
 
+        @media (min-width: 1024px) {
+          .bs-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+        }
+
         @media (max-width: 767px) {
           .bs-wrap { padding: 28px 12px 36px; }
-          .bs-head { margin-bottom: 24px; }
-          .bs-head h2 { font-size: 30px; }
-          .bs-head p { font-size: 13px; }
-          .bs-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 12px; }
-          .bs-name { font-size: 15px; }
-          .bs-price__now { font-size: 15px; }
-          .bs-cart { padding: 9px 6px; font-size: 12px; }
+          .bs-head { gap: 8px; margin-bottom: 22px; }
+          .bs-head__line { flex-basis: 40px; }
+          .bs-head h2 { font-size: 24px; }
+          .bs-head svg { width: 26px; height: 20px; }
+          .bs-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 12px; }
+          .bs-card { border-radius: 14px; }
+          .bs-media { border-radius: 14px 14px 0 0; }
+          .bs-info { padding: 10px 10px 12px; border-radius: 0 0 14px 14px; }
+          .bs-name { font-size: 13.5px; }
+          .bs-price { gap: 6px; }
+          .bs-price__now { font-size: 17px; }
+          .bs-price__old { font-size: 13px; }
+          .bs-heart { width: 32px; height: 32px; top: 8px; right: 8px; }
+          .bs-heart svg { width: 17px; height: 17px; }
+          .bs-cart { padding: 9px 6px; font-size: 13px; }
           .bs-toasts { left: 12px; right: 12px; bottom: 16px; align-items: stretch; }
           .bs-toast { max-width: none; }
         }
 
         @media (prefers-reduced-motion: reduce) {
           .bs-grid, .bs-toast { animation: none; }
-          .bs-arch__inner img, .bs-heart, .bs-cart { transition: none; }
+          .bs-card, .bs-media img, .bs-heart, .bs-cart { transition: none; }
         }
       `}</style>
 
       <div className="bs-wrap">
         <header className="bs-head">
-          <h2>Best Sellers</h2>
-          <p>Most loved by our customers.</p>
+          <span className="bs-head__line bs-head__line--l" aria-hidden="true" />
+          <div className="bs-head__title">
+            <LotusIcon />
+            <h2>Best Sellers</h2>
+          </div>
+          <span className="bs-head__line bs-head__line--r" aria-hidden="true" />
         </header>
 
         <div className="bs-grid">

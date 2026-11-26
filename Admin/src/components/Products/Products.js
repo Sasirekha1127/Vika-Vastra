@@ -748,9 +748,9 @@ export default function Products({ showToast }) {
                 <label style={labelStyle}>Main Product Image</label>
                 {(imagePreview && !imageFile) && (
                   <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
-                    <img src={resolveImageSrc(imagePreview)} alt="Current product" width={56} height={56}
+                    <img src={resolveImageSrc(imagePreview)} alt="Current product" width={56} height={72}
                       onError={e => { e.target.style.display = 'none'; }}
-                      style={{ borderRadius: 8, objectFit: 'cover', border: `1.5px solid ${KM.border}` }} />
+                      style={{ borderRadius: 8, objectFit: 'cover', objectPosition: 'center top', border: `1.5px solid ${KM.border}` }} />
                     <div>
                       <div style={{ fontSize: 11, color: KM.muted }}>Current main image</div>
                       <button type="button" onClick={() => setImagePreview(null)}
@@ -813,9 +813,9 @@ export default function Products({ showToast }) {
 
                 <td>
                   {row.image ? (
-                    <img src={resolveImageSrc(row.image)} alt="" width="40" height="40"
+                    <img src={resolveImageSrc(row.image)} alt="" width="42" height="54"
                       onError={e => { e.target.style.display = 'none'; }}
-                      style={{ borderRadius: 6, objectFit: 'cover' }} />
+                      style={{ borderRadius: 6, objectFit: 'cover', objectPosition: 'center top' }} />
                   ) : (
                     <div style={{ width: 40, height: 40, borderRadius: 6, background: KM.bg, border: `1px solid ${KM.border}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, color: KM.muted }}>📦</div>
                   )}
